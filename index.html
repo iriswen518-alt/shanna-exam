@@ -171,6 +171,39 @@
   .tab-panel { display: none; }
   .tab-panel.active { display: block; }
 
+  /* ===== IFRAME ===== */
+  .junyi-frame {
+    width: 100%; height: 72vh; min-height: 480px;
+    border: none; border-radius: 12px;
+    display: block;
+  }
+
+  /* ===== CHAT ===== */
+  .chat-wrap { display: flex; flex-direction: column; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 16px rgba(224,111,160,0.12); }
+  .chat-header { padding: 0.85rem 1rem; background: linear-gradient(135deg, #f0a8c8, #b48fe8); color: white; display: flex; align-items: center; gap: 0.6rem; }
+  .chat-header-info { flex: 1; }
+  .chat-header-name { font-weight: 700; font-size: 0.95rem; }
+  .chat-header-sub { font-size: 0.73rem; opacity: 0.88; }
+  .chat-setting-btn { background: rgba(255,255,255,0.25); border: none; border-radius: 20px; padding: 0.3rem 0.8rem; color: white; font-size: 0.75rem; cursor: pointer; white-space: nowrap; }
+  .chat-messages { flex: 1; overflow-y: auto; padding: 1rem 0.75rem; display: flex; flex-direction: column; gap: 0.75rem; background: #fdf6f9; min-height: 300px; max-height: 54vh; }
+  .chat-row { display: flex; flex-direction: column; }
+  .chat-row.shanna { align-items: flex-end; }
+  .chat-row.ziyu { align-items: flex-start; }
+  .chat-label { font-size: 0.7rem; font-weight: 600; color: var(--muted); margin-bottom: 0.2rem; }
+  .chat-bubble { max-width: 78%; padding: 0.7rem 1rem; border-radius: 18px; font-size: 0.9rem; line-height: 1.65; word-break: break-word; }
+  .chat-bubble.shanna { background: var(--primary); color: white; border-bottom-right-radius: 4px; }
+  .chat-bubble.ziyu { background: white; border: 1px solid var(--border); border-bottom-left-radius: 4px; }
+  .chat-input-row { display: flex; gap: 0.5rem; padding: 0.75rem 0.75rem; border-top: 1px solid var(--border); background: white; }
+  .chat-input { flex: 1; border: 1.5px solid var(--border); border-radius: 22px; padding: 0.55rem 0.9rem; font-size: 0.9rem; font-family: inherit; outline: none; resize: none; transition: border-color 0.2s; max-height: 100px; overflow-y: auto; }
+  .chat-input:focus { border-color: var(--primary); }
+  .chat-send { background: var(--primary); color: white; border: none; border-radius: 22px; padding: 0.55rem 1.2rem; font-size: 0.88rem; font-weight: 600; cursor: pointer; transition: opacity 0.2s; white-space: nowrap; }
+  .chat-send:disabled { opacity: 0.45; cursor: not-allowed; }
+  .chat-typing-row { display: flex; align-items: flex-start; gap: 4px; padding: 0.6rem 0.8rem; background: white; border: 1px solid var(--border); border-radius: 18px; border-bottom-left-radius: 4px; width: fit-content; }
+  .chat-typing-row span { width: 7px; height: 7px; background: var(--primary-light); border-radius: 50%; animation: chatbounce 1.2s infinite; display: inline-block; }
+  .chat-typing-row span:nth-child(2) { animation-delay: 0.2s; }
+  .chat-typing-row span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes chatbounce { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-7px)} }
+
   /* ===== CARDS ===== */
   .card {
     background: var(--card);
@@ -373,6 +406,23 @@
     color: var(--muted);
   }
   .q-tab.active, .q-tab:hover { background: var(--primary); border-color: var(--primary); color: white; }
+
+  .exam-subj-btn {
+    display: inline-flex; align-items: center; gap: 0.3rem;
+    padding: 0.55rem 1.1rem;
+    border-radius: 50px;
+    background: white;
+    border: 1.5px solid var(--border);
+    color: var(--text);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .exam-subj-btn:hover { background: var(--secondary); border-color: var(--secondary); color: white; }
+  .exam-subj-btn.ans { border-color: var(--success); color: var(--success); }
+  .exam-subj-btn.ans:hover { background: var(--success); color: white; }
 
   .quiz-card { background: white; border: 1px solid var(--border); border-radius: 18px; padding: 1.5rem; margin-bottom: 1rem; }
   .quiz-num { font-size: 0.76rem; font-weight: 700; color: var(--primary-light); letter-spacing: 0.08em; margin-bottom: 0.5rem; }
@@ -631,6 +681,43 @@
     padding: 0.6rem 1rem; margin: 0.5rem 0; font-size: 0.92rem;
     font-family: monospace; color: #124;
   }
+  .scope-back-btn {
+    background: rgba(255,255,255,0.4); border: none; border-radius: 20px;
+    padding: 0.3rem 0.8rem; font-size: 0.82rem; font-weight: 700;
+    color: #3d1f40; cursor: pointer; white-space: nowrap; flex-shrink: 0;
+    transition: background 0.2s;
+  }
+  .scope-back-btn:hover { background: rgba(255,255,255,0.7); }
+  .scope-text-link {
+    cursor: pointer; border-left: 3px solid #9c27b0;
+    background: linear-gradient(135deg, #f8f0fc, #f3e5f5);
+    border-radius: 0 10px 10px 0; padding: 0.55rem 0.8rem;
+    margin-bottom: 0.4rem; font-size: 0.88rem; font-weight: 600;
+    display: flex; align-items: center; gap: 0.5rem;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .scope-text-link:hover { background: linear-gradient(135deg,#ede1f8,#e8d5f5); transform: translateX(3px); }
+  .scope-text-link::after { content: '📖 點進去看'; margin-left:auto; font-size:0.75rem; color:#9c27b0; font-weight:400; white-space:nowrap; }
+  .tag-clickable {
+    cursor: pointer; transition: background 0.2s, transform 0.15s;
+    user-select: none;
+  }
+  .tag-clickable:hover { background: #e99ab8; color: #fff; transform: scale(1.05); }
+  .detail-section { margin-bottom: 1.4rem; }
+  .detail-title { font-size:0.82rem; font-weight:700; color:#7b1fa2; letter-spacing:0.04em; text-transform:uppercase; border-bottom:1px solid #e1bee7; padding-bottom:0.25rem; margin-bottom:0.6rem; }
+  .detail-text-box {
+    background: #fafafa; border: 1px solid #e0e0e0; border-radius: 10px;
+    padding: 0.8rem 1rem; font-size: 0.88rem; line-height: 1.9;
+    color: #2d1f2d; white-space: pre-wrap;
+  }
+  .detail-text-box .hl { color: #c0392b; font-weight: 700; } /* highlight key line */
+  .detail-vocab { display:grid; grid-template-columns: auto 1fr; gap:0.3rem 0.8rem; font-size:0.86rem; margin-top:0.4rem; align-items:start; }
+  .detail-vocab-term { font-weight:700; color:#6a1b9a; }
+  .detail-vocab-def { color:#444; }
+  .detail-exam-box { background:#fff8e1; border-left:3px solid #ffc107; border-radius:0 8px 8px 0; padding:0.5rem 0.8rem; margin-bottom:0.4rem; font-size:0.87rem; }
+  .detail-exam-box::before { content:'📝 '; }
+  .detail-method-step { background:#e8f5e9; border-left:3px solid #4caf50; border-radius:0 8px 8px 0; padding:0.45rem 0.8rem; margin-bottom:0.35rem; font-size:0.87rem; }
+  .detail-method-step::before { content:'✅ '; }
 </style>
 </head>
 <body>
@@ -685,6 +772,8 @@
     <button class="tab-btn" onclick="switchTab('progress')">✅ 進度追蹤</button>
     <button class="tab-btn" onclick="switchTab('resources')">🔗 考古題資源</button>
     <button class="tab-btn" onclick="switchTab('review')">📝 重點複習</button>
+    <button class="tab-btn" onclick="switchTab('junyi')">📐 均一平台</button>
+    <button class="tab-btn" onclick="switchTab('chat')">💬 子瑜聊聊</button>
   </div>
 </div>
 
@@ -729,11 +818,11 @@
           </ul>
           <h3>核心準備重點</h3>
           <div class="method-tags">
-            <span class="tag">課文精讀</span>
-            <span class="tag">字音字形練習</span>
-            <span class="tag">作文格式</span>
-            <span class="tag">文言文翻譯</span>
-            <span class="tag">閱讀理解題型</span>
+            <span class="tag tag-clickable" onclick="openDetail('tag','tag-ch-reading')">課文精讀</span>
+            <span class="tag tag-clickable" onclick="openDetail('tag','tag-ch-phonics')">字音字形練習</span>
+            <span class="tag tag-clickable" onclick="openDetail('tag','tag-ch-essay')">作文格式</span>
+            <span class="tag tag-clickable" onclick="openDetail('tag','tag-ch-classical')">文言文翻譯</span>
+            <span class="tag tag-clickable" onclick="openDetail('tag','tag-ch-comprehension')">閱讀理解題型</span>
           </div>
         </div>
       </div>
@@ -756,10 +845,10 @@
           </ul>
           <h3>核心準備重點</h3>
           <div class="method-tags">
-            <span class="tag">單字每日背</span>
-            <span class="tag">文法整理</span>
-            <span class="tag">聽力每天練</span>
-            <span class="tag">閱讀理解技巧</span>
+            <span class="tag tag-clickable" onclick="openDetail('tag','tag-en-vocab')">單字每日背</span>
+            <span class="tag tag-clickable" onclick="openDetail('tag','tag-en-grammar')">文法整理</span>
+            <span class="tag tag-clickable" onclick="openDetail('tag','tag-en-listen')">聽力每天練</span>
+            <span class="tag tag-clickable" onclick="openDetail('tag','tag-en-reading')">閱讀理解技巧</span>
           </div>
         </div>
       </div>
@@ -783,10 +872,10 @@
           </ul>
           <h3>核心準備重點</h3>
           <div class="method-tags">
-            <span class="tag">公式熟記</span>
-            <span class="tag">大量練習題</span>
-            <span class="tag">錯題整理</span>
-            <span class="tag">圖形題解題</span>
+            <span class="tag tag-clickable" onclick="openDetail('tag','tag-ma-formula')">公式熟記</span>
+            <span class="tag tag-clickable" onclick="openDetail('tag','tag-ma-practice')">大量練習題</span>
+            <span class="tag tag-clickable" onclick="openDetail('tag','tag-ma-mistake')">錯題整理</span>
+            <span class="tag tag-clickable" onclick="openDetail('tag','tag-ma-geometry')">圖形題解題</span>
           </div>
         </div>
       </div>
@@ -808,10 +897,10 @@
           </ul>
           <h3>核心準備重點</h3>
           <div class="method-tags">
-            <span class="tag">實驗觀念</span>
-            <span class="tag">圖表判讀</span>
-            <span class="tag">公式應用</span>
-            <span class="tag">四科均衡</span>
+            <span class="tag tag-clickable" onclick="openDetail('tag','tag-sc-experiment')">實驗觀念</span>
+            <span class="tag tag-clickable" onclick="openDetail('tag','tag-sc-chart')">圖表判讀</span>
+            <span class="tag tag-clickable" onclick="openDetail('tag','tag-sc-formula')">公式應用</span>
+            <span class="tag tag-clickable" onclick="openDetail('tag','tag-sc-balance')">四科均衡</span>
           </div>
         </div>
       </div>
@@ -833,10 +922,10 @@
           </ul>
           <h3>核心準備重點</h3>
           <div class="method-tags">
-            <span class="tag">時間軸整理</span>
-            <span class="tag">地圖背誦</span>
-            <span class="tag">概念連結</span>
-            <span class="tag">時事追蹤</span>
+            <span class="tag tag-clickable" onclick="openDetail('tag','tag-so-timeline')">時間軸整理</span>
+            <span class="tag tag-clickable" onclick="openDetail('tag','tag-so-map')">地圖背誦</span>
+            <span class="tag tag-clickable" onclick="openDetail('tag','tag-so-concept')">概念連結</span>
+            <span class="tag tag-clickable" onclick="openDetail('tag','tag-so-current')">時事追蹤</span>
           </div>
         </div>
       </div>
@@ -1041,6 +1130,77 @@
     </div>
 
     <div id="quiz-container"></div>
+
+    <!-- 考古題測驗 -->
+    <h2 class="section-title" style="margin-top:2rem;">📄 考古題測驗（歷屆原題）</h2>
+    <div class="card" style="padding:1rem;">
+      <p style="font-size:0.85rem;color:var(--muted);margin-bottom:1rem;">選年份，點科目開啟 PDF 作答（官方原版，不改題）。</p>
+      <div class="quiz-subject-tabs" id="exam-year-tabs" style="margin-bottom:1rem;">
+        <button class="q-tab active" onclick="switchExamYear('115',this)">115 年</button>
+        <button class="q-tab" onclick="switchExamYear('114',this)">114 年</button>
+        <button class="q-tab" onclick="switchExamYear('113',this)">113 年</button>
+        <button class="q-tab" onclick="switchExamYear('112',this)">112 年</button>
+      </div>
+      <div id="exam-panels">
+
+        <!-- 115 年 -->
+        <div id="exam-115" class="exam-year-panel">
+          <div style="display:flex;flex-wrap:wrap;gap:0.6rem;">
+            <a class="exam-subj-btn ans" href="https://drive.google.com/file/d/1fxfOLQPMdCEMSuziD1qsQZg3vVOGt8df/view?usp=drive_link" target="_blank" rel="noopener">✅ 參考答案</a>
+            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1NceEHPUXT0fZo6UgdCuSdGApQ4embM0t/view?usp=drive_link" target="_blank" rel="noopener">✍️ 寫作測驗</a>
+            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1FQtq4_a4GTsTKURdzPhDkKmONKRXtTJ9/view?usp=drive_link" target="_blank" rel="noopener">📜 國文科</a>
+            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1pzRZpkZEBg4x7GNTAIrdfGJCxNSKgok-/view?usp=drive_link" target="_blank" rel="noopener">📖 英語（閱讀）</a>
+            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1zRjsoyQhLRJfmmHtBJfi5qJa6ND1uVJ6/view?usp=drive_link" target="_blank" rel="noopener">🎧 英語（聽力）</a>
+            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1G-grfVw1NldMD3TRG-7Lco-yOuaoTKoK/view?usp=drive_link" target="_blank" rel="noopener">🔢 數學科</a>
+            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1ITxBlFhNSIbg1u1C7FrU2ODk951wt-RT/view?usp=drive_link" target="_blank" rel="noopener">🌏 社會科</a>
+            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1ZJNPG9Wz3zuI8UkPGUY50URejxxZYmQ8/view?usp=drive_link" target="_blank" rel="noopener">🔬 自然科</a>
+          </div>
+        </div>
+
+        <!-- 114 年 -->
+        <div id="exam-114" class="exam-year-panel" style="display:none;">
+          <div style="display:flex;flex-wrap:wrap;gap:0.6rem;">
+            <a class="exam-subj-btn ans" href="https://drive.google.com/file/d/175hz0lHG4GTDNxYet9lrRDu0lmC_G08o/view?usp=drive_link" target="_blank" rel="noopener">✅ 參考答案</a>
+            <a class="exam-subj-btn" href="https://drive.google.com/file/d/15yGt7NgV0OsYTP8LdYF7BCntfTjZwQ7q/view?usp=drive_link" target="_blank" rel="noopener">✍️ 寫作測驗</a>
+            <a class="exam-subj-btn" href="https://drive.google.com/file/d/102j8F3hoCvGgMCVP6x6oHN9cCd0R6_Ii/view?usp=drive_link" target="_blank" rel="noopener">📜 國文科</a>
+            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1Or0bC16Jn2hA0uAF2zrryHoY46ywIQjK/view?usp=drive_link" target="_blank" rel="noopener">📖 英語（閱讀）</a>
+            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1NQNXowVBpE4N7i790_88YXZ03zt2ktFn/view?usp=drive_link" target="_blank" rel="noopener">🎧 英語（聽力）</a>
+            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1c2AGC67Bq344EdGSZkO9SZhrY50hHTJx/view?usp=drive_link" target="_blank" rel="noopener">🔢 數學科</a>
+            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1vFl3qctoBXYcCtWbAqKUqhekIMgV6q-m/view?usp=drive_link" target="_blank" rel="noopener">🌏 社會科</a>
+            <a class="exam-subj-btn" href="https://drive.google.com/file/d/18_lHom7zYhyOoMvxHt4hKJS_CynFOoZ1/view?usp=drive_link" target="_blank" rel="noopener">🔬 自然科</a>
+          </div>
+        </div>
+
+        <!-- 113 年 -->
+        <div id="exam-113" class="exam-year-panel" style="display:none;">
+          <div style="display:flex;flex-wrap:wrap;gap:0.6rem;">
+            <a class="exam-subj-btn ans" href="https://drive.google.com/file/d/1cWlogP9FBRX1eD5kjgVDP2_6f8VCLSB4/view?usp=drive_link" target="_blank" rel="noopener">✅ 參考答案</a>
+            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1fhW7ywN8LoIGGroAMQS5JzqCStKlY2Ux/view?usp=drive_link" target="_blank" rel="noopener">✍️ 寫作測驗</a>
+            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1Xr5AwMNQipYZblCEbZadyBvLVcT_8XSv/view?usp=drive_link" target="_blank" rel="noopener">📜 國文科</a>
+            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1ZU8SG-4jdV1DGvPzpgzoi_hhRiD4NT3S/view?usp=drive_link" target="_blank" rel="noopener">📖 英語（閱讀）</a>
+            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1iAZySLpGHqKdwyIlriM58ve8vW9aMV0Q/view?usp=drive_link" target="_blank" rel="noopener">🎧 英語（聽力）</a>
+            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1MXfrOI_4KyxF6A-2NNd_J_eIuo3Epa46/view?usp=drive_link" target="_blank" rel="noopener">🔢 數學科</a>
+            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1NJYibw-N2mHZP5lL8-rOhirWv_ZFQNiz/view?usp=drive_link" target="_blank" rel="noopener">🌏 社會科</a>
+            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1lO1_3Iq62BmTHR8m29or7I8VtS8qZdDR/view?usp=drive_link" target="_blank" rel="noopener">🔬 自然科</a>
+          </div>
+        </div>
+
+        <!-- 112 年 -->
+        <div id="exam-112" class="exam-year-panel" style="display:none;">
+          <div style="display:flex;flex-wrap:wrap;gap:0.6rem;">
+            <a class="exam-subj-btn ans" href="https://drive.google.com/file/d/1OT5r0que_0bXSy0kwLEOEJMssce2OnL0/view?usp=drive_link" target="_blank" rel="noopener">✅ 參考答案</a>
+            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1EUA2uOUApWOF-rrB91umx2Hi887KQ_3t/view?usp=drive_link" target="_blank" rel="noopener">✍️ 寫作測驗</a>
+            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1dy9SuFFJro5R8SOIZRbA8ytq2Ol-UnZ9/view?usp=drive_link" target="_blank" rel="noopener">📜 國文科</a>
+            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1SXbjT6B_F8eQh2GZEvB6KmgR0k2lDK8A/view?usp=drive_link" target="_blank" rel="noopener">📖 英語（閱讀）</a>
+            <a class="exam-subj-btn" href="https://drive.google.com/file/d/119yW4wSJXxczoMJqGihwXOsu94p8cmXU/view?usp=drive_link" target="_blank" rel="noopener">🎧 英語（聽力）</a>
+            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1im3JF0E8d8RC__Z8MW9MQXCuonjPN3f_/view?usp=drive_link" target="_blank" rel="noopener">🔢 數學科</a>
+            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1vIVX90btDzk3XnNVfSQv0wRTw2A6omjL/view?usp=drive_link" target="_blank" rel="noopener">🌏 社會科</a>
+            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1Bo87vJFakmGzyUqqjHzTCF-fv75DFgx_/view?usp=drive_link" target="_blank" rel="noopener">🔬 自然科</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
   </div>
 
   <!-- TAB: TIPS -->
@@ -1283,23 +1443,82 @@
     </div>
   </div>
 
+  <!-- TAB: 均一平台 -->
+  <div id="tab-junyi" class="tab-panel">
+    <h2 class="section-title">📐 均一平台</h2>
+    <div class="card" style="padding:0.6rem 0.75rem 0.75rem;">
+      <p style="font-size:0.82rem;color:var(--muted);margin-bottom:0.6rem;">⚠️ 部分瀏覽器安全設定可能無法嵌入外部網站，若畫面空白請點下方按鈕開啟</p>
+      <iframe src="https://www.junyiacademy.org/" class="junyi-frame" title="均一平台"></iframe>
+      <div style="text-align:center;margin-top:0.75rem;">
+        <a href="https://www.junyiacademy.org/" target="_blank"
+           style="display:inline-block;background:var(--primary);color:white;border-radius:24px;padding:0.55rem 1.4rem;font-size:0.9rem;text-decoration:none;font-weight:600;">
+          🔗 在新分頁開啟均一平台
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: 子瑜聊聊 -->
+  <div id="tab-chat" class="tab-panel">
+    <h2 class="section-title">💬 子瑜聊聊</h2>
+    <div class="card" style="padding:0;">
+      <div class="chat-wrap">
+        <div class="chat-header">
+          <span style="font-size:1.6rem;">🌸</span>
+          <div class="chat-header-info">
+            <div class="chat-header-name">子瑜</div>
+            <div class="chat-header-sub">有問題儘管問，或分享學習心得！</div>
+          </div>
+          <button class="chat-setting-btn" onclick="showApiSettings()">⚙ 設定</button>
+        </div>
+        <div id="chatMessages" class="chat-messages">
+          <div style="text-align:center;padding:1.5rem 1rem 0.5rem;">
+            <div style="font-size:2rem;margin-bottom:0.5rem;">🌸</div>
+            <p style="color:var(--muted);font-size:0.88rem;line-height:1.7;">嗨璿璿！我是子瑜 🌸<br>有什麼學習問題想問我嗎？<br>或是分享今天學到什麼！</p>
+          </div>
+        </div>
+        <div class="chat-input-row">
+          <textarea id="chatInput" class="chat-input" placeholder="問子瑜問題，或分享學習心得…" rows="1"
+            onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat()}"
+            oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'"></textarea>
+          <button class="chat-send" id="chatSendBtn" onclick="sendChat()">送出</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <!-- 考試範圍詳細說明 Modal -->
 <div class="scope-modal-overlay" id="scopeOverlay" onclick="closeScopeIfBg(event)">
   <div class="scope-modal">
-    <div class="scope-modal-header">
-      <span id="scopeModalEmoji" style="font-size:1.4rem;">📚</span>
-      <h2 id="scopeModalTitle">重點說明</h2>
-      <button class="scope-modal-close" onclick="closeScope()">✕</button>
+    <!-- 頁面 1：範圍總覽 -->
+    <div id="scopePage1">
+      <div class="scope-modal-header">
+        <span id="scopeModalEmoji" style="font-size:1.4rem;">📚</span>
+        <h2 id="scopeModalTitle">重點說明</h2>
+        <button class="scope-modal-close" onclick="closeScope()">✕</button>
+      </div>
+      <div class="scope-grade-tabs" id="scopeGradeTabs">
+        <button class="scope-grade-btn active" onclick="switchScopeGrade(7,this)">7 年級</button>
+        <button class="scope-grade-btn" onclick="switchScopeGrade(8,this)">8 年級</button>
+        <button class="scope-grade-btn" onclick="switchScopeGrade(9,this)">9 年級</button>
+        <button class="scope-grade-btn" onclick="switchScopeGrade(0,this)">全部</button>
+      </div>
+      <div class="scope-modal-body" id="scopeModalBody"></div>
     </div>
-    <div class="scope-grade-tabs" id="scopeGradeTabs">
-      <button class="scope-grade-btn active" onclick="switchScopeGrade(7,this)">7 年級</button>
-      <button class="scope-grade-btn" onclick="switchScopeGrade(8,this)">8 年級</button>
-      <button class="scope-grade-btn" onclick="switchScopeGrade(9,this)">9 年級</button>
-      <button class="scope-grade-btn" onclick="switchScopeGrade(0,this)">全部</button>
+    <!-- 頁面 2：課文／方法 詳解 -->
+    <div id="scopePage2" style="display:none;flex-direction:column;height:100%;overflow:hidden;">
+      <div class="scope-modal-header" style="background:linear-gradient(135deg,#e8c4f0,#c4a0e8);">
+        <button class="scope-back-btn" onclick="backToScope()">← 返回</button>
+        <div style="flex:1;min-width:0;">
+          <div id="detailCategory" style="font-size:0.72rem;opacity:0.75;"></div>
+          <h2 id="detailTitle" style="font-size:0.98rem;margin:0;color:#2d0f3a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></h2>
+        </div>
+        <button class="scope-modal-close" onclick="closeScope()">✕</button>
+      </div>
+      <div class="scope-modal-body" id="detailBody"></div>
     </div>
-    <div class="scope-modal-body" id="scopeModalBody"></div>
   </div>
 </div>
 
@@ -1374,6 +1593,14 @@ function updateCountdown() {
 }
 setInterval(updateCountdown, 1000);
 updateCountdown();
+
+// ===== EXAM YEAR TABS =====
+function switchExamYear(year, btn) {
+  document.querySelectorAll('.exam-year-panel').forEach(p => p.style.display = 'none');
+  document.querySelectorAll('#exam-year-tabs .q-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('exam-' + year).style.display = 'block';
+  btn.classList.add('active');
+}
 
 // ===== TABS =====
 function switchTab(name) {
@@ -1610,32 +1837,32 @@ const scopeData = {
     title: '七～九年級課文閱讀與理解', emoji: '📜',
     grades: {
       7: [
-        { type:'section', text:'7年級必讀課文' },
-        { type:'key', text:'〈背影〉朱自清 — 父子情、旅別送行，考「那肥胖的身影」意象' },
-        { type:'key', text:'〈蟬〉張曉風 — 小生命的頑強，全文寓意理解' },
-        { type:'note', text:'〈論語〉選讀：學而、為政章節；孔子言論與現代意義' },
-        { type:'note', text:'〈賣油翁〉歐陽修 — 文言短文，「我亦無他，唯手熟爾」' },
+        { type:'section', text:'7年級必讀課文（點選看課文解析）' },
+        { type:'key', clickId:'text-beying', text:'〈背影〉朱自清 — 父子情、旅別送行，考「那肥胖的身影」意象' },
+        { type:'key', clickId:'text-chan', text:'〈蟬〉張曉風 — 小生命的頑強，全文寓意理解' },
+        { type:'key', clickId:'text-lunyu', text:'〈論語〉選讀：學而、為政章節；孔子言論與現代意義' },
+        { type:'key', clickId:'text-maiyouweng', text:'〈賣油翁〉歐陽修 — 文言短文，「我亦無他，唯手熟爾」' },
         { type:'section', text:'閱讀理解策略（7年級）' },
         { type:'tip', text:'找「主旨」：看第一段引題、最後一段結論' },
         { type:'tip', text:'找「段落大意」：抓每段主題句（通常在段首或段尾）' },
         { type:'warn', text:'常考陷阱：題目問「本文主旨」≠ 問其中一段的內容，要看全文' },
       ],
       8: [
-        { type:'section', text:'8年級必讀課文' },
-        { type:'key', text:'〈岳陽樓記〉范仲淹 — 「先天下之憂而憂，後天下之樂而樂」全文背誦' },
-        { type:'key', text:'〈醉翁亭記〉歐陽修 — 情景交融、借景抒情，掌握「也」字用法' },
+        { type:'section', text:'8年級必讀課文（點選看課文解析）' },
+        { type:'key', clickId:'text-yueyang', text:'〈岳陽樓記〉范仲淹 — 「先天下之憂而憂，後天下之樂而樂」全文背誦' },
+        { type:'key', clickId:'text-zuiweng', text:'〈醉翁亭記〉歐陽修 — 情景交融、借景抒情，掌握「也」字用法' },
         { type:'note', text:'〈出師表〉諸葛亮 — 忠君愛國典範，前後主要觀點' },
-        { type:'key', text:'〈木蘭詩〉— 樂府民歌，互文修辭，女扮男裝情節理解' },
+        { type:'key', clickId:'text-mulan', text:'〈木蘭詩〉— 樂府民歌，互文修辭，女扮男裝情節理解' },
         { type:'section', text:'8年級閱讀重點' },
         { type:'tip', text:'比較兩篇文章：找「相同主題、不同寫法」的對比題' },
         { type:'tip', text:'推測詞意：從上下文判斷文言字詞意思，別死記硬背' },
       ],
       9: [
-        { type:'section', text:'9年級必讀課文' },
+        { type:'section', text:'9年級必讀課文（點選看課文解析）' },
         { type:'key', text:'〈廉頗藺相如列傳〉司馬遷 — 完璧歸趙、負荊請罪典故' },
-        { type:'key', text:'〈桃花源記〉陶淵明 — 理想烏托邦，「世外桃源」意涵' },
+        { type:'key', clickId:'text-taoyuan', text:'〈桃花源記〉陶淵明 — 理想烏托邦，「世外桃源」意涵' },
         { type:'note', text:'〈師說〉韓愈 — 論師道尊嚴，文言論說文閱讀' },
-        { type:'key', text:'〈愛蓮說〉周敦頤 — 蓮的象徵，托物言志手法' },
+        { type:'key', clickId:'text-ailian', text:'〈愛蓮說〉周敦頤 — 蓮的象徵，托物言志手法' },
         { type:'section', text:'9年級衝刺重點' },
         { type:'key', text:'綜合三年課文：作者、朝代、主旨、修辭一次整理' },
         { type:'tip', text:'閱測題組：先看題目、再讀文章，帶著問題讀效率更高' },
@@ -2398,6 +2625,11 @@ const scopeData = {
 let currentScopeId = null;
 let currentScopeGrade = 7;
 
+function showPage(n) {
+  document.getElementById('scopePage1').style.display = n===1 ? '' : 'none';
+  document.getElementById('scopePage2').style.display = n===2 ? 'flex' : 'none';
+}
+
 function openScope(id) {
   const data = scopeData[id];
   if (!data) return;
@@ -2407,13 +2639,31 @@ function openScope(id) {
   document.getElementById('scopeModalTitle').textContent = data.title;
   renderScopeContent(7);
   document.querySelectorAll('.scope-grade-btn').forEach((b,i) => b.classList.toggle('active', i===0));
+  showPage(1);
   document.getElementById('scopeOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
 
+function openDetail(type, id) {
+  const data = type === 'text' ? textData[id] : tagData[id];
+  if (!data) { alert('內容建置中，敬請期待！'); return; }
+  document.getElementById('detailCategory').textContent = data.category || '';
+  document.getElementById('detailTitle').textContent = data.title;
+  document.getElementById('detailBody').innerHTML = renderDetailHTML(data);
+  document.getElementById('detailBody').scrollTop = 0;
+  showPage(2);
+  if (!document.getElementById('scopeOverlay').classList.contains('open')) {
+    document.getElementById('scopeOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function backToScope() { showPage(1); }
+
 function closeScope() {
   document.getElementById('scopeOverlay').classList.remove('open');
   document.body.style.overflow = '';
+  showPage(1);
 }
 
 function closeScopeIfBg(e) {
@@ -2435,7 +2685,7 @@ function renderScopeContent(grade) {
   if (grade === 0) {
     [7,8,9].forEach(g => {
       if (data.grades[g]) {
-        items.push({ type:'grade-header', text: `${g} 年級`, grade: g });
+        items.push({ type:'grade-header', text: g + ' 年級', grade: g });
         items = items.concat(data.grades[g]);
       }
     });
@@ -2443,24 +2693,802 @@ function renderScopeContent(grade) {
     items = data.grades[grade] || [{ type:'note', text:'此年級暫無資料，請看其他年級。' }];
   }
   let html = '';
-  items.forEach(item => {
+  items.forEach(function(item) {
     if (item.type === 'grade-header') {
-      const cls = `grade${item.grade}`;
-      html += `<div style="margin:1rem 0 0.5rem;"><span class="scope-pill ${cls}" style="font-size:0.9rem;padding:0.3rem 1rem;">${item.text}</span></div>`;
+      html += '<div style="margin:1rem 0 0.5rem;"><span class="scope-pill grade' + item.grade + '" style="font-size:0.9rem;padding:0.3rem 1rem;">' + item.grade + ' 年級</span></div>';
     } else if (item.type === 'section') {
-      html += `<div class="scope-section-title">${item.text}</div>`;
+      html += '<div class="scope-section-title">' + item.text + '</div>';
     } else if (item.type === 'formula') {
-      html += `<div class="scope-formula-box">${item.text.replace(/\n/g,'<br>')}</div>`;
+      html += '<div class="scope-formula-box">' + item.text.replace(/\n/g,'<br>') + '</div>';
+    } else if (item.clickId) {
+      html += '<div class="scope-text-link" onclick="openDetail(\'text\',\'' + item.clickId + '\')">' + item.text + '</div>';
     } else {
       const cls = item.type === 'key' ? 'scope-note key' : item.type === 'warn' ? 'scope-note warn' : item.type === 'tip' ? 'scope-note tip' : 'scope-note';
-      html += `<div class="${cls}">${item.text}</div>`;
+      html += '<div class="' + cls + '">' + item.text + '</div>';
     }
   });
   body.innerHTML = html || '<div class="scope-note">此年級暫無內容。</div>';
   body.scrollTop = 0;
 }
 
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeScope(); });
+function renderDetailHTML(data) {
+  let html = '';
+  (data.sections || []).forEach(function(sec) {
+    html += '<div class="detail-section">';
+    if (sec.title) html += '<div class="detail-title">' + sec.title + '</div>';
+    (sec.items || []).forEach(function(item) {
+      if (item.type === 'text') {
+        html += '<div class="detail-text-box">' + item.content.replace(/\n/g,'<br>').replace(/【(.+?)】/g,'<span class="hl">【$1】</span>') + '</div>';
+      } else if (item.type === 'vocab') {
+        html += '<div class="detail-vocab">';
+        (item.pairs || []).forEach(function(p) {
+          html += '<div class="detail-vocab-term">' + p[0] + '</div><div class="detail-vocab-def">' + p[1] + '</div>';
+        });
+        html += '</div>';
+      } else if (item.type === 'exam') {
+        html += '<div class="detail-exam-box">' + item.content + '</div>';
+      } else if (item.type === 'step') {
+        html += '<div class="detail-method-step">' + item.content + '</div>';
+      } else if (item.type === 'note') {
+        html += '<div class="scope-note">' + item.content + '</div>';
+      } else if (item.type === 'warn') {
+        html += '<div class="scope-note warn">' + item.content + '</div>';
+      } else if (item.type === 'tip') {
+        html += '<div class="scope-note tip">' + item.content + '</div>';
+      }
+    });
+    html += '</div>';
+  });
+  return html || '<p>內容建置中</p>';
+}
+
+
+
+// ===== 課文詳解資料 =====
+const textData = {
+  'text-beying': {
+    title:'〈背影〉朱自清', category:'國文・現代散文・7年級',
+    sections:[
+      { title:'作者與背景', items:[
+        { type:'note', content:'朱自清（1898–1948），現代散文家。〈背影〉寫於1925年，記述父親在浦口車站送別，是現代散文經典，以平實語言表達深厚父子情。' }
+      ]},
+      { title:'課文精要（含必考段落）', items:[
+        { type:'text', content:'我與父親不相見已二年餘了，我最不能忘記的是他的背影。\n\n那年冬天，祖母死了，父親的差使也交卸了，正是禍不單行的日子，我從北京到徐州，打算跟著父親奔喪回家。\n\n……\n\n我看見他戴著黑布小帽，穿著黑布大馬褂，深青布棉袍，蹣跚地走到鐵道邊，慢慢探身下去，尚不大難。可是他穿過鐵道，要爬上那邊月台，就不容易了。他用兩手攀著上面，兩腳再向上縮；他肥胖的身子向左微傾，顯出努力的樣子。\n\n【這時我看見他的背影，我的淚很快地流下來了。】\n\n他走了幾步，回過頭看見我，說：「進去吧，裡邊沒人。」等他的背影混入來來往往的人裡，再找不著了，我便進來坐下，我的眼淚又來了。' }
+      ]},
+      { title:'字詞解析', items:[
+        { type:'vocab', pairs:[
+          ['差使','官職、職務（文言）'],['蹣跚','走路搖晃不穩'],
+          ['探身','彎下身小心試探'],['攀','用手抓住往上爬'],
+          ['奔喪','趕去辦理喪事'],['禍不單行','災禍接連而來']
+        ]}
+      ]},
+      { title:'🎯 會考必考重點', items:[
+        { type:'exam', content:'「那肥胖的身影」是全文核心意象，象徵父愛的沉重與辛苦——父親的背影代表他默默付出、不善言辭的愛。' },
+        { type:'exam', content:'本文採「記敘文」，第一人稱（我）敘事，以「背影」貫穿全文（共出現四次）。' },
+        { type:'warn', content:'「黑布小帽、黑布大馬褂」是穿喪服，說明祖母剛過世，設定悲傷背景。這不是父親平常的穿著。' }
+      ]}
+    ]
+  },
+  'text-chan': {
+    title:'〈蟬〉張曉風', category:'國文・現代散文・7年級',
+    sections:[
+      { title:'作者與背景', items:[
+        { type:'note', content:'張曉風（1941–），台灣現代散文家，以細膩觀察和豐富想像著稱。〈蟬〉借小蟬的生命歷程表達頑強生命力，是「借物抒情（托物言志）」的代表作。' }
+      ]},
+      { title:'課文全文', items:[
+        { type:'text', content:'今年，蟬鳴得早。\n\n杜鵑花還沒謝，就聽見第一聲蟬叫了。\n\n朋友說：「就是這種聲音，有什麼好聽的！」\n\n那時候正是黃昏，我跟她說：「因為等了十七年，才能出來這一個夏天。」\n\n【牠等了十七年，才等到這一個夏天，就算只有一個夏天，也要鳴出全部的聲音來。】\n\n朋友說：「那有什麼意思？」\n\n我說：「那意思就是，不管有沒有人聽，牠都要盡力鳴出屬於自己的聲音。」' }
+      ]},
+      { title:'🎯 會考必考重點', items:[
+        { type:'exam', content:'全文主旨：以蟬等待十七年只為一個夏天，比喻人應珍惜生命、盡力活出自我，不因生命短暫就放棄努力。' },
+        { type:'exam', content:'寫作手法：借物抒情（托物言志）——蟬象徵頑強生命力；「我」和「朋友」的對話帶出主題。' },
+        { type:'tip', content:'閱測策略：主旨藏在最後一句——「不管有沒有人聽，牠都要盡力鳴出屬於自己的聲音。」' }
+      ]}
+    ]
+  },
+  'text-lunyu': {
+    title:'〈論語〉選讀', category:'國文・文言文・7年級',
+    sections:[
+      { title:'基本資料', items:[
+        { type:'note', content:'《論語》記錄孔子（551–479 BC）及弟子言行，儒家核心經典。孔子名丘，字仲尼，魯國人，思想核心是「仁」。' }
+      ]},
+      { title:'必背章句全文', items:[
+        { type:'text', content:'【學而時習之，不亦說乎？】有朋自遠方來，不亦樂乎？人不知而不慍，不亦君子乎？\n\n【知之為知之，不知為不知，是知也。】\n\n【三人行，必有我師焉。】擇其善者而從之，其不善者而改之。\n\n【學而不思則罔，思而不學則殆。】\n\n吾日三省吾身：為人謀而不忠乎？與朋友交而不信乎？傳不習乎？' }
+      ]},
+      { title:'字詞解析', items:[
+        { type:'vocab', pairs:[
+          ['說（ㄩㄝˋ）','通「悅」，高興、喜悅'],
+          ['慍','生氣、不滿'],['罔','迷惘，沒有收穫'],
+          ['殆','危險；精神疲倦而無所得'],
+          ['是知也','這才是真正的智慧（知=智）']
+        ]}
+      ]},
+      { title:'白話文翻譯', items:[
+        { type:'note', content:'「學而時習之，不亦說乎？」= 學了知識後時常複習，不是很快樂嗎？' },
+        { type:'note', content:'「知之為知之，不知為不知，是知也」= 知道就說知道，不知道就說不知道，這才是真正聰明。' },
+        { type:'note', content:'「學而不思則罔，思而不學則殆」= 只讀書不思考會迷惘；只思考不讀書很危險（沒有根基）。' }
+      ]},
+      { title:'🎯 會考必考重點', items:[
+        { type:'exam', content:'「說」字通假：「不亦說乎」的「說」通「悅」，讀音 ㄩㄝˋ，表示喜悅。' },
+        { type:'exam', content:'「知」字辨析：「是知也」的「知」通「智」，意為智慧，不是「知道」。' },
+        { type:'warn', content:'「學而不思則罔，思而不學則殆」考題常問學習和思考哪個重要？答：兩者相輔相成，缺一不可。' }
+      ]}
+    ]
+  },
+  'text-maiyouweng': {
+    title:'〈賣油翁〉歐陽修', category:'國文・文言短文・7年級',
+    sections:[
+      { title:'作者與背景', items:[
+        { type:'note', content:'歐陽修（1007–1072），北宋文學家，「唐宋八大家」之一。〈賣油翁〉是寓言式短文，說明「熟能生巧」的道理。' }
+      ]},
+      { title:'課文全文', items:[
+        { type:'text', content:'陳康肅公善射，當世無雙，公亦以此自矜。\n\n嘗射於家圃，有賣油翁釋擔而立，睨之，久而不去。見其發矢十中八九，但微頷之。\n\n康肅問曰：「汝亦知射乎？吾射不亦精乎？」翁曰：「無他，但手熟爾。」\n\n康肅忿然曰：「爾安敢輕吾射？」翁曰：「以我酌油知之。」\n\n乃取一葫蘆置於地，以錢覆其口，徐以杓酌油瀝之，自錢孔入，而錢不濕。\n\n因曰：「【我亦無他，惟手熟爾。】」康肅笑而遣之。' }
+      ]},
+      { title:'字詞解析', items:[
+        { type:'vocab', pairs:[
+          ['善射','擅長射箭'],['自矜','自誇，以此為傲'],
+          ['釋擔','放下擔子'],['睨','斜眼看，輕視'],
+          ['但','只是'],['微頷之','輕輕點頭'],
+          ['忿然','生氣的樣子'],['安敢','怎麼敢'],
+          ['徐','慢慢地'],['惟','只，僅僅']
+        ]}
+      ]},
+      { title:'🎯 會考必考重點', items:[
+        { type:'exam', content:'全文主旨：「熟能生巧」——任何技藝，只要勤加練習就能精通，不需驕傲自誇。' },
+        { type:'exam', content:'人物對比：陳堯咨「自矜」vs 賣油翁「謙遜」，透過對比凸顯謙虛求進的道理。' },
+        { type:'warn', content:'「但」字在文言文意為「只是/只不過」，不是「但是（轉折）」，這是最常考的字義辨析！' }
+      ]}
+    ]
+  },
+  'text-yueyang': {
+    title:'〈岳陽樓記〉范仲淹', category:'國文・文言文・8年級',
+    sections:[
+      { title:'作者與背景', items:[
+        { type:'note', content:'范仲淹（989–1052），北宋政治家。〈岳陽樓記〉寫於1046年，借岳陽樓景色表達「先天下之憂而憂，後天下之樂而樂」的抱負。' }
+      ]},
+      { title:'必背段落', items:[
+        { type:'text', content:'若夫淫雨霏霏，連月不開，陰風怒號，濁浪排空……登斯樓也，則有去國懷鄉，憂讒畏譏，滿目蕭然，感極而悲者矣。\n\n至若春和景明，波瀾不驚，上下天光，一碧萬頃……登斯樓也，則有心曠神怡，寵辱偕忘，把酒臨風，其喜洋洋者矣。\n\n嗟夫！予嘗求古仁人之心……不以物喜，不以己悲……\n\n【先天下之憂而憂，後天下之樂而樂。】\n\n噫！微斯人，吾誰與歸？' }
+      ]},
+      { title:'字詞解析', items:[
+        { type:'vocab', pairs:[
+          ['霏霏','細雨紛飛'],['心曠神怡','心胸開闊，精神愉快'],
+          ['寵辱偕忘','得意和失意都忘記'],['微','若沒有，要不是'],
+          ['不以物喜，不以己悲','不因外物好壞而喜悲，不因自身得失而喜悲']
+        ]}
+      ]},
+      { title:'🎯 會考必考重點', items:[
+        { type:'exam', content:'「先天下之憂而憂，後天下之樂而樂」是全文精神核心，表達憂國憂民的抱負，必須背誦！' },
+        { type:'exam', content:'對比手法：陰雨（悲）vs 晴日（喜），最後點出君子「不以物喜、不以己悲」超越兩者的境界。' },
+        { type:'warn', content:'本文「悲/喜」的描寫都是「遷客騷人」的反應，不是作者自己的立場，這是常考的辨析點。' }
+      ]}
+    ]
+  },
+  'text-mulan': {
+    title:'〈木蘭詩〉', category:'國文・樂府詩・8年級',
+    sections:[
+      { title:'基本資料', items:[
+        { type:'note', content:'北朝樂府民歌，作者不詳，敘述木蘭女扮男裝替父從軍的故事，是著名敘事詩，也是中國文學中重要的女性形象。' }
+      ]},
+      { title:'課文重要段落', items:[
+        { type:'text', content:'唧唧復唧唧，木蘭當戶織。不聞機杼聲，惟聞女嘆息。\n\n問女何所思？問女何所憶？女亦無所思，女亦無所憶。昨夜見軍帖，可汗大點兵。軍書十二卷，卷卷有爺名。\n\n阿爺無大兒，木蘭無長兄。願為市鞍馬，從此替爺征。\n\n……\n\n【萬里赴戎機，關山度若飛。】朔氣傳金柝，寒光照鐵衣。將軍百戰死，壯士十年歸。\n\n……\n\n雄兔腳撲朔，雌兔眼迷離；【雙兔傍地走，安能辨我是雄雌？】' }
+      ]},
+      { title:'字詞解析', items:[
+        { type:'vocab', pairs:[
+          ['機杼','織布機的梭子'],['可汗（ㄎㄜˋ ㄏㄢˊ）','北方民族君主'],
+          ['爺','父親'],['市','買'],['戎機','戰事'],
+          ['互文','前後句意思交叉理解的修辭']
+        ]}
+      ]},
+      { title:'🎯 會考必考重點', items:[
+        { type:'exam', content:'「互文」修辭：「將軍百戰死，壯士十年歸」= 將軍和壯士有的戰死、有的歸來，兩句交叉理解。' },
+        { type:'exam', content:'「雙兔傍地走，安能辨我是雄雌？」= 比喻木蘭女扮男裝成功，無人識破。' },
+        { type:'warn', content:'「可汗」讀 ㄎㄜˋ ㄏㄢˊ，不是「可(ㄎㄜˇ)汗」，是北方民族的特殊稱謂。' }
+      ]}
+    ]
+  },
+  'text-zuiweng': {
+    title:'〈醉翁亭記〉歐陽修', category:'國文・文言文・8年級',
+    sections:[
+      { title:'作者與背景', items:[
+        { type:'note', content:'歐陽修（1007–1072），北宋文學家，「唐宋八大家」之一。醉翁亭在安徽滁州，〈醉翁亭記〉以「醉」字貫穿，寓情於景，托情山水。' }
+      ]},
+      { title:'必背段落', items:[
+        { type:'text', content:'環滁皆山也。其西南諸峰，林壑尤美……有亭翼然臨於泉上者，醉翁亭也。作亭者誰？山之僧智仙也。名之者誰？太守自謂也。太守與客來飲於此，飲少輒醉，而年又最高，故自號曰「醉翁」也。\n\n【醉翁之意不在酒，在乎山水之間也。】山水之樂，得之心而寓之酒也。\n\n……\n\n人知從太守遊而樂，而不知太守之樂其樂也。' }
+      ]},
+      { title:'「也」字用法整理', items:[
+        { type:'vocab', pairs:[
+          ['環滁皆山也','陳述語氣，表判斷'],
+          ['醉翁亭也','說明肯定，表判斷'],
+          ['在乎山水之間也','抒情加強語氣'],
+          ['太守醉也','敘述完結，表陳述']
+        ]}
+      ]},
+      { title:'🎯 會考必考重點', items:[
+        { type:'exam', content:'「醉翁之意不在酒，在乎山水之間也」— 表面愛酒，實則寄情山水，這是全文的關鍵句，也是現代成語。' },
+        { type:'exam', content:'「也」字：全文共21個「也」，用於陳述/判斷/抒情，是這篇文章的標誌特色。' },
+        { type:'warn', content:'「醉翁之意不在酒」現代使用時意思已轉為「醉翁的用意另有所指」，考題可能問詞語來源。' }
+      ]}
+    ]
+  },
+  'text-taoyuan': {
+    title:'〈桃花源記〉陶淵明', category:'國文・文言文・9年級',
+    sections:[
+      { title:'作者與背景', items:[
+        { type:'note', content:'陶淵明（365–427），東晉文學家，號五柳先生，「不為五斗米折腰」。〈桃花源記〉描繪沒有戰亂、自給自足的理想社會（烏托邦）。' }
+      ]},
+      { title:'課文精要', items:[
+        { type:'text', content:'晉太元中，武陵人捕魚為業。緣溪行，忘路之遠近。忽逢桃花林，夾岸數百步，中無雜樹，芳草鮮美，落英繽紛。漁人甚異之。\n\n復前行，欲窮其林。林盡水源，便得一山，山有小口，彷彿若有光。便捨船，從口入。\n\n土地平曠，屋舍儼然，有良田美池桑竹之屬。阡陌交通，雞犬相聞。其中往來種作，男女衣著，悉如外人。\n\n【黃髮垂髫，並怡然自樂。】\n\n……此人一一為具言所聞，皆嘆惋。\n\n後遂無問津者。' }
+      ]},
+      { title:'字詞解析', items:[
+        { type:'vocab', pairs:[
+          ['緣','沿著'],['落英繽紛','花瓣紛紛飄落'],
+          ['儼然','整齊的樣子'],['悉','全部、都'],
+          ['黃髮','老人'],['垂髫','小孩'],
+          ['怡然','高興滿足'],['問津','探求、嘗試（渡口）']
+        ]}
+      ]},
+      { title:'🎯 會考必考重點', items:[
+        { type:'exam', content:'「黃髮垂髫，並怡然自樂」= 老人和小孩都快樂自在，代表桃花源是老少皆幸福的理想社會。' },
+        { type:'exam', content:'文末「後遂無問津者」暗示桃花源只是虛構的理想，現實中找不到。' },
+        { type:'warn', content:'「落英繽紛」中「落英」= 飄落的花瓣，不是「凋謝的花」。常考字義。' }
+      ]}
+    ]
+  },
+  'text-ailian': {
+    title:'〈愛蓮說〉周敦頤', category:'國文・文言文・9年級',
+    sections:[
+      { title:'作者與背景', items:[
+        { type:'note', content:'周敦頤（1017–1073），北宋哲學家，宋代理學開創者。〈愛蓮說〉以蓮花自喻，表達不與世俗同流合污的品格，「說」是「論說」文體。' }
+      ]},
+      { title:'課文全文', items:[
+        { type:'text', content:'水陸草木之花，可愛者甚蕃。晉陶淵明獨愛菊；自李唐來，世人甚愛牡丹；予獨愛蓮之【出淤泥而不染，濯清漣而不妖】，中通外直，不蔓不枝，香遠益清，亭亭淨植，可遠觀而不可褻玩焉。\n\n予謂菊，花之隱逸者也；牡丹，花之富貴者也；蓮，花之君子者也。\n\n噫！菊之愛，陶後鮮有聞；蓮之愛，同予者何人？牡丹之愛，宜乎眾矣。' }
+      ]},
+      { title:'蓮花象徵對照', items:[
+        { type:'vocab', pairs:[
+          ['出淤泥而不染','生於污泥卻不沾染污穢 → 品格高潔'],
+          ['濯清漣而不妖','洗滌於清水卻不妖艷 → 純真自然'],
+          ['中通外直','內心通達、外表正直 → 正直坦誠'],
+          ['不蔓不枝','不攀附、不多餘 → 獨立自主'],
+          ['香遠益清','德行遠播且愈顯清雅'],
+          ['可遠觀不可褻玩','令人敬仰，不可輕薄']
+        ]}
+      ]},
+      { title:'🎯 會考必考重點', items:[
+        { type:'exam', content:'三花對比：菊=隱逸（陶淵明）、牡丹=富貴（世俗）、蓮=君子（作者自比）。' },
+        { type:'exam', content:'「托物言志」：表面寫蓮花，實際表達不與世俗同流合污的君子精神。' },
+        { type:'warn', content:'「說」是文體，表示「論說」；不是說話的意思。〈愛蓮說〉= 對蓮花的論說文。' }
+      ]}
+    ]
+  }
+};
+
+// ===== 核心準備重點詳解 =====
+const tagData = {
+  'tag-ch-reading': {
+    title:'課文精讀技巧', category:'國文學習方法',
+    sections:[
+      { title:'精讀五步驟', items:[
+        { type:'step', content:'第一遍：快速通讀，建立整體印象。不要卡在不懂的字，繼續讀。' },
+        { type:'step', content:'第二遍：劃出重要句子（主題句、名句、難句）。' },
+        { type:'step', content:'第三遍：每段問自己「這段主要說什麼？」，寫下段落大意。' },
+        { type:'step', content:'第四遍：分析寫作技巧——記敘/說明/論說？用了哪些修辭？' },
+        { type:'step', content:'第五遍：問「作者為什麼寫這篇？主旨是什麼？」用自己的話說。' }
+      ]},
+      { title:'現代文精讀重點', items:[
+        { type:'exam', content:'題目和開頭：第一段通常點題，要仔細讀。' },
+        { type:'exam', content:'轉折詞後面最重要：「但是、然而、不過」後面往往是作者真正的觀點。' },
+        { type:'exam', content:'結尾：散文/議論文結尾通常是主旨總結，一定要讀懂。' }
+      ]},
+      { title:'文言文翻譯口訣', items:[
+        { type:'tip', content:'「留（人名地名）、替（換現代詞）、補（省略成分）、刪（助詞）、調（語序）」' }
+      ]}
+    ]
+  },
+  'tag-ch-phonics': {
+    title:'字音字形練習方法', category:'國文學習方法',
+    sections:[
+      { title:'字音學習法', items:[
+        { type:'step', content:'多音字：記「不同詞義配不同讀音」。例：「說」在遊說讀ㄕㄨㄟˋ，說話讀ㄕㄨㄛ。' },
+        { type:'step', content:'注音練習：每週選10個易錯字音，寫小卡片，早上背5分鐘。' },
+        { type:'exam', content:'高頻易錯：說(ㄕㄨㄛ/ㄕㄨㄟˋ/ㄩㄝˋ)、行(ㄒㄧㄥˊ/ㄏㄤˊ)、著(ㄓㄨˋ/ㄓㄠˊ/ㄓㄨㄛˊ)、角(ㄐㄧㄠˇ/ㄐㄩㄝˊ)' }
+      ]},
+      { title:'字形學習法', items:[
+        { type:'step', content:'用「部首」記字：氵=水相關、火旁=火相關、言旁=說話相關。' },
+        { type:'step', content:'形近字對比：己/已/巳、戊/戌/戍、辯/辨/辮——每組一起背。' },
+        { type:'step', content:'反覆書寫：易錯字寫10遍，邊寫邊大聲說（多感官記憶）。' }
+      ]}
+    ]
+  },
+  'tag-ch-essay': {
+    title:'作文格式完整指南', category:'國文學習方法',
+    sections:[
+      { title:'議論文四段結構', items:[
+        { type:'step', content:'【起】開頭（80字）：引用名言/描述情境/提出問題，引入主題。' },
+        { type:'step', content:'【承】展開（200字）：提出論點，舉例說明，分析例子和論點的關係。' },
+        { type:'step', content:'【轉】深化（150字）：換角度，加入反例、對比，讓文章有深度。' },
+        { type:'step', content:'【合】結尾（100字）：總結論點，呼應開頭，升華主題。' }
+      ]},
+      { title:'常用連接詞', items:[
+        { type:'vocab', pairs:[
+          ['順接','首先、其次、再者、不僅如此、甚至'],
+          ['轉折','然而、但是、反觀、相反地'],
+          ['因果','因此、所以、由此可見'],
+          ['結論','總而言之、綜上所述、一言以蔽之']
+        ]}
+      ]},
+      { title:'扣分陷阱', items:[
+        { type:'warn', content:'字數不足：600字以上，不足大幅扣分。' },
+        { type:'warn', content:'空洞：「這件事很重要」→ 要說「為什麼重要」，有理由才有說服力。' },
+        { type:'tip', content:'保險寫法：每個論點後有具體例子，例子後有分析說明為何能證明論點。' }
+      ]}
+    ]
+  },
+  'tag-ch-classical': {
+    title:'文言文翻譯技巧', category:'國文學習方法',
+    sections:[
+      { title:'翻譯五字訣', items:[
+        { type:'step', content:'【留】保留人名、地名、官職名、年號不翻譯。' },
+        { type:'step', content:'【替】把文言詞換成現代詞。走→跑；去→離開；妻子→妻子和兒女。' },
+        { type:'step', content:'【補】補上省略的主詞、受詞。「見其發矢」→「（他）看見（陳堯咨）射箭」。' },
+        { type:'step', content:'【刪】刪去句末「也、矣、乎、哉」等沒有實義的虛詞。' },
+        { type:'step', content:'【調】把倒裝句調回正常語序。「何陋之有？」→「有什麼簡陋的？」' }
+      ]},
+      { title:'最常考文言字義', items:[
+        { type:'vocab', pairs:[
+          ['之（代詞）','他/它，代指前面的人事物'],
+          ['之（助詞）','的，用在名詞之間'],
+          ['而（順接）','然後、就'],
+          ['而（轉折）','但是、卻'],
+          ['以（用）','用、拿、憑藉'],
+          ['以（因為）','因為、由於'],
+          ['為（做）','做、成為'],
+          ['為（被）','被（被動句）'],
+          ['於（在）','在某地或某時'],
+          ['於（比）','比，表示比較']
+        ]}
+      ]}
+    ]
+  },
+  'tag-ch-comprehension': {
+    title:'閱讀理解六大題型攻略', category:'國文學習方法',
+    sections:[
+      { title:'答題順序', items:[
+        { type:'step', content:'先看題目→帶著問題讀文章→定位對應段落→比對選項。' }
+      ]},
+      { title:'六大題型解法', items:[
+        { type:'exam', content:'①主旨題：看第一段和最後一段，選「涵蓋全文」的選項。' },
+        { type:'exam', content:'②細節題：關鍵字定位法，回原文找，不靠記憶。' },
+        { type:'exam', content:'③詞義題：把選項代入原句，看哪個最通順。' },
+        { type:'exam', content:'④推論題：選「有文字根據」的推論，文中沒說的不能選。' },
+        { type:'exam', content:'⑤態度題：找作者用的詞語是正面/負面/中立。' },
+        { type:'exam', content:'⑥排列順序題：找時序詞（首先/接著/最後）或邏輯關係。' }
+      ]},
+      { title:'三大錯誤選項', items:[
+        { type:'warn', content:'過度推論：文章只說A，選項說「所以B一定正確」——沒講就不選。' },
+        { type:'warn', content:'以偏概全：部分情況說成「全部都是」——注意所有/永遠/一定。' },
+        { type:'warn', content:'張冠李戴：把甲的事說成乙做的，或把A情境用在B情境。' }
+      ]}
+    ]
+  },
+  'tag-en-vocab': {
+    title:'單字每日背高效方法', category:'英文學習方法',
+    sections:[
+      { title:'遺忘曲線原理', items:[
+        { type:'note', content:'學完後20分鐘忘42%，一天後忘74%。關鍵不是「背了多少」，而是「複習了幾次」。間隔重複是最有效的記憶法。' }
+      ]},
+      { title:'間隔重複計畫', items:[
+        { type:'step', content:'Day 1：學20個新單字，睡前複習一遍。' },
+        { type:'step', content:'Day 2：複習昨天的20個，再學20個新的。' },
+        { type:'step', content:'Day 4：複習3天前的那批，測試自己記得多少。' },
+        { type:'step', content:'Day 7+：每週複習一輪，間隔逐漸拉長到兩週、一個月。' }
+      ]},
+      { title:'記憶技巧', items:[
+        { type:'step', content:'字根法：un-(否定)、re-(再次)、-tion(名詞)、-ful(充滿)、-less(沒有)。' },
+        { type:'step', content:'例句法：每個單字背一個完整例句，記用法不只記意思。' }
+      ]},
+      { title:'高頻單字', items:[
+        { type:'exam', content:'動詞：achieve, encourage, improve, suggest, prevent, protect, require, consider, provide, develop' },
+        { type:'exam', content:'形容詞：important, difficult, possible, popular, local, national, personal, typical, modern, various' }
+      ]}
+    ]
+  },
+  'tag-en-grammar': {
+    title:'英文文法整理', category:'英文學習方法',
+    sections:[
+      { title:'時態一覽', items:[
+        { type:'vocab', pairs:[
+          ['現在簡單','S + V(s/es)｜always/usually/every day'],
+          ['現在進行','am/is/are + V-ing｜now/at the moment'],
+          ['過去簡單','S + V-ed/不規則｜yesterday/last/ago'],
+          ['現在完成','have/has + p.p.｜already/yet/just/for/since'],
+          ['未來式','will + V 或 be going to + V｜tomorrow/next'],
+          ['被動式','be + p.p.｜被動']
+        ]}
+      ]},
+      { title:'必考文法點', items:[
+        { type:'exam', content:'比較級：短詞+er（taller）；長詞 more+原形（more beautiful）；不規則 good→better→best。' },
+        { type:'exam', content:'動名詞vs不定詞：enjoy/finish/mind/avoid → Ving；want/hope/plan/decide → to V。' },
+        { type:'exam', content:'假設語氣：If + 過去式（be用were），would/could + 原形。表現在不可能的假設。' },
+        { type:'exam', content:'關係代名詞：who(人主格)/whom(人受格)/which(物)/whose(所有格)/that(人或物)。' }
+      ]},
+      { title:'三態必背表', items:[
+        { type:'vocab', pairs:[
+          ['go/went/gone','去'],['write/wrote/written','寫'],
+          ['see/saw/seen','看'],['take/took/taken','拿'],
+          ['give/gave/given','給'],['break/broke/broken','打破'],
+          ['know/knew/known','知道'],['eat/ate/eaten','吃']
+        ]}
+      ]}
+    ]
+  },
+  'tag-en-listen': {
+    title:'聽力每天練習計畫', category:'英文學習方法',
+    sections:[
+      { title:'每天10分鐘計畫', items:[
+        { type:'step', content:'週一三五：聽一段英文（1–3分鐘），把聽到的關鍵字記下來。' },
+        { type:'step', content:'週二四六：做模擬聽力題（課本附件或免費網路題庫）。' },
+        { type:'step', content:'每天：睡前聽英文歌，先查歌詞了解意思，再聽音樂。' }
+      ]},
+      { title:'答題技巧', items:[
+        { type:'exam', content:'播放前：快速看選項，預測聽力主題，帶著問題聽。' },
+        { type:'exam', content:'播放時：抓5W1H（Who/What/When/Where/Why/How），數字/地點/名字特別注意。' },
+        { type:'warn', content:'不要在腦中翻譯成中文！直接用英文模式理解，速度更快。' }
+      ]}
+    ]
+  },
+  'tag-en-reading': {
+    title:'閱讀理解解題技巧', category:'英文學習方法',
+    sections:[
+      { title:'解題順序', items:[
+        { type:'step', content:'先看題目→帶著問題讀文章→找主題句→定位答案→比對選項。' }
+      ]},
+      { title:'各題型解法', items:[
+        { type:'exam', content:'主旨題：看第一段和最後一段，找反覆出現的關鍵詞。' },
+        { type:'exam', content:'細節題：回原文定位，不要靠記憶作答。' },
+        { type:'exam', content:'詞義題：把選項代入原句，選最通順的。' },
+        { type:'exam', content:'圖表題：標題→座標軸/單位→最高低點→趨勢，五步驟判讀。' }
+      ]},
+      { title:'錯誤選項辨識', items:[
+        { type:'warn', content:'過度推論：文章沒說的不能選，要有「文字根據」。' },
+        { type:'warn', content:'圖表陷阱：注意Y軸不從0開始，視覺差距≠實際差距。' }
+      ]}
+    ]
+  },
+  'tag-ma-formula': {
+    title:'數學公式熟記方法', category:'數學學習方法',
+    sections:[
+      { title:'必背公式一覽', items:[
+        { type:'vocab', pairs:[
+          ['梯形面積','(上底+下底)×高÷2'],
+          ['圓面積','πr²'],['圓周長','2πr'],
+          ['勾股定理','a²+b²=c²（c為斜邊）'],
+          ['一次函數斜率','m=(y₂-y₁)/(x₂-x₁)'],
+          ['二次函數頂點x','x=-b/(2a)'],
+          ['公式解','x=[-b±√(b²-4ac)]/(2a)'],
+          ['等差第n項','aₙ=a₁+(n-1)d'],
+          ['機率','P=有利數/全部可能數']
+        ]}
+      ]},
+      { title:'記公式的方法', items:[
+        { type:'step', content:'理解推導：梯形為什麼÷2？因為兩個梯形拼成平行四邊形，面積取一半。' },
+        { type:'step', content:'做題鞏固：每個公式用它解10道題，熟悉後自然記住。' },
+        { type:'tip', content:'考前在草稿紙上默寫所有公式，確認沒忘再開始作答。' }
+      ]}
+    ]
+  },
+  'tag-ma-practice': {
+    title:'大量練習題的正確方式', category:'數學學習方法',
+    sections:[
+      { title:'有策略的練習', items:[
+        { type:'step', content:'先懂概念 → 做基礎例題 → 做變化題 → 做綜合題，逐步提升。' },
+        { type:'step', content:'設時間限制：選擇題每題1.5分鐘，計算題每題3–5分鐘，模擬考試環境。' },
+        { type:'step', content:'做完立刻對答：每題做完立刻確認，錯了馬上弄懂，不要堆積。' }
+      ]},
+      { title:'各年級重點題型', items:[
+        { type:'exam', content:'7年級：正負數運算、一元一次方程式應用題、比例問題、幾何基礎。' },
+        { type:'exam', content:'8年級：因式分解、一次函數圖形、相似三角形、機率計算。' },
+        { type:'exam', content:'9年級：二次函數、圓的定理、三角比、數列與級數。' }
+      ]}
+    ]
+  },
+  'tag-ma-mistake': {
+    title:'錯題整理的方法', category:'數學學習方法',
+    sections:[
+      { title:'為什麼要錯題本？', items:[
+        { type:'note', content:'同一類型做錯三次，代表概念沒真正理解。錯題本讓你集中攻克弱點，不在已經會的題目上浪費時間。' }
+      ]},
+      { title:'建立步驟', items:[
+        { type:'step', content:'搞清楚「為什麼錯」：計算錯誤？概念不清？題目沒看清楚？' },
+        { type:'step', content:'抄題+寫錯誤原因+寫正確解法（三樣缺一不可）。' },
+        { type:'step', content:'一週後蓋起來重做，測試是否真的學會了。' },
+        { type:'step', content:'考試前重點複習錯題本，這些是最可能失分的地方。' }
+      ]}
+    ]
+  },
+  'tag-ma-geometry': {
+    title:'幾何圖形題解題技巧', category:'數學學習方法',
+    sections:[
+      { title:'解題流程', items:[
+        { type:'step', content:'把已知條件全標在圖上（角度、長度、平行符號）。' },
+        { type:'step', content:'看清楚「求什麼」——角度、長度、面積、還是要「證明」？' },
+        { type:'step', content:'找橋梁——有沒有全等三角形、相似三角形、特殊圖形可以用？' },
+        { type:'step', content:'逐步推導，每個步驟說明用到哪個定理。' }
+      ]},
+      { title:'常用定理', items:[
+        { type:'exam', content:'三角形：內角和180°；畢氏定理a²+b²=c²；全等SSS/SAS/ASA/AAS。' },
+        { type:'exam', content:'平行線：同位角相等、內錯角相等、同側內角互補。' },
+        { type:'exam', content:'圓：圓周角=圓心角÷2；半圓上圓周角=90°；切線⊥半徑。' }
+      ]}
+    ]
+  },
+  'tag-sc-experiment': {
+    title:'實驗觀念完整整理', category:'自然學習方法',
+    sections:[
+      { title:'科學方法七步驟', items:[
+        { type:'step', content:'①觀察→②提問→③假設→④設計實驗→⑤進行實驗→⑥分析結果→⑦結論' }
+      ]},
+      { title:'三類變數', items:[
+        { type:'vocab', pairs:[
+          ['自變數','實驗者主動改變的因素（如光照強度）'],
+          ['應變數','被測量的因素（如植物生長速度）'],
+          ['控制變數','固定不變的因素（如土壤、水量）']
+        ]}
+      ]},
+      { title:'必考觀念', items:[
+        { type:'exam', content:'對照組：沒有實驗處理的組別，用來對比實驗組。沒對照組，結論不可靠！' },
+        { type:'warn', content:'相關性≠因果關係：A和B同時增加，不代表A造成B。需控制其他變數才能確定因果。' }
+      ]}
+    ]
+  },
+  'tag-sc-chart': {
+    title:'圖表判讀方法', category:'自然學習方法',
+    sections:[
+      { title:'判讀五步驟', items:[
+        { type:'step', content:'①看標題（什麼主題）→②看座標軸/單位→③看刻度範圍→④找最高低點/趨勢→⑤對比不同組' }
+      ]},
+      { title:'圖表類型', items:[
+        { type:'vocab', pairs:[
+          ['折線圖','連續變化趨勢（如溫度、人口）'],
+          ['長條圖','比較不同類別數值'],
+          ['圓形圖','各部分佔總體比例（加起來=100%）'],
+          ['散點圖','兩變數相關性']
+        ]}
+      ]},
+      { title:'陷阱警示', items:[
+        { type:'warn', content:'Y軸不從0開始：視覺差距大，實際差距可能很小。看清楚刻度！' },
+        { type:'tip', content:'逐一用圖表數字驗證每個選項，不要憑感覺選。' }
+      ]}
+    ]
+  },
+  'tag-sc-formula': {
+    title:'自然科公式應用', category:'自然學習方法',
+    sections:[
+      { title:'必背公式', items:[
+        { type:'vocab', pairs:[
+          ['速度','v=d/t'],['加速度','a=(v-v₀)/t'],
+          ['牛頓第二定律','F=ma'],['重力','W=mg'],
+          ['歐姆定律','V=IR'],['電功率','P=IV'],
+          ['熱量','Q=mcΔT'],
+          ['光合作用','CO₂+H₂O+光→葡萄糖+O₂'],
+          ['細胞呼吸','葡萄糖+O₂→CO₂+H₂O+能量']
+        ]}
+      ]},
+      { title:'代入公式三步驟', items:[
+        { type:'step', content:'找已知量+求的量→選包含這兩者的公式→確認單位一致再代入。' }
+      ]}
+    ]
+  },
+  'tag-sc-balance': {
+    title:'自然四科均衡備考策略', category:'自然學習方法',
+    sections:[
+      { title:'各科特性與策略', items:[
+        { type:'exam', content:'【生物】記憶型：細胞結構、消化路徑、遺傳規律、生態系。用圖解+口訣輔助記憶。' },
+        { type:'exam', content:'【物理】計算+概念：牛頓三定律、光學、電路。公式要熟，畫圖輔助理解。' },
+        { type:'exam', content:'【化學】理解+計算：酸鹼中和、化學方程式配平。理解反應原理，不只背公式。' },
+        { type:'exam', content:'【地科】記憶+分析：板塊、地球結構、天氣、天文。搭配圖表記憶效果最好。' }
+      ]},
+      { title:'弱科加強計畫', items:[
+        { type:'step', content:'做一份各科小測驗，找出最弱的科目。' },
+        { type:'step', content:'每週把30%的自然讀書時間投入最弱科目。' },
+        { type:'step', content:'每兩週做模擬題，確認弱科有進步，動態調整時間分配。' }
+      ]}
+    ]
+  },
+  'tag-so-timeline': {
+    title:'歷史時間軸整理方法', category:'社會學習方法',
+    sections:[
+      { title:'台灣史時間軸', items:[
+        { type:'vocab', pairs:[
+          ['1624','荷蘭統治（普羅民遮城/赤崁樓）'],
+          ['1662','鄭成功驅荷'],
+          ['1683','清朝統治台灣'],
+          ['1895','馬關條約，台灣割讓日本'],
+          ['1945','二戰結束，中華民國接收台灣'],
+          ['1987','解除戒嚴'],
+          ['1996','第一次總統直選']
+        ]}
+      ]},
+      { title:'世界史時間軸', items:[
+        { type:'vocab', pairs:[
+          ['221BC','秦始皇統一六國'],
+          ['1789','法國大革命'],
+          ['18世紀末','工業革命（英國）'],
+          ['1914–18','第一次世界大戰（薩拉熱窩事件引爆）'],
+          ['1939–45','第二次世界大戰'],
+          ['1945','聯合國成立'],
+          ['1991','蘇聯解體，冷戰結束']
+        ]}
+      ]},
+      { title:'製作技巧', items:[
+        { type:'step', content:'橫線代表時間軸，事件標上方，原因標下方，箭頭連結因果關係。' },
+        { type:'tip', content:'顏色分類：台灣史/中國史/世界史各用一種顏色，一目了然。' }
+      ]}
+    ]
+  },
+  'tag-so-map': {
+    title:'地理地圖背誦技巧', category:'社會學習方法',
+    sections:[
+      { title:'地圖三要素', items:[
+        { type:'step', content:'①方位：上北下南左西右東（以指北針為準）' },
+        { type:'step', content:'②比例尺：圖上距離×比例尺=實際距離' },
+        { type:'step', content:'③圖例：每個符號代表什麼要看說明' }
+      ]},
+      { title:'台灣地理口訣', items:[
+        { type:'exam', content:'五大山脈（西→東）：阿玉中雪海 = 阿里山、玉山、中央、雪山、海岸' },
+        { type:'exam', content:'主要河流：濁水溪最長、高屏溪流域最廣、淡水河流貫台北' }
+      ]},
+      { title:'世界地理重點', items:[
+        { type:'vocab', pairs:[
+          ['亞洲最長河','長江（約6300km）'],
+          ['世界最高峰','聖母峰（8849m）'],
+          ['台灣板塊位置','歐亞板塊＋菲律賓海板塊交界']
+        ]}
+      ]}
+    ]
+  },
+  'tag-so-concept': {
+    title:'公民概念連結方法', category:'社會學習方法',
+    sections:[
+      { title:'核心概念連結', items:[
+        { type:'vocab', pairs:[
+          ['主權在民','人民是主人→選舉投票→代議制度'],
+          ['法治','法律高於一切→政府也要守法→司法院'],
+          ['三權分立','行政（做）/立法（定規）/司法（判）→互相制衡'],
+          ['人權保障','憲法保護→平等/自由/受益/參政四大權利']
+        ]}
+      ]},
+      { title:'答題技巧', items:[
+        { type:'step', content:'先判斷題目屬於哪個大主題（法律/民主/經濟/國際）。' },
+        { type:'tip', content:'時事題：用公民概念分析新聞情境，不是背新聞答案。題目給情境，你套用概念判斷。' }
+      ]}
+    ]
+  },
+  'tag-so-current': {
+    title:'時事追蹤備考策略', category:'社會學習方法',
+    sections:[
+      { title:'時事備考原則', items:[
+        { type:'note', content:'會考不考「冷知識時事」，而是考「可以用社會科知識分析的重大事件」。重點是分析能力，不是背新聞。' }
+      ]},
+      { title:'備考策略', items:[
+        { type:'step', content:'每週選一個重大時事，用「歷史背景/地理因素/公民制度」三個角度分析它。' },
+        { type:'tip', content:'看新聞時問自己：「這和我學的哪個社會科概念有關？」' }
+      ]},
+      { title:'近年重要議題', items:[
+        { type:'exam', content:'氣候變遷：溫室效應、海平面上升、再生能源、聯合國SDGs。' },
+        { type:'exam', content:'民主與人權：選舉制度、公民投票、少數族群權益。' },
+        { type:'exam', content:'科技與社會：AI影響就業、個人隱私、假新聞辨識。' }
+      ]}
+    ]
+  }
+};
+
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeScope(); });
+
+// ===== 子瑜聊聊 =====
+const ZIYU_SYSTEM = `你是「子瑜」，璿璿的學習小夥伴。你溫柔、鼓勵，說話親切，像大姊姊一樣。
+璿璿是國中生，正在準備教育會考。她可以問你任何學習問題，或分享學習心得。
+用繁體中文回答，語氣輕鬆友善，給予具體幫助和鼓勵。
+回答簡潔有重點；解題時詳細說明步驟；收到心得分享時，溫暖回應並給予鼓勵。
+每次回覆結尾可以加一句小小鼓勵或貼心提醒，但不要超過一句。`;
+
+const chatHistory = [];
+
+function getApiKey() {
+  return localStorage.getItem('ziyu_api_key') || '';
+}
+
+function showApiSettings() {
+  const cur = getApiKey();
+  const val = prompt('請輸入 Anthropic API Key：\n（僅存在這台裝置，不會上傳）', cur ? '（已設定，直接按確定保留，或貼上新的）' : '');
+  if (val && val !== '（已設定，直接按確定保留，或貼上新的）') {
+    localStorage.setItem('ziyu_api_key', val.trim());
+    alert('✅ API Key 已儲存！');
+  }
+}
+
+function appendMsg(role, text) {
+  const msgs = document.getElementById('chatMessages');
+  const isZiyu = role === 'assistant';
+  const row = document.createElement('div');
+  row.className = 'chat-row ' + (isZiyu ? 'ziyu' : 'shanna');
+  const label = document.createElement('div');
+  label.className = 'chat-label';
+  label.textContent = isZiyu ? '子瑜' : '璿璿';
+  const bubble = document.createElement('div');
+  bubble.className = 'chat-bubble ' + (isZiyu ? 'ziyu' : 'shanna');
+  bubble.innerHTML = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+  row.appendChild(label);
+  row.appendChild(bubble);
+  msgs.appendChild(row);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function showTyping() {
+  const msgs = document.getElementById('chatMessages');
+  const row = document.createElement('div');
+  row.className = 'chat-row ziyu';
+  row.id = 'chatTyping';
+  const label = document.createElement('div');
+  label.className = 'chat-label';
+  label.textContent = '子瑜';
+  const t = document.createElement('div');
+  t.className = 'chat-typing-row';
+  t.innerHTML = '<span></span><span></span><span></span>';
+  row.appendChild(label);
+  row.appendChild(t);
+  msgs.appendChild(row);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function removeTyping() {
+  const t = document.getElementById('chatTyping');
+  if (t) t.remove();
+}
+
+async function sendChat() {
+  const apiKey = getApiKey();
+  if (!apiKey) { showApiSettings(); return; }
+
+  const input = document.getElementById('chatInput');
+  const btn = document.getElementById('chatSendBtn');
+  const text = input.value.trim();
+  if (!text) return;
+
+  input.value = '';
+  input.style.height = 'auto';
+  btn.disabled = true;
+
+  appendMsg('user', text);
+  chatHistory.push({ role: 'user', content: text });
+  showTyping();
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'content-type': 'application/json',
+        'anthropic-dangerous-direct-browser-calls': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 800,
+        system: ZIYU_SYSTEM,
+        messages: chatHistory.slice(-12)
+      })
+    });
+    const data = await res.json();
+    removeTyping();
+    const reply = data.content && data.content[0] ? data.content[0].text : '哎呀，子瑜暫時沒辦法回覆，等一下再試試看 🌸';
+    chatHistory.push({ role: 'assistant', content: reply });
+    appendMsg('assistant', reply);
+  } catch (e) {
+    removeTyping();
+    appendMsg('assistant', '網路好像有點問題，過一下再試試看喔 🌸');
+  }
+  btn.disabled = false;
+  document.getElementById('chatInput').focus();
+}
 </script>
 </body>
 </html>
