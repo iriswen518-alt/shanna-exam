@@ -536,6 +536,101 @@
     .countdown-item { min-width: 58px; padding: 0.65rem; }
     .subject-grid, .tip-grid { grid-template-columns: 1fr; }
   }
+
+  /* ===== Scope Modal ===== */
+  .scope-item {
+    cursor: pointer;
+    display: flex; align-items: center; gap: 0.5rem;
+    padding: 0.45rem 0.7rem;
+    border-radius: 10px;
+    transition: background 0.2s, transform 0.15s;
+    font-size: 0.93rem;
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+  }
+  .scope-item:hover { background: rgba(233,154,184,0.18); transform: translateX(3px); }
+  .scope-item::before { content: '🌸'; font-size: 0.7rem; flex-shrink: 0; }
+  .scope-item::after { content: '›'; margin-left:auto; color:#e99ab8; font-size:1.1rem; font-weight:700; }
+
+  .scope-modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(80,30,80,0.45); backdrop-filter: blur(4px);
+    z-index: 1000; align-items: center; justify-content: center;
+    padding: 1rem;
+  }
+  .scope-modal-overlay.open { display: flex; }
+  .scope-modal {
+    background: #fff; border-radius: 20px; width: 100%; max-width: 640px;
+    max-height: 88vh; overflow: hidden; display: flex; flex-direction: column;
+    box-shadow: 0 20px 60px rgba(60,0,60,0.25);
+    animation: modalIn 0.25s ease;
+  }
+  @keyframes modalIn { from { transform: scale(0.92) translateY(20px); opacity:0; } to { transform: scale(1) translateY(0); opacity:1; } }
+  .scope-modal-header {
+    display: flex; align-items: center; gap: 0.8rem;
+    padding: 1.1rem 1.3rem 0.8rem;
+    background: linear-gradient(135deg, #f9c6d8, #c9a0e8);
+    flex-shrink: 0;
+  }
+  .scope-modal-header h2 { font-size: 1.05rem; color: #3d1f40; margin: 0; font-weight: 700; }
+  .scope-modal-close {
+    margin-left: auto; background: rgba(255,255,255,0.5); border: none;
+    width: 32px; height: 32px; border-radius: 50%; font-size: 1.2rem;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+  }
+  .scope-modal-close:hover { background: rgba(255,255,255,0.85); }
+  .scope-grade-tabs {
+    display: flex; gap: 0; flex-shrink: 0;
+    border-bottom: 2px solid #f3d0e4;
+    background: #fdf0f7;
+  }
+  .scope-grade-btn {
+    flex: 1; padding: 0.65rem; border: none; background: none;
+    font-size: 0.9rem; font-weight: 600; color: #9b7cab; cursor: pointer;
+    transition: all 0.2s; border-bottom: 3px solid transparent; margin-bottom: -2px;
+  }
+  .scope-grade-btn.active { color: #c05080; border-bottom-color: #e05090; background: #fff; }
+  .scope-modal-body {
+    overflow-y: auto; padding: 1.1rem 1.3rem; flex: 1;
+    font-size: 0.9rem; color: #3d1f40; line-height: 1.7;
+  }
+  .scope-section { margin-bottom: 1.4rem; }
+  .scope-section-title {
+    font-size: 0.82rem; font-weight: 700; letter-spacing: 0.05em;
+    text-transform: uppercase; color: #c05080; margin-bottom: 0.5rem;
+    padding-bottom: 0.25rem; border-bottom: 1px solid #f3d0e4;
+  }
+  .scope-note {
+    background: #fff9fb; border-left: 3px solid #e99ab8;
+    border-radius: 0 8px 8px 0; padding: 0.5rem 0.8rem;
+    margin-bottom: 0.4rem; font-size: 0.88rem;
+  }
+  .scope-note.key {
+    background: #fff3e0; border-left-color: #ff9800;
+    font-weight: 600;
+  }
+  .scope-note.key::before { content: '⭐ '; }
+  .scope-note.warn {
+    background: #fde8e8; border-left-color: #e05050;
+  }
+  .scope-note.warn::before { content: '⚠️ '; }
+  .scope-note.tip::before { content: '💡 '; }
+  .scope-note.tip { background: #e8f4fd; border-left-color: #2196F3; }
+  .scope-tag-row { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.4rem; }
+  .scope-pill {
+    background: #f9c6d8; color: #6a2040; border-radius: 20px;
+    padding: 0.2rem 0.7rem; font-size: 0.78rem; font-weight: 600;
+  }
+  .scope-pill.grade7 { background: #c8f0e8; color: #1a6050; }
+  .scope-pill.grade8 { background: #d0e8ff; color: #1a4080; }
+  .scope-pill.grade9 { background: #ffe0d0; color: #803020; }
+  .scope-vocab { display: grid; grid-template-columns: repeat(2,1fr); gap: 0.35rem; margin-top: 0.4rem; }
+  .scope-vocab-item { background: #f8f0fc; border-radius: 8px; padding: 0.3rem 0.6rem; font-size: 0.85rem; }
+  .scope-formula-box {
+    background: #f0f8ff; border: 1px solid #bde; border-radius: 10px;
+    padding: 0.6rem 1rem; margin: 0.5rem 0; font-size: 0.92rem;
+    font-family: monospace; color: #124;
+  }
 </style>
 </head>
 <body>
@@ -589,6 +684,7 @@
     <button class="tab-btn" onclick="switchTab('tips')">💡 讀書技巧</button>
     <button class="tab-btn" onclick="switchTab('progress')">✅ 進度追蹤</button>
     <button class="tab-btn" onclick="switchTab('resources')">🔗 考古題資源</button>
+    <button class="tab-btn" onclick="switchTab('review')">📝 重點複習</button>
   </div>
 </div>
 
@@ -623,13 +719,13 @@
         <div class="subject-body">
           <h3>考試範圍</h3>
           <ul class="scope-list">
-            <li>七〜九年級課文閱讀與理解</li>
-            <li>文言文翻譯與字義辨析</li>
-            <li>現代文章段落大意、主旨</li>
-            <li>字音字形（注音、國字辨識）</li>
-            <li>成語、俗語、典故運用</li>
-            <li>修辭技巧（比喻、排比、設問…）</li>
-            <li>作文（議論文為主）</li>
+            <li class="scope-item" onclick="openScope('ch-reading')">七〜九年級課文閱讀與理解</li>
+            <li class="scope-item" onclick="openScope('ch-classical')">文言文翻譯與字義辨析</li>
+            <li class="scope-item" onclick="openScope('ch-main-idea')">現代文章段落大意、主旨</li>
+            <li class="scope-item" onclick="openScope('ch-phonics')">字音字形（注音、國字辨識）</li>
+            <li class="scope-item" onclick="openScope('ch-idioms')">成語、俗語、典故運用</li>
+            <li class="scope-item" onclick="openScope('ch-rhetoric')">修辭技巧（比喻、排比、設問…）</li>
+            <li class="scope-item" onclick="openScope('ch-essay')">作文（議論文為主）</li>
           </ul>
           <h3>核心準備重點</h3>
           <div class="method-tags">
@@ -651,12 +747,12 @@
         <div class="subject-body">
           <h3>考試範圍</h3>
           <ul class="scope-list">
-            <li>國中 1200 個核心單字</li>
-            <li>文法：時態、語態、假設語氣</li>
-            <li>對話理解（日常情境）</li>
-            <li>閱讀測驗（短文、圖表）</li>
-            <li>克漏字（文法＋語意）</li>
-            <li>聽力：對話、短篇報導</li>
+            <li class="scope-item" onclick="openScope('en-vocab')">國中 1200 個核心單字</li>
+            <li class="scope-item" onclick="openScope('en-grammar')">文法：時態、語態、假設語氣</li>
+            <li class="scope-item" onclick="openScope('en-dialogue')">對話理解（日常情境）</li>
+            <li class="scope-item" onclick="openScope('en-reading')">閱讀測驗（短文、圖表）</li>
+            <li class="scope-item" onclick="openScope('en-cloze')">克漏字（文法＋語意）</li>
+            <li class="scope-item" onclick="openScope('en-listening')">聽力：對話、短篇報導</li>
           </ul>
           <h3>核心準備重點</h3>
           <div class="method-tags">
@@ -677,13 +773,13 @@
         <div class="subject-body">
           <h3>考試範圍</h3>
           <ul class="scope-list">
-            <li>數與式（整數、分數、根號）</li>
-            <li>一元一次、二次方程式</li>
-            <li>聯立方程式、不等式</li>
-            <li>函數與圖形（一次、二次函數）</li>
-            <li>幾何（平行、全等、相似）</li>
-            <li>三角形與圓的性質</li>
-            <li>統計與機率</li>
+            <li class="scope-item" onclick="openScope('ma-number')">數與式（整數、分數、根號）</li>
+            <li class="scope-item" onclick="openScope('ma-equation')">一元一次、二次方程式</li>
+            <li class="scope-item" onclick="openScope('ma-system')">聯立方程式、不等式</li>
+            <li class="scope-item" onclick="openScope('ma-function')">函數與圖形（一次、二次函數）</li>
+            <li class="scope-item" onclick="openScope('ma-geometry')">幾何（平行、全等、相似）</li>
+            <li class="scope-item" onclick="openScope('ma-circle')">三角形與圓的性質</li>
+            <li class="scope-item" onclick="openScope('ma-stats')">統計與機率</li>
           </ul>
           <h3>核心準備重點</h3>
           <div class="method-tags">
@@ -704,11 +800,11 @@
         <div class="subject-body">
           <h3>考試範圍</h3>
           <ul class="scope-list">
-            <li>生物：細胞、遺傳、生態系統</li>
-            <li>理化：力學、光學、電學、熱學</li>
-            <li>化學：物質變化、酸鹼鹽、有機</li>
-            <li>地科：地殼變動、天氣、天文</li>
-            <li>實驗題（科學方法、數據判讀）</li>
+            <li class="scope-item" onclick="openScope('sc-biology')">生物：細胞、遺傳、生態系統</li>
+            <li class="scope-item" onclick="openScope('sc-physics')">理化：力學、光學、電學、熱學</li>
+            <li class="scope-item" onclick="openScope('sc-chemistry')">化學：物質變化、酸鹼鹽、有機</li>
+            <li class="scope-item" onclick="openScope('sc-earth')">地科：地殼變動、天氣、天文</li>
+            <li class="scope-item" onclick="openScope('sc-experiment')">實驗題（科學方法、數據判讀）</li>
           </ul>
           <h3>核心準備重點</h3>
           <div class="method-tags">
@@ -729,11 +825,11 @@
         <div class="subject-body">
           <h3>考試範圍</h3>
           <ul class="scope-list">
-            <li>歷史：台灣史、中國史、世界史</li>
-            <li>地理：台灣地理、亞洲、世界</li>
-            <li>公民：法律、經濟、民主政治</li>
-            <li>時事題（近年重大事件）</li>
-            <li>地圖判讀與數據分析</li>
+            <li class="scope-item" onclick="openScope('so-history')">歷史：台灣史、中國史、世界史</li>
+            <li class="scope-item" onclick="openScope('so-geography')">地理：台灣地理、亞洲、世界</li>
+            <li class="scope-item" onclick="openScope('so-civics')">公民：法律、經濟、民主政治</li>
+            <li class="scope-item" onclick="openScope('so-current')">時事題（近年重大事件）</li>
+            <li class="scope-item" onclick="openScope('so-map')">地圖判讀與數據分析</li>
           </ul>
           <h3>核心準備重點</h3>
           <div class="method-tags">
@@ -929,13 +1025,19 @@
       </div>
     </div>
 
-    <div class="quiz-subject-tabs">
-      <button class="q-tab active" onclick="showQuiz('all')">全部</button>
-      <button class="q-tab" onclick="showQuiz('chinese')">📜 國文</button>
-      <button class="q-tab" onclick="showQuiz('english')">🌍 英文</button>
-      <button class="q-tab" onclick="showQuiz('math')">🔢 數學</button>
-      <button class="q-tab" onclick="showQuiz('science')">🔬 自然</button>
-      <button class="q-tab" onclick="showQuiz('social')">🌏 社會</button>
+    <div class="quiz-subject-tabs" id="quiz-subj-tabs">
+      <button class="q-tab active" onclick="setSubjFilter('all',this)">全部科目</button>
+      <button class="q-tab" onclick="setSubjFilter('chinese',this)">📜 國文</button>
+      <button class="q-tab" onclick="setSubjFilter('english',this)">🌍 英文</button>
+      <button class="q-tab" onclick="setSubjFilter('math',this)">🔢 數學</button>
+      <button class="q-tab" onclick="setSubjFilter('science',this)">🔬 自然</button>
+      <button class="q-tab" onclick="setSubjFilter('social',this)">🌏 社會</button>
+    </div>
+    <div class="quiz-subject-tabs" id="quiz-grade-tabs" style="margin-top:0.5rem;">
+      <button class="q-tab active" onclick="setGradeFilter(0,this)">全部年級</button>
+      <button class="q-tab" onclick="setGradeFilter(7,this)">7 年級</button>
+      <button class="q-tab" onclick="setGradeFilter(8,this)">8 年級</button>
+      <button class="q-tab" onclick="setGradeFilter(9,this)">9 年級</button>
     </div>
 
     <div id="quiz-container"></div>
@@ -1183,6 +1285,24 @@
 
 </div>
 
+<!-- 考試範圍詳細說明 Modal -->
+<div class="scope-modal-overlay" id="scopeOverlay" onclick="closeScopeIfBg(event)">
+  <div class="scope-modal">
+    <div class="scope-modal-header">
+      <span id="scopeModalEmoji" style="font-size:1.4rem;">📚</span>
+      <h2 id="scopeModalTitle">重點說明</h2>
+      <button class="scope-modal-close" onclick="closeScope()">✕</button>
+    </div>
+    <div class="scope-grade-tabs" id="scopeGradeTabs">
+      <button class="scope-grade-btn active" onclick="switchScopeGrade(7,this)">7 年級</button>
+      <button class="scope-grade-btn" onclick="switchScopeGrade(8,this)">8 年級</button>
+      <button class="scope-grade-btn" onclick="switchScopeGrade(9,this)">9 年級</button>
+      <button class="scope-grade-btn" onclick="switchScopeGrade(0,this)">全部</button>
+    </div>
+    <div class="scope-modal-body" id="scopeModalBody"></div>
+  </div>
+</div>
+
 <div class="footer">
   為 璿 加油 💜 距離會考還有時間，每一天都是機會 🌟
 </div>
@@ -1265,7 +1385,102 @@ function switchTab(name) {
 
 // ===== QUIZ DATA =====
 const quizData = [
-  // ===== 數學（優先）=====
+  // ── 數學 7年級 ──
+  { subject:'math', grade:7, subLabel:'🔢 數學', q:'(-3) × (-4) = ?', options:['A. -12','B. 12','C. -7','D. 7'], ans:1, explain:'負數 × 負數 = 正數！兩個「負」相乘就變「正」，就像雙重否定一樣。(-3)×(-4) = +12。記口訣：同號得正、異號得負。' },
+  { subject:'math', grade:7, subLabel:'🔢 數學', q:'解方程式：2x + 5 = 13，x = ?', options:['A. 4','B. 9','C. 3','D. 6'], ans:0, explain:'兩邊同減 5：2x = 8，再兩邊除以 2：x = 4。解方程就像「反著做」：原本加 5 就減 5，原本乘 2 就除以 2。' },
+  { subject:'math', grade:7, subLabel:'🔢 數學', q:'梯形面積公式是？', options:['A. 底 × 高','B. (上底+下底) × 高 ÷ 2','C. 底 × 高 ÷ 2','D. 上底 × 下底 ÷ 2'], ans:1, explain:'梯形面積 = (上底 + 下底) × 高 ÷ 2。想像把兩個一樣的梯形拼成一個平行四邊形，面積除以 2 就是梯形。一定要背！' },
+  { subject:'math', grade:7, subLabel:'🔢 數學', q:'比例式 3:5 = x:20，x = ?', options:['A. 10','B. 12','C. 8','D. 15'], ans:1, explain:'交叉相乘：3 × 20 = 5 × x，60 = 5x，x = 12。比例式的「外項乘積 = 內項乘積」，這是黃金公式！' },
+  { subject:'math', grade:7, subLabel:'🔢 數學', q:'一個數的絕對值為 7，這個數可能是？', options:['A. 只有 7','B. 只有 -7','C. 7 或 -7','D. 49'], ans:2, explain:'絕對值代表「距離原點的距離」，7 和 -7 到原點都是 7 格，所以兩個都對！|7| = 7，|-7| = 7。' },
+  { subject:'math', grade:7, subLabel:'🔢 數學', q:'三角形三內角和等於？', options:['A. 90°','B. 180°','C. 270°','D. 360°'], ans:1, explain:'三角形三個角加起來永遠是 180°，這是幾何的基本定理。四邊形是 360°，五邊形是 540°——每多一個邊加 180°。' },
+  { subject:'math', grade:7, subLabel:'🔢 數學', q:'2⁴ = ?', options:['A. 6','B. 8','C. 16','D. 12'], ans:2, explain:'2⁴ = 2×2×2×2 = 4×4 = 16。指數代表「乘自己幾次」，不是乘以那個數！2⁴ ≠ 2×4 = 8，這是最常犯的錯誤。' },
+  // ── 數學 8年級 ──
+  { subject:'math', grade:8, subLabel:'🔢 數學', q:'x²－9 = (x+?)(x-?)', options:['A. (x+3)(x-3)','B. (x+9)(x-1)','C. (x+3)²','D. (x-3)²'], ans:0, explain:'這是「平方差公式」：a²－b² = (a+b)(a-b)。x²－9 = x²－3²，所以 a=x、b=3，結果是 (x+3)(x-3)。遇到「差的平方」就想這公式！' },
+  { subject:'math', grade:8, subLabel:'🔢 數學', q:'解 x²－5x+6=0，x=？', options:['A. 1 或 6','B. 2 或 3','C. -2 或 -3','D. -1 或 -6'], ans:1, explain:'找兩個數：相乘=6、相加=5，就是 2 和 3！所以 x²－5x+6 = (x-2)(x-3) = 0，x=2 或 x=3。因式分解的關鍵：乘積和相加。' },
+  { subject:'math', grade:8, subLabel:'🔢 數學', q:'直線 y = 3x－2 的斜率是？', options:['A. -2','B. 3','C. 2','D. -3'], ans:1, explain:'y = mx + b 的格式中，m 就是斜率，b 是截距。這裡 y = 3x－2，所以斜率 m = 3，截距 b = -2。斜率代表每往右走 1，往上走幾步。' },
+  { subject:'math', grade:8, subLabel:'🔢 數學', q:'三角形兩邊 6 和 8，夾角 90°，斜邊是？', options:['A. 10','B. 12','C. 14','D. √50'], ans:0, explain:'畢氏定理：斜邊² = 6² + 8² = 36 + 64 = 100，斜邊 = 10。6-8-10 是標準直角三角形組合，會考很愛考，直接背起來！' },
+  { subject:'math', grade:8, subLabel:'🔢 數學', q:'兩三角形全等的條件「SAS」代表？', options:['A. 三邊相等','B. 兩邊夾角相等','C. 兩角夾邊相等','D. 三角相等'], ans:1, explain:'SAS = Side-Angle-Side，兩邊和夾角相等 → 三角形全等。其他：SSS=三邊、ASA=兩角夾邊、AAS=兩角及對邊。這四個條件都要背！' },
+  { subject:'math', grade:8, subLabel:'🔢 數學', q:'等差數列 3, 7, 11, 15…第 10 項是？', options:['A. 35','B. 39','C. 43','D. 47'], ans:1, explain:'公差 = 7-3 = 4。第 n 項 = 首項 + (n-1)×公差 = 3 + 9×4 = 3 + 36 = 39。公式要記住：a_n = a_1 + (n-1)d。' },
+  { subject:'math', grade:8, subLabel:'🔢 數學', q:'x²+6x+9 = ?', options:['A. (x+3)²','B. (x-3)²','C. (x+6)(x+3)','D. (x+9)(x+1)'], ans:0, explain:'這是「完全平方式」：(a+b)² = a²+2ab+b²。這裡 6x = 2×x×3，9 = 3²，所以是 (x+3)²。看到 x²+偶數x+完全平方，就想完全平方公式！' },
+  // ── 數學 9年級 ──
+  { subject:'math', grade:9, subLabel:'🔢 數學', q:'y = x²的拋物線開口向？', options:['A. 上','B. 下','C. 左','D. 右'], ans:0, explain:'y = ax²，a>0 開口向上（U形），a<0 開口向下（∩形）。x²的係數是 +1，正的，所以開口向上。記：正數笑著（U），負數哭著（∩）。' },
+  { subject:'math', grade:9, subLabel:'🔢 數學', q:'圓心角 60°，對應的圓周角為？', options:['A. 120°','B. 30°','C. 60°','D. 90°'], ans:1, explain:'圓周角定理：圓周角 = 圓心角 ÷ 2。60° ÷ 2 = 30°。反過來說，同一弧的圓周角永遠是圓心角的一半，這是超重要定理！' },
+  { subject:'math', grade:9, subLabel:'🔢 數學', q:'sin 30° = ?', options:['A. √3/2','B. 1/2','C. √2/2','D. 1'], ans:1, explain:'三角比特殊角要背！30°: sin=1/2, cos=√3/2, tan=1/√3。45°: sin=cos=√2/2, tan=1。60°: sin=√3/2, cos=1/2, tan=√3。畫個等邊三角形就能推導！' },
+  { subject:'math', grade:9, subLabel:'🔢 數學', q:'兩三角形相似，對應邊比 2:3，面積比為？', options:['A. 2:3','B. 4:9','C. 1:√3','D. 8:27'], ans:1, explain:'相似圖形面積比 = 邊長比的平方。2:3 的平方是 4:9。記住：邊長比 → 面積比要平方，體積比要三次方！' },
+  { subject:'math', grade:9, subLabel:'🔢 數學', q:'用公式解 x²+2x－8=0，x=？', options:['A. 2 或 -4','B. -2 或 4','C. 4 或 -4','D. 2 或 4'], ans:0, explain:'也可以因式分解：找兩數乘積=-8、和=2，是 4 和 -2，所以 (x+4)(x-2)=0，x=-4 或 x=2。公式法：x=(-2±√(4+32))/2=(-2±6)/2，得 2 或 -4。' },
+  { subject:'math', grade:9, subLabel:'🔢 數學', q:'半徑 r 的圓面積公式是？', options:['A. 2πr','B. πr²','C. 4πr','D. πr²/2'], ans:1, explain:'圓面積 = πr²，圓周長 = 2πr。記法：面積有 r²（二維），周長只有 r（一維）。π ≈ 3.14，考試通常留 π 不計算。' },
+  // ── 英文 7年級 ──
+  { subject:'english', grade:7, subLabel:'🌍 英文', q:'She ______ a student. (現在式 be 動詞)', options:['A. am','B. are','C. is','D. be'], ans:2, explain:'She 是第三人稱單數（她），be 動詞用 is。口訣：I→am，You/We/They→are，He/She/It→is。這三個要記清楚，是英文最基礎的規則！' },
+  { subject:'english', grade:7, subLabel:'🌍 英文', q:'There ______ two cats on the sofa.', options:['A. is','B. are','C. am','D. be'], ans:1, explain:'There is/are 看後面的名詞。cats 是複數，所以用 are。There is a cat（單數）/ There are two cats（複數）。' },
+  { subject:'english', grade:7, subLabel:'🌍 英文', q:'I ______ TV last night. (過去式)', options:['A. watch','B. watches','C. watched','D. watching'], ans:2, explain:'last night（昨晚）表示過去，動詞用過去式。watch 的過去式是 watched（規則動詞加 -ed）。記住時間詞很重要：yesterday/last/ago = 過去式。' },
+  { subject:'english', grade:7, subLabel:'🌍 英文', q:'______ you like pizza? Yes, I ______.',options:['A. Do / do','B. Does / does','C. Are / am','D. Is / am'], ans:0, explain:'主詞 you 問問題用 Do（助動詞）。回答 Yes, I do / No, I don\'t。Do/Does 的選擇：I/You/We/They→Do，He/She/It→Does。' },
+  { subject:'english', grade:7, subLabel:'🌍 英文', q:'He is tall. ______ he ______? (改疑問句)', options:['A. Is / tall','B. Does / tall','C. Do / tall','D. Am / tall'], ans:0, explain:'be 動詞（is）的疑問句：把 be 動詞移到句首。Is he tall? 回答：Yes, he is. / No, he isn\'t. be 動詞和 do 動詞問法不同！' },
+  { subject:'english', grade:7, subLabel:'🌍 英文', q:'Choose the correct plural: one child → two ______', options:['A. childs','B. children','C. childes','D. child'], ans:1, explain:'child 是不規則複數名詞，複數是 children，不是 childs！其他不規則：man→men，woman→women，foot→feet，tooth→teeth。這些要背！' },
+  { subject:'english', grade:7, subLabel:'🌍 英文', q:'I have ______ orange. (填入正確冠詞)', options:['A. a','B. an','C. the','D. 不填'], ans:1, explain:'冠詞規則：母音開頭（a, e, i, o, u）用 an，子音開頭用 a。orange 的發音以「o」（母音）開頭，所以用 an orange。' },
+  // ── 英文 8年級 ──
+  { subject:'english', grade:8, subLabel:'🌍 英文', q:'She ______ already eaten lunch. (現在完成式)', options:['A. has','B. have','C. had','D. is'], ans:0, explain:'現在完成式：have/has + p.p.（過去分詞）。主詞 she = 第三人稱單數，用 has。has eaten = 已經吃過。already 常和現在完成式一起出現！' },
+  { subject:'english', grade:8, subLabel:'🌍 英文', q:'This bag is ______ than that one. (比較級)', options:['A. expensive','B. more expensive','C. most expensive','D. expensiver'], ans:1, explain:'長音節形容詞（3音節以上）比較級用 more + 原形。expensive 是長詞，用 more expensive。短詞（1-2音節）才加 -er，如 bigger, taller。' },
+  { subject:'english', grade:8, subLabel:'🌍 英文', q:'Mary ______ the piano for 3 hours when her mom called.', options:['A. has been playing','B. had been playing','C. was playing','D. played'], ans:1, explain:'過去某時間點（媽媽打電話）之前，持續做的事→過去完成進行式 had been + V-ing。時間軸：媽媽打電話（過去）←彈鋼琴三小時（更早的過去）。' },
+  { subject:'english', grade:8, subLabel:'🌍 英文', q:'I enjoy ______ movies on weekends. (動名詞)', options:['A. watch','B. to watch','C. watching','D. watched'], ans:2, explain:'enjoy 後面接動名詞（V-ing）。常接動名詞的動詞：enjoy, finish, mind, avoid, suggest。常接不定詞（to V）：want, plan, decide, hope。' },
+  { subject:'english', grade:8, subLabel:'🌍 英文', q:'The cake ______ by my mom. (被動語態)', options:['A. made','B. was made','C. makes','D. is making'], ans:1, explain:'被動語態：be 動詞 + p.p.（過去分詞）。蛋糕是「被做的」→ was made。主動：My mom made the cake. 被動：The cake was made by my mom.' },
+  { subject:'english', grade:8, subLabel:'🌍 英文', q:'Tom is as ______ as Jerry. (同級比較)', options:['A. tall','B. taller','C. tallest','D. more tall'], ans:0, explain:'as...as 同級比較，中間用形容詞「原形」。Tom as tall as Jerry = 湯姆跟傑利一樣高。as + 原形 + as，前後都是原形，不能加 -er 或 more！' },
+  { subject:'english', grade:8, subLabel:'🌍 英文', q:'She doesn\'t like coffee. (改為肯定句)', options:['A. She like coffee.','B. She likes coffee.','C. She do like coffee.','D. She liked coffee.'], ans:1, explain:'去掉 doesn\'t，動詞恢復第三人稱單數形式（加 s）。doesn\'t like → likes。第三人稱單數現在式：動詞 + s/es！' },
+  // ── 英文 9年級 ──
+  { subject:'english', grade:9, subLabel:'🌍 英文', q:'______ in Taiwan, he knows the culture well. (分詞構句)', options:['A. Born','B. Being born','C. He born','D. Birth'], ans:0, explain:'分詞構句簡化副詞子句：Because he was born in Taiwan → Born in Taiwan, he...。被動的過去分詞 Born 當分詞構句開頭，省略 being。' },
+  { subject:'english', grade:9, subLabel:'🌍 英文', q:'The girl ______ is wearing red is my sister. (關係代名詞)', options:['A. which','B. who','C. whom','D. whose'], ans:1, explain:'關係代名詞指「人」用 who（主格）或 whom（受格）。這裡 ______ is wearing red 是形容 the girl（人），用 who。指物用 which，都可用 that。' },
+  { subject:'english', grade:9, subLabel:'🌍 英文', q:'If I ______ a bird, I would fly to you. (假設語氣)', options:['A. am','B. was','C. were','D. be'], ans:2, explain:'假設語氣（現在不可能）：If + 主詞 + were（不論人稱！），主要子句 + would/could + 原形。I am not a bird（現實），但假設就是 If I were...。' },
+  { subject:'english', grade:9, subLabel:'🌍 英文', q:'Do you know ______ he lives? (間接問句)', options:['A. where','B. where does','C. does where','D. what does'], ans:0, explain:'間接問句：把疑問詞放在動詞前，語序變成「陳述句」順序。直接問：Where does he live? 間接問：Do you know where he lives?（不倒裝！）' },
+  { subject:'english', grade:9, subLabel:'🌍 英文', q:'______ the heavy rain, we canceled the trip. (介系詞片語)', options:['A. Because','B. Because of','C. Although','D. Despite of'], ans:1, explain:'because + 子句（有主詞動詞），because of + 名詞片語。heavy rain 是名詞，所以用 because of。despite 後面直接接名詞，不加 of！' },
+  { subject:'english', grade:9, subLabel:'🌍 英文', q:'The book ______ I bought yesterday is interesting. (關係代名詞)', options:['A. who','B. whom','C. which','D. whose'], ans:2, explain:'關係代名詞指「物」（book）用 which 或 that。I bought yesterday 是修飾 the book 的子句。人→who/whom/whose，物→which/that。' },
+  // ── 國文 7年級 ──
+  { subject:'chinese', grade:7, subLabel:'📜 國文', q:'「他的眼睛像星星一樣閃亮」這是哪種修辭？', options:['A. 擬人','B. 明喻','C. 借喻','D. 誇飾'], ans:1, explain:'明喻：用「像、如、好比、宛如」等比喻詞，直接說「A 像 B」。暗喻（隱喻）不用比喻詞，直接說「A 是 B」。借喻不出現本體，只說喻體。' },
+  { subject:'chinese', grade:7, subLabel:'📜 國文', q:'記敘文的六要素中，「何地」指的是？', options:['A. 人物','B. 時間','C. 地點','D. 原因'], ans:2, explain:'記敘文六要素：何時（時間）、何地（地點）、何人（人物）、何事（事件）、如何（經過）、為何（原因/結果）。寫作文也要包含這六點！' },
+  { subject:'chinese', grade:7, subLabel:'📜 國文', q:'「杯弓蛇影」這個成語形容什麼？', options:['A. 膽大心細','B. 疑神疑鬼、自相驚擾','C. 優柔寡斷','D. 見義勇為'], ans:1, explain:'朋友在杯子裡看到弓的影子，以為是蛇，嚇到生病了。後來用來比喻「因為誤解或恐懼而自己嚇自己」，也就是疑神疑鬼。' },
+  { subject:'chinese', grade:7, subLabel:'📜 國文', q:'注音「ㄋㄩˋ」對應的字是？', options:['A. 女','B. 努','C. 怒','D. 虐'], ans:0, explain:'ㄋ+ㄩ+聲調4=「女」。注意：女(ㄋㄩˇ,三聲)vs努(ㄋㄨˇ)vs怒(ㄋㄨˋ)，聲母相同但韻母不同。ㄩ和ㄨ要分清楚，嘴形不一樣！' },
+  { subject:'chinese', grade:7, subLabel:'📜 國文', q:'文章中「承上啟下」的段落通常出現在？', options:['A. 開頭','B. 中間（過渡）','C. 結尾','D. 標題'], ans:1, explain:'過渡段落在文章中間，功能是「承接上文、引出下文」。好的文章結構：開頭（點題）→中間（過渡+發展）→結尾（總結）。' },
+  // ── 國文 8年級 ──
+  { subject:'chinese', grade:8, subLabel:'📜 國文', q:'論說文的三大要素是？', options:['A. 時地人','B. 論點、論據、論證','C. 起承轉合','D. 序文、正文、結語'], ans:1, explain:'論說文三要素：論點（你的主張）、論據（支持主張的證據）、論證（推論的過程）。寫議論文記住要「有理有據」，光說立場沒用！' },
+  { subject:'chinese', grade:8, subLabel:'📜 國文', q:'「問君能有幾多愁，恰似一江春水向東流」使用什麼修辭？', options:['A. 設問＋比喻','B. 誇飾＋擬人','C. 對偶＋借代','D. 排比＋轉化'], ans:0, explain:'「問君能有幾多愁」是設問（自問自答），「恰似一江春水向東流」是明喻（愁=江水）。兩個修辭同時使用，這是唐後主李煜的名句。' },
+  { subject:'chinese', grade:8, subLabel:'📜 國文', q:'文言文「之」字作代詞時，可以代替？', options:['A. 只能代人','B. 只能代物','C. 可代人或事物','D. 表示「的」'], ans:2, explain:'文言「之」用法很多：(1)代詞：代人或物，如「愛之」(2)連接詞：「的」，如「大道之行」(3)放在主謂間取消句子獨立性。要靠上下文判斷！' },
+  { subject:'chinese', grade:8, subLabel:'📜 國文', q:'說明文的主要目的是？', options:['A. 抒發情感','B. 說理說服','C. 客觀介紹知識','D. 描述事件經過'], ans:2, explain:'說明文目標：客觀、清楚地介紹事物的知識，不帶個人情感。常見類型：科普文章、說明書、百科條目。跟論說文不同：說明文不需要說服，只要說清楚。' },
+  // ── 國文 9年級 ──
+  { subject:'chinese', grade:9, subLabel:'📜 國文', q:'「塞翁失馬，焉知非福」的啟示是？', options:['A. 養馬很重要','B. 禍福相倚、凡事看開','C. 邊塞生活艱苦','D. 老人智慧超人'], ans:1, explain:'老翁的馬跑了（禍），卻帶回更多好馬（福）；兒子因騎馬摔斷腿（禍），卻因此沒被徵兵（福）。故事說明：禍福可以互相轉換，不必太悲喜。' },
+  { subject:'chinese', grade:9, subLabel:'📜 國文', q:'閱讀測驗找「主旨」，最適合看哪個地方？', options:['A. 第一句話','B. 每段第一句和最後一段','C. 中間最長的段落','D. 出現最多次的詞語'], ans:1, explanation:'', explain:'主旨通常在開頭（點題）或結尾（總結）。可以看每段的主題句（通常是段首），再看最後段的結論，綜合起來就是主旨。這是閱測最有用的技巧！' },
+  { subject:'chinese', grade:9, subLabel:'📜 國文', q:'作文「起承轉合」中，「轉」的作用是？', options:['A. 說明背景','B. 深入發展主題','C. 從另一角度或轉折','D. 總結全文'], ans:2, explain:'起（開頭引入）→承（承接發展）→轉（轉折換角度，讓文章更有深度）→合（結尾總結）。「轉」讓文章不單調，可以加反例、對比、深化觀點。' },
+  // ── 社會 7年級 ──
+  { subject:'social', grade:7, subLabel:'🌏 社會', q:'台灣最長的山脈是？', options:['A. 雪山山脈','B. 中央山脈','C. 阿里山山脈','D. 海岸山脈'], ans:1, explain:'中央山脈是台灣最長、最高的山脈，縱貫台灣南北，號稱「台灣的脊梁」。最高峰玉山（3952m）在玉山山脈，不在中央山脈，要分清楚！' },
+  { subject:'social', grade:7, subLabel:'🌏 社會', q:'荷蘭統治台灣時，大量引進哪種作物？', options:['A. 茶葉','B. 甘蔗','C. 稻米','D. 番薯'], ans:1, explain:'荷蘭人（1624-1662）統治台灣期間，為了賺取出口貿易利潤，大力推廣甘蔗種植和製糖業，台灣砂糖從此在國際貿易上佔重要地位。' },
+  { subject:'social', grade:7, subLabel:'🌏 社會', q:'台灣憲法規定，人民有哪些基本權利？', options:['A. 只有政治權','B. 平等權、自由權、受益權、參政權','C. 只有經濟權','D. 只有社會權'], ans:1, explain:'台灣憲法保障四大基本權利：平等權（人人平等）、自由權（人身/言論/宗教自由等）、受益權（受教育/工作/生存）、參政權（投票/被選舉）。' },
+  { subject:'social', grade:7, subLabel:'🌏 社會', q:'台灣氣候屬於？', options:['A. 溫帶季風氣候','B. 熱帶雨林氣候','C. 亞熱帶季風氣候（北部）和熱帶（南部）','D. 地中海型氣候'], ans:2, explain:'台灣北回歸線穿過嘉義，北部（台北）屬亞熱帶，南部（高雄、屏東）屬熱帶。全島受季風影響，夏季高溫多雨，颱風季 7-9 月。' },
+  { subject:'social', grade:7, subLabel:'🌏 社會', q:'鄭成功驅逐荷蘭人的年份是？', options:['A. 1624年','B. 1662年','C. 1683年','D. 1895年'], ans:1, explain:'鄭成功在 1662 年打敗荷蘭人，統治台灣。後來 1683 年清朝施琅攻台，鄭克塽投降，台灣納入清朝版圖。1895 年是馬關條約、台灣割讓給日本。' },
+  // ── 社會 8年級 ──
+  { subject:'social', grade:8, subLabel:'🌏 社會', q:'中國歷史上第一個朝代是？', options:['A. 商','B. 夏','C. 周','D. 秦'], ans:1, explain:'夏（約4000年前）是中國第一個王朝，禹建立。接著商→周→秦（第一個統一中國）→漢→魏晉南北朝→隋→唐→宋→元→明→清。' },
+  { subject:'social', grade:8, subLabel:'🌏 社會', q:'三權分立中，行政、立法、司法分別對應台灣的？', options:['A. 總統府、立法院、司法院','B. 行政院、立法院、司法院','C. 考試院、立法院、法院','D. 監察院、立法院、司法院'], ans:1, explain:'台灣是五院制（行、立、司、考、監），但三權分立的核心：行政→行政院（執行政策）、立法→立法院（制定法律）、司法→司法院（解釋法律/審判）。' },
+  { subject:'social', grade:8, subLabel:'🌏 社會', q:'亞洲最長的河流是？', options:['A. 黃河','B. 恆河','C. 長江','D. 湄公河'], ans:2, explain:'長江全長約 6300 公里，是亞洲最長的河流，也是世界第三長（僅次於尼羅河和亞馬遜河）。黃河是中華文明的發源地，但長度比長江短。' },
+  { subject:'social', grade:8, subLabel:'🌏 社會', q:'民主政治的核心原則是？', options:['A. 一黨專政','B. 主權在民、法治、保障人權','C. 皇帝統治','D. 軍人執政'], ans:1, explain:'民主三原則：主權在民（人民是主人）、法治（法律高於一切，包括政府）、保障人權（保護每個人的基本權利）。這三點是民主最核心的概念！' },
+  // ── 社會 9年級 ──
+  { subject:'social', grade:9, subLabel:'🌏 社會', q:'第一次世界大戰的導火線是？', options:['A. 希特勒侵略波蘭','B. 薩拉熱窩事件（奧匈太子被刺）','C. 珍珠港事件','D. 法國大革命'], ans:1, explain:'1914 年，奧匈帝國太子在薩拉熱窩被塞爾維亞民族主義者刺殺，引發歐洲聯盟連鎖反應，爆發一戰。二戰的導火線才是希特勒侵略波蘭（1939）。' },
+  { subject:'social', grade:9, subLabel:'🌏 社會', q:'《世界人權宣言》是哪個組織發布的？', options:['A. 世界銀行','B. 聯合國','C. 歐盟','D. 紅十字會'], ans:1, explain:'1948 年聯合國大會通過《世界人權宣言》，宣示所有人生而自由平等，享有基本人權。這是最重要的人權文件，台灣也在 2009 年將兩公約國內法化。' },
+  { subject:'social', grade:9, subLabel:'🌏 社會', q:'台灣 1996 年最重要的政治改變是？', options:['A. 加入聯合國','B. 第一次總統直選','C. 國共和談','D. 政黨輪替'], ans:1, explain:'1996 年台灣舉行第一次總統直接民選，人民可以直接選出總統，是台灣民主化的重要里程碑。2000 年才發生第一次政黨輪替（民進黨陳水扁當選）。' },
+  // ── 自然 7年級 ──
+  { subject:'science', grade:7, subLabel:'🔬 自然', q:'細胞中，控制細胞活動的「司令部」是？', options:['A. 細胞膜','B. 細胞質','C. 細胞核','D. 葉綠體'], ans:2, explain:'細胞核含有 DNA（遺傳資訊），是控制細胞所有活動的中心。葉綠體是植物特有，負責光合作用。細胞膜是細胞的「門」，控制物質進出。' },
+  { subject:'science', grade:7, subLabel:'🔬 自然', q:'下列哪個是「物理變化」？', options:['A. 木柴燃燒','B. 鐵生鏽','C. 冰融化成水','D. 食物消化'], ans:2, explain:'物理變化：物質只是形態改變，本質不變。冰→水→水蒸氣，都還是 H₂O，所以是物理變化。化學變化：產生新物質，如燃燒（CO₂）、生鏽（氧化鐵）。' },
+  { subject:'science', grade:7, subLabel:'🔬 自然', q:'光從空氣射入水中，速度會？', options:['A. 變快','B. 變慢','C. 不變','D. 先快後慢'], ans:1, explain:'光在真空/空氣中最快（3×10⁸ m/s），進入水、玻璃等較密介質後變慢，方向也會偏折，這就是「折射」。筷子插水裡看起來彎，就是折射的結果！' },
+  { subject:'science', grade:7, subLabel:'🔬 自然', q:'人體消化澱粉，從哪裡開始？', options:['A. 胃','B. 口腔','C. 小腸','D. 大腸'], ans:1, explain:'口腔裡的「唾液澱粉酶」就開始分解澱粉！所以吃飯要細嚼慢嚥。胃主要分解蛋白質（胃蛋白酶），小腸才是大部分消化和吸收的場所。' },
+  { subject:'science', grade:7, subLabel:'🔬 自然', q:'物體靜止或等速運動，代表合力等於？', options:['A. 最大','B. 零','C. 摩擦力','D. 重力'], ans:1, explain:'牛頓第一定律：合力為零→靜止或等速直線運動。反過來說：看到「等速」或「靜止」，就知道合力=0，各力互相平衡！' },
+  { subject:'science', grade:7, subLabel:'🔬 自然', q:'植物行光合作用需要什麼原料？', options:['A. CO₂ + H₂O + 光','B. O₂ + 葡萄糖','C. H₂O + O₂','D. CO₂ + 氮氣'], ans:0, explain:'光合作用公式：CO₂ + H₂O + 光能 → 葡萄糖 + O₂。植物「吸CO₂、放O₂」，和我們呼吸「吸O₂、放CO₂」剛好相反，互補！' },
+  // ── 自然 8年級 ──
+  { subject:'science', grade:8, subLabel:'🔬 自然', q:'歐姆定律：V = IR，若電壓 12V、電阻 4Ω，電流是？', options:['A. 48A','B. 3A','C. 8A','D. 0.33A'], ans:1, explain:'I = V/R = 12/4 = 3A。歐姆定律三角形記法：V在頂，I和R在底。算電流用 I=V/R，算電壓用 V=IR，算電阻用 R=V/I。' },
+  { subject:'science', grade:8, subLabel:'🔬 自然', q:'pH = 7 代表溶液是？', options:['A. 強酸','B. 弱酸','C. 中性','D. 鹼性'], ans:2, explain:'pH 量表：0-7 是酸性（越小越酸），7 是中性，7-14 是鹼性（越大越鹼）。純水 pH=7 是中性，鹽酸 pH≈1 是強酸，NaOH 溶液 pH≈13 是強鹼。' },
+  { subject:'science', grade:8, subLabel:'🔬 自然', q:'細胞呼吸的方程式是？', options:['A. CO₂+H₂O→葡萄糖+O₂','B. 葡萄糖+O₂→CO₂+H₂O+能量','C. H₂O→H₂+O₂','D. N₂+O₂→NO₂'], ans:1, explain:'細胞呼吸：葡萄糖 + O₂ → CO₂ + H₂O + 能量（ATP）。和光合作用完全相反！記法：呼吸像燃燒，燃燒需要氧氣，放出CO₂和水，同時釋放能量。' },
+  { subject:'science', grade:8, subLabel:'🔬 自然', q:'波的「頻率」指的是？', options:['A. 波的高度','B. 每秒振動次數','C. 波長','D. 波速'], ans:1, explain:'頻率（f）= 每秒振動次數，單位是赫茲（Hz）。頻率越高，聲音越尖（高頻），顏色越靠藍紫（光）。波速 = 頻率 × 波長（v = fλ）。' },
+  { subject:'science', grade:8, subLabel:'🔬 自然', q:'「中和反應」酸鹼相遇生成？', options:['A. 酸 + 水','B. 鹽 + 水','C. 氧氣 + 水','D. 鹼 + 鹽'], ans:1, explain:'酸 + 鹼 → 鹽 + 水（中和）。例：HCl + NaOH → NaCl + H₂O。鹽不是只有食鹽，而是泛指「金屬陽離子+酸根陰離子」的化合物。' },
+  // ── 自然 9年級 ──
+  { subject:'science', grade:9, subLabel:'🔬 自然', q:'DNA 的雙股螺旋結構中，A 配對的是？', options:['A. G','B. C','C. T','D. U'], ans:2, explain:'DNA 鹼基配對：A-T（腺嘌呤-胸腺嘧啶）、G-C（鳥嘌呤-胞嘧啶）。RNA 中沒有 T，改用 U（尿嘧啶），所以 RNA 中是 A 配 U。' },
+  { subject:'science', grade:9, subLabel:'🔬 自然', q:'孟德爾豌豆實驗中，Aa × Aa 後代比例？', options:['A. 全部AA','B. 3顯性:1隱性','C. 1:1','D. 全部Aa'], ans:1, explain:'Aa × Aa → AA : Aa : aa = 1:2:1（共4種）。顯性（AA+Aa）= 3，隱性（aa）= 1，所以「表現型」比例是 3顯性:1隱性。這是孟德爾定律！' },
+  { subject:'science', grade:9, subLabel:'🔬 自然', q:'台灣地震頻繁，主要因為位於哪兩個板塊交界？', options:['A. 太平洋板塊和北美板塊','B. 歐亞板塊和菲律賓板塊','C. 非洲板塊和歐亞板塊','D. 印澳板塊和歐亞板塊'], ans:1, explain:'台灣位於歐亞板塊和菲律賓海板塊的交界，菲律賓海板塊向西北擠壓，造成地震頻繁、中央山脈隆起。台灣平均每年有上千次地震！' },
+  { subject:'science', grade:9, subLabel:'🔬 自然', q:'太陽系中體積最大的行星是？', options:['A. 土星','B. 木星','C. 天王星','D. 地球'], ans:1, explain:'木星是太陽系最大行星，體積是地球的 1300 多倍！土星第二大（有美麗的光環）。記憶順序（距太陽遠近）：水金地火木土天海。' },
+  { subject:'science', grade:9, subLabel:'🔬 自然', q:'化學方程式中，係數代表什麼？', options:['A. 反應溫度','B. 各物質的分子（莫耳）比例','C. 反應時間','D. 物質重量'], ans:1, explain:'化學方程式中的係數代表「莫耳比」（分子個數比）。例：2H₂ + O₂ → 2H₂O，代表 2個氫分子+1個氧分子→2個水分子。係數不是重量比！' },
+];
   {
     subject: 'math', subLabel: '🔢 數學',
     q: '若 x² − 5x + 6 = 0，則 x 的值為何？',
@@ -1503,6 +1718,866 @@ function resetProgress() {
 
 loadProgress();
 renderQuiz();
-</script>
+
+// ===== 考試範圍 SCOPE MODAL =====
+const scopeData = {
+
+  // ─────────── 國文 ───────────
+  'ch-reading': {
+    title: '七～九年級課文閱讀與理解', emoji: '📜',
+    grades: {
+      7: [
+        { type:'section', text:'7年級必讀課文' },
+        { type:'key', text:'〈背影〉朱自清 — 父子情、旅別送行，考「那肥胖的身影」意象' },
+        { type:'key', text:'〈蟬〉張曉風 — 小生命的頑強，全文寓意理解' },
+        { type:'note', text:'〈論語〉選讀：學而、為政章節；孔子言論與現代意義' },
+        { type:'note', text:'〈賣油翁〉歐陽修 — 文言短文，「我亦無他，唯手熟爾」' },
+        { type:'section', text:'閱讀理解策略（7年級）' },
+        { type:'tip', text:'找「主旨」：看第一段引題、最後一段結論' },
+        { type:'tip', text:'找「段落大意」：抓每段主題句（通常在段首或段尾）' },
+        { type:'warn', text:'常考陷阱：題目問「本文主旨」≠ 問其中一段的內容，要看全文' },
+      ],
+      8: [
+        { type:'section', text:'8年級必讀課文' },
+        { type:'key', text:'〈岳陽樓記〉范仲淹 — 「先天下之憂而憂，後天下之樂而樂」全文背誦' },
+        { type:'key', text:'〈醉翁亭記〉歐陽修 — 情景交融、借景抒情，掌握「也」字用法' },
+        { type:'note', text:'〈出師表〉諸葛亮 — 忠君愛國典範，前後主要觀點' },
+        { type:'key', text:'〈木蘭詩〉— 樂府民歌，互文修辭，女扮男裝情節理解' },
+        { type:'section', text:'8年級閱讀重點' },
+        { type:'tip', text:'比較兩篇文章：找「相同主題、不同寫法」的對比題' },
+        { type:'tip', text:'推測詞意：從上下文判斷文言字詞意思，別死記硬背' },
+      ],
+      9: [
+        { type:'section', text:'9年級必讀課文' },
+        { type:'key', text:'〈廉頗藺相如列傳〉司馬遷 — 完璧歸趙、負荊請罪典故' },
+        { type:'key', text:'〈桃花源記〉陶淵明 — 理想烏托邦，「世外桃源」意涵' },
+        { type:'note', text:'〈師說〉韓愈 — 論師道尊嚴，文言論說文閱讀' },
+        { type:'key', text:'〈愛蓮說〉周敦頤 — 蓮的象徵，托物言志手法' },
+        { type:'section', text:'9年級衝刺重點' },
+        { type:'key', text:'綜合三年課文：作者、朝代、主旨、修辭一次整理' },
+        { type:'tip', text:'閱測題組：先看題目、再讀文章，帶著問題讀效率更高' },
+        { type:'warn', text:'長篇閱測不要逐字讀，先找「關鍵詞」在哪一段再細讀那段' },
+      ],
+    }
+  },
+  'ch-classical': {
+    title: '文言文翻譯與字義辨析', emoji: '📜',
+    grades: {
+      7: [
+        { type:'section', text:'7年級文言重點字詞' },
+        { type:'key', text:'「之」：①代詞(他/它) ②助詞「的」 ③放主謂間(取消獨立性)' },
+        { type:'key', text:'「而」：①表順接「然後」 ②表轉折「但是」 ③表修飾' },
+        { type:'note', text:'「者」：表示「……的人/事」，如「仁者」=有仁心的人' },
+        { type:'tip', text:'翻譯步驟：①斷句 ②字字對譯 ③調整語序 ④補省略成分' },
+        { type:'warn', text:'「走」在文言文=跑，不是走路！「去」=離開，不是去某地' },
+      ],
+      8: [
+        { type:'section', text:'8年級高頻文言字詞' },
+        { type:'key', text:'「以」：①用/憑 ②因為 ③表目的「來」 ④認為' },
+        { type:'key', text:'「其」：①他的/它的 ②那個 ③副詞「大概/難道」' },
+        { type:'note', text:'「為」：①做/成為 ②被（被動） ③替/為了' },
+        { type:'key', text:'判斷句：「……者，……也」「……，……也」= 是……' },
+        { type:'tip', text:'遇到不懂的字，從上下文意思推敲，考試常出「換句話說」題' },
+      ],
+      9: [
+        { type:'section', text:'9年級文言綜合' },
+        { type:'key', text:'「於」：①在/到 ②比（比較） ③對/向 ④被（被動）' },
+        { type:'key', text:'「乃」：①才/就 ②竟然 ③你的（乃翁=你的父親）' },
+        { type:'note', text:'被動句式：「見……於……」「為……所……」「被」（少用）' },
+        { type:'tip', text:'翻譯題得分技巧：找出句中「關鍵實詞」的字義，那是給分點' },
+        { type:'warn', text:'不要用現代意義硬套文言字：「妻子」=妻子和兒女，不是配偶！' },
+      ],
+    }
+  },
+  'ch-main-idea': {
+    title: '現代文章段落大意、主旨', emoji: '📜',
+    grades: {
+      7: [
+        { type:'section', text:'找段落大意方法' },
+        { type:'key', text:'步驟①：找主題句（段首or段尾那句最關鍵）' },
+        { type:'key', text:'步驟②：把具體例子去掉，留核心論點' },
+        { type:'tip', text:'主題句辨識：說「為什麼/怎麼樣」的句子，通常是主題句' },
+        { type:'note', text:'歸納型段落：細節→結論（結尾才是主旨）' },
+        { type:'note', text:'演繹型段落：結論→細節（開頭就是主旨）' },
+      ],
+      8: [
+        { type:'section', text:'8年級：全文主旨判斷' },
+        { type:'key', text:'主旨 = 作者最想說的一件事，必須涵蓋全文，不能只是某段' },
+        { type:'tip', text:'排除法：把和全文無關的選項先刪掉，剩下的才是主旨候選' },
+        { type:'warn', text:'陷阱選項：「過度推論」，文章沒說的不能選；「以偏概全」，只說到一部分的不選' },
+        { type:'note', text:'標題常是主旨的提示，閱讀前先注意標題！' },
+      ],
+      9: [
+        { type:'section', text:'9年級：議論文主旨與論點' },
+        { type:'key', text:'論說文找論點：「所以……」「因此……」「由此可知……」前後的句子' },
+        { type:'key', text:'區分「論點」vs「論據」：論點是作者的主張，論據是支持主張的證據' },
+        { type:'tip', text:'讀圖表題：先看標題和單位，再看最高/最低點，最後才看趨勢' },
+        { type:'warn', text:'圖表題常考「最不符合」——找和圖表資訊矛盾的選項' },
+      ],
+    }
+  },
+  'ch-phonics': {
+    title: '字音字形（注音、國字辨識）', emoji: '📜',
+    grades: {
+      7: [
+        { type:'section', text:'7年級高頻易錯字音' },
+        { type:'key', text:'「說」：說話(ㄕㄨㄛ) / 遊說(ㄕㄨㄟˋ) / 《論語》「學而時習之不亦說乎」(ㄩㄝˋ)' },
+        { type:'key', text:'「行」：行走(ㄒㄧㄥˊ) / 行列(ㄏㄤˊ) / 銀行(ㄏㄤˊ)' },
+        { type:'key', text:'「著」：著作(ㄓㄨˋ) / 著急(ㄓㄠˊ) / 附著(ㄓㄨㄛˊ)' },
+        { type:'warn', text:'「ㄩ」和「ㄨ」要分清楚：女(ㄋㄩˇ) vs 努(ㄋㄨˇ)' },
+        { type:'section', text:'7年級易錯字形' },
+        { type:'note', text:'「己/已/巳」：己(自己) / 已(已經) / 巳(地支，不常考)' },
+        { type:'note', text:'「戊/戌/戍」：戊(天干第五) / 戌(地支第十一) / 戍(守衛)' },
+      ],
+      8: [
+        { type:'section', text:'8年級高頻易混字' },
+        { type:'key', text:'「再/在」：再(又一次) / 在(位置或存在)' },
+        { type:'key', text:'「的/地/得」：的(形容詞→名詞) / 地(副詞→動詞) / 得(動詞→補語)' },
+        { type:'key', text:'「辯/辨/辮」：辯(說話辯論) / 辨(分辨) / 辮(辮子)' },
+        { type:'warn', text:'「燥/躁/噪」：乾燥(火旁) / 急躁(足旁) / 噪音(口旁)' },
+      ],
+      9: [
+        { type:'section', text:'9年級綜合字音字形' },
+        { type:'key', text:'「繁衍(ㄧㄢˇ)」「哺育(ㄅㄨˇ)」「拮据(ㄐㄩˊ)」「拮据」常考' },
+        { type:'key', text:'「曝光(ㄆㄨˋ)」vs「暴露(ㄅㄠˋ)」；「角色(ㄐㄩㄝˊ)」vs「角落(ㄐㄧㄠˇ)」' },
+        { type:'tip', text:'多音字記法：看詞語意思來決定讀音，不要死背' },
+        { type:'note', text:'考試常出「形近字」：把長得像的字放一起，要選不同的那個' },
+      ],
+    }
+  },
+  'ch-idioms': {
+    title: '成語、俗語、典故運用', emoji: '📜',
+    grades: {
+      7: [
+        { type:'section', text:'7年級必考成語' },
+        { type:'key', text:'杯弓蛇影 — 疑神疑鬼（弓影誤以為蛇）' },
+        { type:'key', text:'半途而廢 — 做事做到一半就放棄' },
+        { type:'key', text:'班門弄斧 — 在行家面前賣弄本事' },
+        { type:'note', text:'守株待兔 — 不知變通，等待不可能的機會' },
+        { type:'note', text:'亡羊補牢 — 出了問題才來補救，但還來得及' },
+        { type:'tip', text:'成語題考「語意理解」，先懂故事背景，再判斷用法對不對' },
+      ],
+      8: [
+        { type:'section', text:'8年級必考成語' },
+        { type:'key', text:'塞翁失馬，焉知非福 — 禍福難料，壞事可能變好事' },
+        { type:'key', text:'一石二鳥 / 一舉兩得 — 一個行動達到兩個目的' },
+        { type:'key', text:'曲高和寡 — 作品太高深，懂的人很少' },
+        { type:'note', text:'望梅止渴 — 用想像或虛假的方法暫時解決問題' },
+        { type:'warn', text:'易混淆：「不以為然」=不認同 vs「不以為意」=不在乎，差很多！' },
+      ],
+      9: [
+        { type:'section', text:'9年級高頻成語＋俗語' },
+        { type:'key', text:'捨本逐末 — 放棄重要的，追求次要的（反：本末不倒置）' },
+        { type:'key', text:'功虧一簣 — 差一點就成功但失敗了（因最後一步）' },
+        { type:'key', text:'相輔相成 — 互相補充，共同達成目標' },
+        { type:'note', text:'俗語考題：「三個臭皮匠，勝過一個諸葛亮」= 集體智慧' },
+        { type:'tip', text:'成語填空題：先判斷句子語境（正面/負面/中性），再選符合的成語' },
+      ],
+    }
+  },
+  'ch-rhetoric': {
+    title: '修辭技巧（比喻、排比、設問…）', emoji: '📜',
+    grades: {
+      7: [
+        { type:'section', text:'7年級六大修辭' },
+        { type:'key', text:'明喻：用「像/如/宛如/好比」，A像B　→「她的眼睛像星星」' },
+        { type:'key', text:'暗喻（隱喻）：直說「A是B」，沒有比喻詞　→「人生是一場旅行」' },
+        { type:'key', text:'擬人：把物當人寫，有人的動作/感受　→「太陽笑著探出頭」' },
+        { type:'note', text:'誇飾：誇大或縮小　→「飛流直下三千尺」' },
+        { type:'note', text:'排比：三個或以上結構相似的句子並列　→「讀書要思考，思考要創新，創新要實踐」' },
+        { type:'tip', text:'看到「像/如」就想明喻，但「如期/如願」不是比喻，要看上下文！' },
+      ],
+      8: [
+        { type:'section', text:'8年級進階修辭' },
+        { type:'key', text:'對偶：兩句字數相同、結構對稱　→「春蠶到死絲方盡，蠟炬成灰淚始乾」' },
+        { type:'key', text:'設問：自問自答（問後有答案）　vs 反問：反著問不需要答' },
+        { type:'key', text:'借代：不直說本體，用有關聯的東西替代　→「白髮」代指老人' },
+        { type:'warn', text:'「借喻」vs「借代」：借喻是比喻，借代不是——看有沒有相似性！' },
+      ],
+      9: [
+        { type:'section', text:'9年級綜合修辭判斷' },
+        { type:'key', text:'轉化：本來無生命的說成有生命（擬人），或反之（擬物）' },
+        { type:'key', text:'頂真：前句結尾=後句開頭　→「學而後知不足，知不足然後能自反」' },
+        { type:'tip', text:'修辭綜合題：一句話可能同時有兩種修辭，要全部找出來' },
+        { type:'warn', text:'「回文」修辭：順讀反讀意思相同　→「人人為我，我為人人」' },
+      ],
+    }
+  },
+  'ch-essay': {
+    title: '作文（議論文為主）', emoji: '📜',
+    grades: {
+      7: [
+        { type:'section', text:'作文基礎結構（7年級）' },
+        { type:'key', text:'議論文四字訣：起→承→轉→合（=引題、說明、反例轉折、結論）' },
+        { type:'key', text:'「起」：用名言/故事/情境引出主題，不超過三行' },
+        { type:'note', text:'「承」：提出論點，舉例說明（至少兩個例子）' },
+        { type:'tip', text:'每段結尾要呼應論點，不要寫完例子就停了' },
+      ],
+      8: [
+        { type:'section', text:'8年級作文提升' },
+        { type:'key', text:'「轉」是作文亮點：加入「反面思考」或「從另一角度」看問題' },
+        { type:'key', text:'引用名言技巧：說完名言要「解釋」它的意思，不能光引用' },
+        { type:'warn', text:'不要用「我覺得」開頭，換成「由此可見」「綜上所述」更有力道' },
+        { type:'tip', text:'600字以上：起80字、承200字、轉150字、合100字，大約符合' },
+      ],
+      9: [
+        { type:'section', text:'9年級高分作文技巧' },
+        { type:'key', text:'議論文要有「具體事例」：用真實故事比用抽象道理更有說服力' },
+        { type:'key', text:'結尾「合」：總結全文+呼應題目+升華主題，三者缺一不可' },
+        { type:'tip', text:'會考作文評分重點：①主題明確 ②結構完整 ③語言流暢 ④有深度' },
+        { type:'warn', text:'字跡要工整！評審看太潦草會扣分，寧可寫慢一點也要清楚' },
+      ],
+    }
+  },
+
+  // ─────────── 英文 ───────────
+  'en-vocab': {
+    title: '國中 1200 個核心單字', emoji: '🌍',
+    grades: {
+      7: [
+        { type:'section', text:'7年級核心單字分類' },
+        { type:'key', text:'家庭成員：father/mother/brother/sister/cousin/aunt/uncle/grandparents' },
+        { type:'key', text:'學校生活：classroom/teacher/student/subject/homework/library/cafeteria' },
+        { type:'key', text:'數字/時間：Monday~Sunday / January~December / morning/afternoon/evening' },
+        { type:'note', text:'顏色/形容詞：beautiful/ugly/tall/short/heavy/light/fast/slow' },
+        { type:'tip', text:'單字記法：把同主題的字一起背（家庭、學校、身體部位），效果更好' },
+      ],
+      8: [
+        { type:'section', text:'8年級重要單字' },
+        { type:'key', text:'情緒/性格：confident/nervous/lonely/excited/bored/patient/brave/polite' },
+        { type:'key', text:'動作動詞：achieve/encourage/improve/suggest/prevent/protect/require' },
+        { type:'key', text:'環境議題：recycle/pollution/environment/climate/natural disaster/wildlife' },
+        { type:'tip', text:'記單字要記「詞性」：名詞/動詞/形容詞/副詞，考試會考詞性轉換' },
+        { type:'warn', text:'易混淆對：affect(影響,動詞) vs effect(效果,名詞)；borrow vs lend；rise vs raise' },
+      ],
+      9: [
+        { type:'section', text:'9年級進階單字' },
+        { type:'key', text:'社會議題：poverty/equality/democracy/opportunity/responsibility/tradition' },
+        { type:'key', text:'科技類：artificial intelligence/digital/virtual/software/innovation/wireless' },
+        { type:'key', text:'反義詞對：optimistic↔pessimistic / permanent↔temporary / complex↔simple' },
+        { type:'tip', text:'閱測遇到不認識的字：看字根！-tion=名詞、un-=否定、re-=再次、-ful=充滿的' },
+      ],
+    }
+  },
+  'en-grammar': {
+    title: '文法：時態、語態、假設語氣', emoji: '🌍',
+    grades: {
+      7: [
+        { type:'section', text:'7年級時態基礎' },
+        { type:'key', text:'現在簡單式：動詞+s(第三人稱單數)，日常習慣/事實。時間詞：always/usually/often/every day' },
+        { type:'key', text:'過去簡單式：動詞+ed(規則)/不規則，過去發生。時間詞：yesterday/last/ago' },
+        { type:'key', text:'現在進行式：am/is/are + V-ing，現在正在做。時間詞：now/right now/at the moment' },
+        { type:'key', text:'未來式：will + 動詞原形，或 be going to + 原形。時間詞：tomorrow/next week' },
+        { type:'warn', text:'be 動詞 vs 一般動詞：She is happy（is不能再加do） / She likes（用do/does）' },
+      ],
+      8: [
+        { type:'section', text:'8年級重要文法' },
+        { type:'key', text:'現在完成式：have/has + p.p.（過去分詞）。時間詞：already/yet/just/ever/never/for/since' },
+        { type:'key', text:'被動語態：be + p.p.（被動）。The book was written by her.' },
+        { type:'key', text:'比較級：短詞+er / more+長詞 / as...as（同級）/ not as...as（不如）' },
+        { type:'key', text:'動名詞 vs 不定詞：enjoy/finish/mind/avoid → Ving；want/plan/hope → to V' },
+        { type:'tip', text:'記「過去分詞」三態表：go-went-gone、write-wrote-written（必背！）' },
+      ],
+      9: [
+        { type:'section', text:'9年級進階文法' },
+        { type:'key', text:'假設語氣（現在/未來不可能）：If + 過去式，would/could + 原形。If I were you...' },
+        { type:'key', text:'關係代名詞：who(人主格)/whom(人受格)/whose(所有格)/which(物)/that(人或物)' },
+        { type:'key', text:'間接問句：疑問詞 + 主詞 + 動詞（不倒裝）。Do you know where he lives?' },
+        { type:'key', text:'分詞構句：將副詞子句簡化。Because she is tired, she goes home. → Tired, she goes home.' },
+        { type:'warn', text:'假設語氣：If I were（不是was！）不論人稱都用were，這是最常犯的錯' },
+      ],
+    }
+  },
+  'en-dialogue': {
+    title: '對話理解（日常情境）', emoji: '🌍',
+    grades: {
+      7: [
+        { type:'section', text:'7年級常見對話情境' },
+        { type:'key', text:'問路/指路：Excuse me, where is...? Turn left/right. Go straight.' },
+        { type:'key', text:'購物情境：How much is it? Can I help you? I\'d like to buy...' },
+        { type:'key', text:'電話對話：May I speak to...? Hold on, please. Who\'s calling?' },
+        { type:'tip', text:'對話題要抓「目的」：他們在哪裡？在做什麼？結果如何？' },
+      ],
+      8: [
+        { type:'section', text:'8年級對話理解重點' },
+        { type:'key', text:'邀請與婉拒：Would you like to...? I\'d love to, but... / That sounds great!' },
+        { type:'key', text:'建議表達：Why don\'t you...? You should... / How about...?' },
+        { type:'tip', text:'推論題：答案不在對話裡，要根據「語氣和暗示」判斷' },
+        { type:'warn', text:'注意語氣詞：Oh, really? / Are you serious? = 驚訝、懷疑態度' },
+      ],
+      9: [
+        { type:'section', text:'9年級對話推理' },
+        { type:'key', text:'情緒判斷：根據說話方式判斷人物心情（高興/失望/驚訝/生氣）' },
+        { type:'tip', text:'對話後的推論題：讀完後問「接下來最可能發生什麼」，用邏輯推理' },
+        { type:'note', text:'圖表對話：數字/百分比/日期要記好，常是答題關鍵' },
+      ],
+    }
+  },
+  'en-reading': {
+    title: '閱讀測驗（短文、圖表）', emoji: '🌍',
+    grades: {
+      7: [
+        { type:'section', text:'閱讀基礎策略（7年級）' },
+        { type:'key', text:'先看題目，再讀文章——帶著問題讀，效率提升50%' },
+        { type:'key', text:'主旨題：看第一段和最後一段，找「topic sentence」' },
+        { type:'tip', text:'不認識的單字：用上下文猜意思，不要卡住一直想' },
+      ],
+      8: [
+        { type:'section', text:'8年級閱讀技巧' },
+        { type:'key', text:'細節題：回到文章找答案，不要靠記憶，一定要「定位」' },
+        { type:'key', text:'詞義題：替換單字題，找意思相近的選項，測試代入是否通順' },
+        { type:'warn', text:'「過度推論」陷阱：文章沒說的不能選，要有「文字根據」' },
+      ],
+      9: [
+        { type:'section', text:'9年級進階閱讀' },
+        { type:'key', text:'圖表閱讀：先看標題→看圖例→看數字變化趨勢→再看題目' },
+        { type:'key', text:'長篇文章分段讀：每段結束停下來，想想「這段說什麼」' },
+        { type:'tip', text:'最後一題常是推論題：根據文章的「態度」判斷作者立場' },
+      ],
+    }
+  },
+  'en-cloze': {
+    title: '克漏字（文法＋語意）', emoji: '🌍',
+    grades: {
+      7: [
+        { type:'section', text:'7年級克漏字策略' },
+        { type:'key', text:'先把整段讀一遍，理解大意，再填空' },
+        { type:'key', text:'文法線索：空格前後的詞決定詞性（前有冠詞→填名詞；前有be動詞→填Ving或p.p.）' },
+        { type:'tip', text:'時態克漏字：找時間詞是最快的方法（yesterday→過去式，every day→現在式）' },
+      ],
+      8: [
+        { type:'section', text:'8年級克漏字重點' },
+        { type:'key', text:'介系詞題：at time/in month-year/on day（時間）; in place/at spot（地點）' },
+        { type:'key', text:'連接詞題：because(因為)/although(雖然)/so(所以)/but(但是) — 看前後句關係' },
+        { type:'warn', text:'語意題沒有文法線索，要靠「讀通」整段意思來選' },
+      ],
+      9: [
+        { type:'section', text:'9年級克漏字綜合' },
+        { type:'key', text:'代名詞指代：it/they/he/she 指的是前面哪個名詞，要確認單複數' },
+        { type:'tip', text:'先把有把握的空格填好，再從剩下的選項推斷困難的' },
+        { type:'note', text:'複雜句型克漏字：that/which/who 關係代名詞，看先行詞是人還是物' },
+      ],
+    }
+  },
+  'en-listening': {
+    title: '聽力：對話、短篇報導', emoji: '🌍',
+    grades: {
+      7: [
+        { type:'section', text:'聽力基礎策略' },
+        { type:'key', text:'播放前先看選項，預測會聽到什麼主題' },
+        { type:'key', text:'重點字：數字/地點/時間/人名 — 用符號快速記下來' },
+        { type:'tip', text:'第一遍可能聽不全，第二遍播放時補上沒確認的地方' },
+      ],
+      8: [
+        { type:'section', text:'8年級聽力重點' },
+        { type:'key', text:'對話聽力：抓「問題」和「答覆」，兩者要對應才是答案' },
+        { type:'note', text:'圖片選擇：邊聽邊比對，排除明顯不對的圖' },
+        { type:'tip', text:'如果某個字真的聽不懂，用語境猜——不要因為一個字放棄整題' },
+      ],
+      9: [
+        { type:'section', text:'9年級：短篇報導聽力' },
+        { type:'key', text:'新聞報導：抓 5W1H（Who/What/When/Where/Why/How）' },
+        { type:'key', text:'數字/百分比：先記下來，最後對選項' },
+        { type:'warn', text:'不要在腦中翻譯成中文，直接在英文模式理解，速度更快' },
+      ],
+    }
+  },
+
+  // ─────────── 數學 ───────────
+  'ma-number': {
+    title: '數與式（整數、分數、根號）', emoji: '🔢',
+    grades: {
+      7: [
+        { type:'section', text:'7年級：整數與分數' },
+        { type:'key', text:'正負數運算：同號得正、異號得負（乘除）；加法看絕對值大小' },
+        { type:'key', text:'絕對值：|a| = a（a≥0）或 -a（a<0）；代表「距原點距離」' },
+        { type:'formula', text:'分數加減：通分（找最小公倍數）→ 分子相加減\n分數乘法：分子×分子、分母×分母，約分' },
+        { type:'key', text:'科學記號：a × 10ⁿ，1 ≤ a < 10。例：3.2 × 10³ = 3200' },
+        { type:'warn', text:'(-a)² = a²（正）但 -a² = -(a²)（負），這個差別很常考！' },
+      ],
+      8: [
+        { type:'section', text:'8年級：根號與實數' },
+        { type:'key', text:'根號運算：√a × √b = √(ab)；√a / √b = √(a/b)；(√a)² = a' },
+        { type:'key', text:'有理化分母：分母有√時，上下乘相同根號消掉分母的根號' },
+        { type:'formula', text:'√2 ≈ 1.414；√3 ≈ 1.732；√5 ≈ 2.236（要背！）' },
+        { type:'warn', text:'√(a+b) ≠ √a + √b，這是最常犯的錯誤！' },
+      ],
+      9: [
+        { type:'section', text:'9年級：數系整理' },
+        { type:'key', text:'數系包含關係：自然數⊂整數⊂有理數⊂實數（⊂表示「包含」）' },
+        { type:'note', text:'無理數：無法表示成分數的數，如 π、√2、√3' },
+        { type:'tip', text:'有理數判斷：能化成 p/q（p、q都是整數，q≠0）就是有理數' },
+      ],
+    }
+  },
+  'ma-equation': {
+    title: '一元一次、二次方程式', emoji: '🔢',
+    grades: {
+      7: [
+        { type:'section', text:'7年級：一元一次方程式' },
+        { type:'key', text:'移項法則：把 x 移到左邊，常數移到右邊（移項要變號）' },
+        { type:'formula', text:'解題步驟：去括號→去分母（兩邊乘最小公倍數）→移項合併→解出 x' },
+        { type:'key', text:'應用題設 x：先搞清楚「x 代表什麼」，再根據題意列式' },
+        { type:'tip', text:'帶回驗算：把 x 值代入原式，兩邊相等才算對' },
+      ],
+      8: [
+        { type:'section', text:'8年級：聯立與不等式' },
+        { type:'key', text:'一元一次不等式：解法同方程式，但「乘除負數要換號！」' },
+        { type:'formula', text:'不等式數線表示：< 用空心圓（不包含）；≤ 用實心圓（包含）' },
+      ],
+      9: [
+        { type:'section', text:'9年級：二次方程式' },
+        { type:'key', text:'因式分解法：x²+bx+c = (x+p)(x+q)，找 p+q=b、p×q=c' },
+        { type:'key', text:'配方法：x²+bx = (x+b/2)² - (b/2)²' },
+        { type:'formula', text:'公式解：x = [-b ± √(b²-4ac)] / (2a)（a≠0）\n判別式 D = b²-4ac：D>0兩實根；D=0重根；D<0無實根' },
+        { type:'warn', text:'二次方程式解題：先試因式分解，不行再用公式，不要一開始就公式' },
+      ],
+    }
+  },
+  'ma-system': {
+    title: '聯立方程式、不等式', emoji: '🔢',
+    grades: {
+      7: [
+        { type:'note', text:'7年級不含此單元，以一元一次方程式為主' },
+      ],
+      8: [
+        { type:'section', text:'8年級：二元一次聯立方程式' },
+        { type:'key', text:'加減消去法：兩式相加或相減消掉一個未知數' },
+        { type:'key', text:'代入消去法：從一個式子解出 x（或 y），代入另一式' },
+        { type:'formula', text:'{ ax + by = c\n{ dx + ey = f\n先決定消去哪個未知數，看係數哪個好處理' },
+        { type:'tip', text:'聯立應用題：設兩個未知數（如x、y），列兩個方程式，缺一不可' },
+      ],
+      9: [
+        { type:'section', text:'9年級：不等式與解題' },
+        { type:'key', text:'聯立不等式：分別解每個不等式，取共同解（交集）' },
+        { type:'warn', text:'乘以負數時，不等號方向要反轉：-2x > 4 → x < -2' },
+        { type:'tip', text:'數線畫出每個不等式的解，重疊部分就是聯立不等式的解' },
+      ],
+    }
+  },
+  'ma-function': {
+    title: '函數與圖形（一次、二次函數）', emoji: '🔢',
+    grades: {
+      7: [
+        { type:'section', text:'7年級：座標與比例' },
+        { type:'key', text:'座標平面：x 軸（橫）、y 軸（縱），原點(0,0)，四個象限' },
+        { type:'key', text:'比例關係：y = kx（正比），圖形過原點；y = k/x（反比），雙曲線' },
+      ],
+      8: [
+        { type:'section', text:'8年級：一次函數' },
+        { type:'key', text:'y = mx + b：m = 斜率（每往右1，上升m）；b = y 截距' },
+        { type:'formula', text:'斜率公式：m = (y₂-y₁)/(x₂-x₁)（兩點決定一直線）' },
+        { type:'key', text:'m>0 向右上斜；m<0 向右下斜；m=0 水平線' },
+        { type:'tip', text:'求截距：令 x=0 求 y 截距；令 y=0 求 x 截距' },
+      ],
+      9: [
+        { type:'section', text:'9年級：二次函數' },
+        { type:'key', text:'y = ax²+bx+c：a>0 開口向上（U），a<0 開口向下（∩）' },
+        { type:'key', text:'頂點公式：x 座標 = -b/(2a)，代入求 y 座標' },
+        { type:'formula', text:'標準式：y = a(x-h)² + k，頂點為 (h, k)\n|a| 越大，開口越窄；|a| 越小，開口越寬' },
+        { type:'tip', text:'拋物線與 x 軸交點：令 y=0，解二次方程式（判別式判斷幾個交點）' },
+      ],
+    }
+  },
+  'ma-geometry': {
+    title: '幾何（平行、全等、相似）', emoji: '🔢',
+    grades: {
+      7: [
+        { type:'section', text:'7年級：幾何基礎' },
+        { type:'key', text:'平行線性質：同位角相等、內錯角相等、同側內角互補' },
+        { type:'key', text:'三角形內角和 = 180°；多邊形內角和 = (n-2) × 180°' },
+        { type:'formula', text:'面積公式：\n△ = 底×高÷2\n□平行四邊形 = 底×高\n梯形 = (上底+下底)×高÷2' },
+      ],
+      8: [
+        { type:'section', text:'8年級：三角形全等與相似' },
+        { type:'key', text:'全等條件（4個）：SSS / SAS / ASA / AAS（記憶口訣：三邊兩邊夾角等）' },
+        { type:'key', text:'相似條件（3個）：AAA / SAS / SSS（對應邊比相等）' },
+        { type:'formula', text:'相似比 k：對應邊比 = k；面積比 = k²；體積比 = k³' },
+        { type:'warn', text:'全等 ≠ 相似！全等：形狀大小完全一樣；相似：形狀一樣但大小可不同' },
+      ],
+      9: [
+        { type:'section', text:'9年級：幾何綜合' },
+        { type:'key', text:'畢氏定理：a² + b² = c²（c 為斜邊）；常見組合：3-4-5、5-12-13、8-15-17' },
+        { type:'tip', text:'幾何證明題步驟：①找對應關係 ②說明條件（已知） ③引用定理 ④結論' },
+      ],
+    }
+  },
+  'ma-circle': {
+    title: '三角形與圓的性質', emoji: '🔢',
+    grades: {
+      7: [
+        { type:'section', text:'7年級：三角形基礎' },
+        { type:'key', text:'三角不等式：任兩邊之和 > 第三邊；任兩邊之差 < 第三邊' },
+        { type:'key', text:'等腰三角形：兩腰相等，頂角的角平分線⊥底邊（三線合一）' },
+      ],
+      8: [
+        { type:'section', text:'8年級：圓的基礎' },
+        { type:'key', text:'圓周率 π ≈ 3.14159；圓面積 = πr²；圓周長 = 2πr' },
+        { type:'key', text:'弦切角定理、弓形面積（扇形－三角形）' },
+        { type:'formula', text:'扇形面積 = πr² × (圓心角/360°)\n弧長 = 2πr × (圓心角/360°)' },
+      ],
+      9: [
+        { type:'section', text:'9年級：圓的進階定理' },
+        { type:'key', text:'圓周角定理：圓周角 = 圓心角 / 2（同弧的圓周角都相等）' },
+        { type:'key', text:'切線定理：切線⊥半徑；兩切線等長（切點到圓外一點距離相等）' },
+        { type:'key', text:'割線定理：圓內兩弦相交，兩段乘積相等（PA×PB = PC×PD）' },
+        { type:'warn', text:'半圓上的圓周角 = 90°（直徑所對的圓周角），這是超重要特例' },
+      ],
+    }
+  },
+  'ma-stats': {
+    title: '統計與機率', emoji: '🔢',
+    grades: {
+      7: [
+        { type:'section', text:'7年級：統計基礎' },
+        { type:'key', text:'平均數 = 總和 ÷ 個數；中位數 = 排序後最中間的數' },
+        { type:'key', text:'眾數 = 出現次數最多的數（可能有多個）' },
+        { type:'formula', text:'平均數：x̄ = (x₁+x₂+...+xₙ) / n\n偶數個時中位數取中間兩數的平均' },
+      ],
+      8: [
+        { type:'section', text:'8年級：機率入門' },
+        { type:'key', text:'機率 P(A) = 有利結果數 / 全部可能結果數，0 ≤ P(A) ≤ 1' },
+        { type:'key', text:'互補事件：P(A) + P(Aᶜ) = 1，先算簡單的再扣' },
+        { type:'tip', text:'列舉法：結果不多時，把所有可能列出來，再數' },
+      ],
+      9: [
+        { type:'section', text:'9年級：統計圖表判讀' },
+        { type:'key', text:'長條圖/折線圖/圓形圖：各有適合的資料類型，要能正確解讀' },
+        { type:'key', text:'加法原理：兩事件不能同時發生，個數相加；乘法原理：依序發生，個數相乘' },
+        { type:'tip', text:'機率應用題：先搞清楚「樣本空間」（全部可能），再找「事件」' },
+      ],
+    }
+  },
+
+  // ─────────── 自然 ───────────
+  'sc-biology': {
+    title: '生物：細胞、遺傳、生態系統', emoji: '🔬',
+    grades: {
+      7: [
+        { type:'section', text:'7年級：細胞結構' },
+        { type:'key', text:'細胞三大結構：細胞膜（控制進出）、細胞質（生命活動場所）、細胞核（控制中心，含DNA）' },
+        { type:'key', text:'植物特有：細胞壁（支撐）、葉綠體（光合作用）、液泡（大、存水）' },
+        { type:'key', text:'動物特有：無細胞壁、液泡小；有中心粒（幫助分裂）' },
+        { type:'note', text:'顯微鏡操作：先低倍鏡，再換高倍鏡；光源越強，物像越亮' },
+        { type:'tip', text:'口訣：「植物有壁、有體、有泡」= 細胞壁、葉綠體、大液泡' },
+      ],
+      8: [
+        { type:'section', text:'8年級：人體生理' },
+        { type:'key', text:'消化系統路徑：口腔→食道→胃→小腸（主要消化吸收）→大腸→肛門' },
+        { type:'key', text:'澱粉分解：口腔（唾液澱粉酶）→小腸（腸液+胰液）' },
+        { type:'key', text:'蛋白質分解：胃（胃蛋白酶，需酸性）→小腸（胰蛋白酶）' },
+        { type:'key', text:'脂肪分解：只在小腸（膽汁乳化+胰脂酶）' },
+        { type:'warn', text:'膽汁不是酵素！膽汁是由肝臟分泌、儲存在膽囊，功能是「乳化脂肪」' },
+      ],
+      9: [
+        { type:'section', text:'9年級：遺傳與生態' },
+        { type:'key', text:'孟德爾定律：顯性(D)×隱性(d) = Dd（表現顯性）；Dd×Dd → 3顯:1隱' },
+        { type:'key', text:'DNA→RNA→蛋白質（中心法則）；DNA 鹼基配對：A-T、G-C' },
+        { type:'key', text:'食物鏈：生產者（植物）→初級消費者→次級消費者→分解者' },
+        { type:'tip', text:'能量傳遞效率約 10%，所以越高層的消費者數量越少（能量金字塔）' },
+      ],
+    }
+  },
+  'sc-physics': {
+    title: '理化：力學、光學、電學、熱學', emoji: '🔬',
+    grades: {
+      7: [
+        { type:'section', text:'7年級：力學基礎' },
+        { type:'key', text:'力的單位：牛頓（N）；重力 W = mg（m=質量，g=9.8 m/s² ≈ 10 m/s²）' },
+        { type:'key', text:'牛頓第一定律：合力=0 → 靜止或等速直線運動（慣性定律）' },
+        { type:'key', text:'牛頓第二定律：F = ma（力=質量×加速度）' },
+        { type:'formula', text:'速度 v = d/t（距離/時間）\n加速度 a = (v-v₀)/t\n功 W = F × d（力×位移）' },
+      ],
+      8: [
+        { type:'section', text:'8年級：光學與熱學' },
+        { type:'key', text:'光的折射：光從空氣進入水/玻璃，速度變慢，偏向法線（折射角<入射角）' },
+        { type:'key', text:'凸透鏡（放大鏡）：焦點、焦距；物在焦點外成倒立實像，焦點內成正立虛像' },
+        { type:'key', text:'熱傳遞方式：傳導（固體接觸）、對流（流體流動）、輻射（不需介質）' },
+        { type:'formula', text:'熱量 Q = mcΔT（m質量、c比熱、ΔT溫度變化）\n水的比熱 = 1 cal/g°C（最大，最不容易升降溫）' },
+      ],
+      9: [
+        { type:'section', text:'9年級：電學' },
+        { type:'key', text:'歐姆定律：V = IR（電壓=電流×電阻）；串聯電阻加大、並聯電阻減小' },
+        { type:'formula', text:'串聯：I相同、V相加、R相加\n並聯：V相同、I相加、1/R = 1/R₁ + 1/R₂' },
+        { type:'key', text:'電功率 P = IV = I²R = V²/R；電能 W = Pt（瓦特×時間）' },
+        { type:'warn', text:'電流方向（正電荷流動）和電子流動方向相反！考試常用電流方向' },
+      ],
+    }
+  },
+  'sc-chemistry': {
+    title: '化學：物質變化、酸鹼鹽、有機', emoji: '🔬',
+    grades: {
+      7: [
+        { type:'section', text:'7年級：物質分類' },
+        { type:'key', text:'物理變化：形態改變，成分不變（冰融、撕紙）' },
+        { type:'key', text:'化學變化：產生新物質（燃燒→CO₂、生鏽→Fe₂O₃）' },
+        { type:'key', text:'純物質（元素/化合物）vs 混合物（鹽水、空氣）' },
+        { type:'note', text:'原子是最小單位；分子由原子組成；元素是同種原子組成的純物質' },
+      ],
+      8: [
+        { type:'section', text:'8年級：酸鹼與氧化還原' },
+        { type:'key', text:'酸：pH < 7，含H⁺，藍色石蕊試紙→紅；鹼：pH > 7，含OH⁻，紅→藍' },
+        { type:'key', text:'中和反應：酸 + 鹼 → 鹽 + 水（HCl + NaOH → NaCl + H₂O）' },
+        { type:'key', text:'氧化：得氧（或失氫/失電子）；還原：失氧（或得氫/得電子）' },
+        { type:'tip', text:'記憶：OIL RIG = Oxidation Is Loss（失電子）/ Reduction Is Gain（得電子）' },
+      ],
+      9: [
+        { type:'section', text:'9年級：有機化學基礎' },
+        { type:'key', text:'有機物：含碳化合物（除CO、CO₂、碳酸鹽外）' },
+        { type:'key', text:'烴類：甲烷(CH₄)、乙烷(C₂H₆)、乙烯(C₂H₄)、乙炔(C₂H₂)' },
+        { type:'note', text:'官能基：-OH（醇）、-COOH（羧酸）、-NH₂（胺）' },
+        { type:'tip', text:'化學式記憶：結構決定性質，先理解結構再記公式' },
+      ],
+    }
+  },
+  'sc-earth': {
+    title: '地科：地殼變動、天氣、天文', emoji: '🔬',
+    grades: {
+      7: [
+        { type:'section', text:'7年級：大氣與天氣' },
+        { type:'key', text:'大氣層由低到高：對流層→平流層→中氣層→增溫層→外氣層' },
+        { type:'key', text:'天氣符號：等壓線密=風強；H=高氣壓（晴）；L=低氣壓（雨）' },
+        { type:'note', text:'台灣氣候：北部亞熱帶季風；南部熱帶；颱風季 7-9 月' },
+      ],
+      8: [
+        { type:'section', text:'8年級：地球構造' },
+        { type:'key', text:'地球內部：地殼（薄）→地函（最厚）→外地核（液態，鐵鎳）→內地核（固態）' },
+        { type:'key', text:'板塊構造：台灣位於歐亞板塊和菲律賓海板塊交界，地震頻繁' },
+        { type:'key', text:'地震波：P波（縱波，傳遞最快）；S波（橫波，不能穿過液體）' },
+        { type:'tip', text:'火山成因：板塊隱沒帶（海溝邊）或熱點（夏威夷）' },
+      ],
+      9: [
+        { type:'section', text:'9年級：天文' },
+        { type:'key', text:'太陽系行星（距太陽遠近）：水金地火木土天海（口訣：水進滴火，木土天海）' },
+        { type:'key', text:'月球：公轉=自轉週期（約 27.3 天），所以地球永遠看到同一面' },
+        { type:'key', text:'日食：月球在日地之間（新月）；月食：地球在日月之間（滿月）' },
+        { type:'formula', text:'恆星比較：表面溫度越高→顏色越藍；距離用光年表示\n1光年 ≈ 9.46 × 10¹² km' },
+      ],
+    }
+  },
+  'sc-experiment': {
+    title: '實驗題（科學方法、數據判讀）', emoji: '🔬',
+    grades: {
+      7: [
+        { type:'section', text:'7年級：科學方法' },
+        { type:'key', text:'科學方法步驟：觀察→問題→假設→實驗→結論（驗證假設）' },
+        { type:'key', text:'控制變因：只改變一個因素，其他保持不變（才能確定因果關係）' },
+        { type:'key', text:'自變數（實驗者改變的）/ 應變數（被測量的）/ 控制變數（固定的）' },
+      ],
+      8: [
+        { type:'section', text:'8年級：實驗數據' },
+        { type:'key', text:'平均值、誤差分析：重複實驗取平均，減少偶然誤差' },
+        { type:'key', text:'圖表類型：折線圖（連續變化）、長條圖（類別比較）、散點圖（相關性）' },
+        { type:'tip', text:'看實驗題：先找「目的」→「假設」→「操作」→「結果」→「結論」' },
+      ],
+      9: [
+        { type:'section', text:'9年級：綜合實驗判讀' },
+        { type:'key', text:'正相關/負相關/無相關：散點圖斜率方向判斷' },
+        { type:'warn', text:'「相關」≠「因果」，實驗題常考這個！冰淇淋銷量和溺斃人數相關≠冰淇淋害人溺斃' },
+        { type:'tip', text:'實驗設計題：一定要說明「對照組」（沒有實驗處理的那組）' },
+      ],
+    }
+  },
+
+  // ─────────── 社會 ───────────
+  'so-history': {
+    title: '歷史：台灣史、中國史、世界史', emoji: '🌏',
+    grades: {
+      7: [
+        { type:'section', text:'7年級：台灣史' },
+        { type:'key', text:'荷蘭統治（1624–1662）：引進甘蔗、對外貿易；普羅民遮城（赤崁樓）' },
+        { type:'key', text:'鄭氏時期（1662–1683）：鄭成功驅荷；反清復明；開拓農業' },
+        { type:'key', text:'清朝時期（1683–1895）：渡台三禁→解除；羅漢腳/閩客衝突；牡丹社事件' },
+        { type:'key', text:'日治時期（1895–1945）：現代化建設（鐵路/水利/衛生）；武裝抗日→文化抗日' },
+        { type:'tip', text:'台灣史時序口訣：原→荷→鄭→清→日→民國（按順序記）' },
+      ],
+      8: [
+        { type:'section', text:'8年級：中國史' },
+        { type:'key', text:'朝代順序：夏→商→周（春秋戰國）→秦→漢→三國→兩晉→南北朝→隋→唐→五代→宋→元→明→清' },
+        { type:'key', text:'秦始皇統一六國（221 BC）：書同文、車同軌、統一度量衡' },
+        { type:'key', text:'唐朝盛世：貞觀之治（太宗）→開元盛世（玄宗）；唐三彩；絲路貿易' },
+        { type:'key', text:'明清：鄭和下西洋（1405起）；清朝海禁→閉關自守→鴉片戰爭（1840）' },
+        { type:'warn', text:'「中體西用」（清末洋務運動）≠「全盤西化」，是保留傳統但學西方技術' },
+      ],
+      9: [
+        { type:'section', text:'9年級：世界史' },
+        { type:'key', text:'工業革命（18世紀英國）：蒸汽機→機器生產→城市化→資本主義' },
+        { type:'key', text:'一戰（1914–1918）：薩拉熱窩事件引爆；奧德義三國同盟 vs 英法俄協約' },
+        { type:'key', text:'二戰（1939–1945）：德國侵波蘭→太平洋珍珠港→原子彈廣島長崎→終戰' },
+        { type:'key', text:'冷戰（1945–1991）：美蘇對峙；北約 vs 華沙公約；柏林圍牆' },
+        { type:'tip', text:'世界史要抓「因果關係」：不是背年份，是理解「為什麼發生」' },
+      ],
+    }
+  },
+  'so-geography': {
+    title: '地理：台灣地理、亞洲、世界', emoji: '🌏',
+    grades: {
+      7: [
+        { type:'section', text:'7年級：台灣地理' },
+        { type:'key', text:'五大山脈（由西向東）：阿里山→玉山→中央→雪山→海岸山脈' },
+        { type:'key', text:'主要河流：濁水溪（最長）、高屏溪（流域最廣）、淡水河（台北）' },
+        { type:'key', text:'氣候：北回歸線穿嘉義，北部亞熱帶、南部熱帶；東北季風（冬）、西南季風（夏）' },
+        { type:'key', text:'農業：西部平原稻米；嘉南平原（烏山頭水庫）；高山茶葉（阿里山、梨山）' },
+        { type:'tip', text:'台灣地形：七山二丘一平原——東高西低，東部斷層海岸、西部台地平原' },
+      ],
+      8: [
+        { type:'section', text:'8年級：亞洲地理' },
+        { type:'key', text:'亞洲地形：喜馬拉雅山（聖母峰 8849m）、青藏高原（世界屋脊）、黃土高原' },
+        { type:'key', text:'主要河流：長江（亞洲最長）、黃河（文明搖籃）、恆河（印度聖河）、湄公河' },
+        { type:'key', text:'季風亞洲：夏季濕熱（西南季風）、冬季乾冷（東北季風）；水稻文化' },
+        { type:'note', text:'日本：火山地震多（位於環太平洋火環帶）；島國資源少→精緻農業和工業' },
+      ],
+      9: [
+        { type:'section', text:'9年級：世界地理重點' },
+        { type:'key', text:'氣候帶（由赤道到極地）：熱帶→副熱帶→溫帶→副極地→極地' },
+        { type:'key', text:'世界主要資源：石油（中東）、鐵礦（澳洲、巴西）、鑽石（非洲南部）' },
+        { type:'key', text:'全球化影響：國際分工、人口遷移、文化交流（也有衝突）' },
+        { type:'tip', text:'地圖判讀：先看比例尺（1:25000表示圖上1cm=實際250m）和方位' },
+      ],
+    }
+  },
+  'so-civics': {
+    title: '公民：法律、經濟、民主政治', emoji: '🌏',
+    grades: {
+      7: [
+        { type:'section', text:'7年級：法律基礎' },
+        { type:'key', text:'民法：規範私人之間的關係（財產/契約/家庭），由當事人自行解決為主' },
+        { type:'key', text:'刑法：國家追訴犯罪行為，保護社會秩序；違者受刑事制裁' },
+        { type:'key', text:'未成年人：未滿14歲不罰；14~18歲減輕；18歲以上完全責任' },
+        { type:'tip', text:'記住：法律是「最低限度的道德」——法律沒規定的，道德更高標準' },
+      ],
+      8: [
+        { type:'section', text:'8年級：經濟基礎' },
+        { type:'key', text:'供需法則：供給增加→價格下跌；需求增加→價格上升' },
+        { type:'key', text:'市場類型：完全競爭、寡占（少數大廠）、獨占（一家壟斷）' },
+        { type:'key', text:'GDP（國內生產毛額）= 一國一年內生產的所有財貨與服務的市場價值總和' },
+        { type:'tip', text:'通貨膨脹：物價持續上漲，貨幣購買力下降；通貨緊縮相反' },
+      ],
+      9: [
+        { type:'section', text:'9年級：民主政治' },
+        { type:'key', text:'三權分立：行政（執行）、立法（制定法律）、司法（解釋法律/審判）' },
+        { type:'key', text:'台灣五院：行政院、立法院、司法院、考試院、監察院' },
+        { type:'key', text:'人民參政權：選舉、罷免、創制、複決（四種直接民權）' },
+        { type:'key', text:'台灣 1996 年第一次總統直選，是民主化里程碑' },
+        { type:'warn', text:'「憲法」vs「法律」vs「命令」：位階由高到低，下位法不能違反上位法' },
+      ],
+    }
+  },
+  'so-current': {
+    title: '時事題（近年重大事件）', emoji: '🌏',
+    grades: {
+      7: [
+        { type:'section', text:'時事備考策略' },
+        { type:'key', text:'時事題考的是「分析能力」不是「背答案」——套用社會科概念分析' },
+        { type:'tip', text:'每週看 15 分鐘新聞或兒少版新聞，注意國內外大事' },
+        { type:'note', text:'近年熱門議題：氣候變遷、AI 科技、烏俄衝突、台海情勢' },
+      ],
+      8: [
+        { type:'section', text:'8年級：時事分析角度' },
+        { type:'key', text:'分析時事時：從歷史（過去為什麼）、地理（地點影響）、公民（制度如何回應）三角度看' },
+        { type:'note', text:'台灣民主選舉：2024 總統大選（賴清德當選）、立委選舉結果' },
+        { type:'tip', text:'會考出時事題通常有「提示段落」，答案就在提示裡，不需要課外知識' },
+      ],
+      9: [
+        { type:'section', text:'9年級：綜合時事' },
+        { type:'key', text:'聯合國永續發展目標（SDGs）17 項：消除貧窮、性別平等、氣候行動等' },
+        { type:'key', text:'全球暖化：溫室氣體（CO₂為主）增加→海平面上升→極端氣候' },
+        { type:'tip', text:'準備時事：用社會科架構整理新聞，不要死背事件，要理解因果' },
+      ],
+    }
+  },
+  'so-map': {
+    title: '地圖判讀與數據分析', emoji: '🌏',
+    grades: {
+      7: [
+        { type:'section', text:'7年級：地圖基礎' },
+        { type:'key', text:'地圖三要素：方位（通常上北下南）、比例尺（縮小倍數）、圖例（符號說明）' },
+        { type:'key', text:'比例尺計算：圖上距離 = 實際距離 / 縮小倍數。如1:50000，圖上2cm = 實際 1km' },
+        { type:'key', text:'等高線：線密坡陡、線疏坡緩；封閉圓形可能是山頂或窪地' },
+      ],
+      8: [
+        { type:'section', text:'8年級：圖表判讀' },
+        { type:'key', text:'折線圖：看趨勢（上升/下降/波動）和轉折點' },
+        { type:'key', text:'長條圖：比較不同類別數值大小' },
+        { type:'key', text:'圓形圖（派圖）：比較各部分佔整體的比例，所有扇形加起來= 100%' },
+        { type:'tip', text:'數據題技巧：看「標題→單位→刻度→最大最小值→趨勢」，五步驟' },
+      ],
+      9: [
+        { type:'section', text:'9年級：綜合地圖與數據' },
+        { type:'key', text:'統計地圖：用顏色/大小表示數據，色越深=值越大（看圖例確認）' },
+        { type:'key', text:'數據分析：不要只看絕對數字，也要看「變化率/比例」' },
+        { type:'warn', text:'圖表矛盾題：某選項和圖表數字明顯矛盾，就是錯的——回圖確認數字！' },
+      ],
+    }
+  },
+};
+
+let currentScopeId = null;
+let currentScopeGrade = 7;
+
+function openScope(id) {
+  const data = scopeData[id];
+  if (!data) return;
+  currentScopeId = id;
+  currentScopeGrade = 7;
+  document.getElementById('scopeModalEmoji').textContent = data.emoji;
+  document.getElementById('scopeModalTitle').textContent = data.title;
+  renderScopeContent(7);
+  document.querySelectorAll('.scope-grade-btn').forEach((b,i) => b.classList.toggle('active', i===0));
+  document.getElementById('scopeOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeScope() {
+  document.getElementById('scopeOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function closeScopeIfBg(e) {
+  if (e.target === document.getElementById('scopeOverlay')) closeScope();
+}
+
+function switchScopeGrade(grade, btn) {
+  currentScopeGrade = grade;
+  document.querySelectorAll('.scope-grade-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderScopeContent(grade);
+}
+
+function renderScopeContent(grade) {
+  const data = scopeData[currentScopeId];
+  if (!data) return;
+  const body = document.getElementById('scopeModalBody');
+  let items = [];
+  if (grade === 0) {
+    [7,8,9].forEach(g => {
+      if (data.grades[g]) {
+        items.push({ type:'grade-header', text: `${g} 年級`, grade: g });
+        items = items.concat(data.grades[g]);
+      }
+    });
+  } else {
+    items = data.grades[grade] || [{ type:'note', text:'此年級暫無資料，請看其他年級。' }];
+  }
+  let html = '';
+  items.forEach(item => {
+    if (item.type === 'grade-header') {
+      const cls = `grade${item.grade}`;
+      html += `<div style="margin:1rem 0 0.5rem;"><span class="scope-pill ${cls}" style="font-size:0.9rem;padding:0.3rem 1rem;">${item.text}</span></div>`;
+    } else if (item.type === 'section') {
+      html += `<div class="scope-section-title">${item.text}</div>`;
+    } else if (item.type === 'formula') {
+      html += `<div class="scope-formula-box">${item.text.replace(/\n/g,'<br>')}</div>`;
+    } else {
+      const cls = item.type === 'key' ? 'scope-note key' : item.type === 'warn' ? 'scope-note warn' : item.type === 'tip' ? 'scope-note tip' : 'scope-note';
+      html += `<div class="${cls}">${item.text}</div>`;
+    }
+  });
+  body.innerHTML = html || '<div class="scope-note">此年級暫無內容。</div>';
+  body.scrollTop = 0;
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeScope(); });
+
 </body>
 </html>
