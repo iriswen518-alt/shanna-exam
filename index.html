@@ -1,0 +1,1617 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shanna 的會考備戰計畫 🎯</title>
+<style>
+  :root {
+    --primary: #4f46e5;
+    --primary-light: #818cf8;
+    --secondary: #06b6d4;
+    --accent: #f59e0b;
+    --success: #10b981;
+    --danger: #ef4444;
+    --bg: #f0f4ff;
+    --card: #ffffff;
+    --text: #1e1b4b;
+    --muted: #6b7280;
+    --border: #e0e7ff;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #06b6d4 100%);
+    color: white;
+    padding: 3rem 1.5rem 4rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 50px;
+    padding: 0.4rem 1.2rem;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    margin-bottom: 1rem;
+    backdrop-filter: blur(10px);
+  }
+  .hero h1 {
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.2);
+  }
+  .hero p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin-bottom: 2rem;
+  }
+
+  /* Countdown */
+  .countdown {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .countdown-item {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 16px;
+    padding: 1rem 1.2rem;
+    min-width: 80px;
+    backdrop-filter: blur(10px);
+  }
+  .countdown-num {
+    font-size: 2.2rem;
+    font-weight: 900;
+    line-height: 1;
+    display: block;
+  }
+  .countdown-label {
+    font-size: 0.75rem;
+    opacity: 0.8;
+    margin-top: 0.3rem;
+    display: block;
+    letter-spacing: 0.05em;
+  }
+
+  /* ===== TABS ===== */
+  .tabs-wrapper {
+    background: white;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(79,70,229,0.08);
+  }
+  .tabs {
+    display: flex;
+    overflow-x: auto;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    gap: 0;
+    scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    padding: 1rem 1.2rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+  .tab-btn.active {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+  }
+  .tab-btn:hover { color: var(--primary); }
+
+  /* ===== CONTAINER ===== */
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1.5rem 1rem 4rem;
+  }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ===== CARDS ===== */
+  .card {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 8px rgba(79,70,229,0.06);
+  }
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+  }
+  .card-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+  }
+  .card h2 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .card h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.6rem;
+  }
+
+  /* ===== SUBJECTS ===== */
+  .subject-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+  .subject-card {
+    background: var(--card);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .subject-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(79,70,229,0.12);
+  }
+  .subject-header {
+    padding: 1.2rem;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  .subject-emoji { font-size: 1.8rem; }
+  .subject-header h3 { font-size: 1.1rem; font-weight: 700; margin: 0; }
+  .subject-header p { font-size: 0.8rem; opacity: 0.9; margin: 0; }
+  .subject-body { padding: 1.2rem; }
+
+  .scope-list {
+    list-style: none;
+    margin-bottom: 1rem;
+  }
+  .scope-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    font-size: 0.88rem;
+    color: var(--muted);
+    padding: 0.25rem 0;
+    border-bottom: 1px solid #f3f4f6;
+  }
+  .scope-list li:last-child { border-bottom: none; }
+  .scope-list li::before {
+    content: '▸';
+    color: var(--primary-light);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .method-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.8rem;
+  }
+  .tag {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    padding: 0.25rem 0.7rem;
+    font-size: 0.78rem;
+    color: var(--primary);
+    font-weight: 500;
+  }
+
+  /* Subject colors */
+  .s-chinese .subject-header { background: linear-gradient(135deg, #ef4444, #f97316); }
+  .s-english .subject-header { background: linear-gradient(135deg, #06b6d4, #3b82f6); }
+  .s-math .subject-header { background: linear-gradient(135deg, #8b5cf6, #4f46e5); }
+  .s-science .subject-header { background: linear-gradient(135deg, #10b981, #059669); }
+  .s-social .subject-header { background: linear-gradient(135deg, #f59e0b, #d97706); }
+
+  /* ===== TIMELINE ===== */
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0.6rem;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--primary), var(--secondary));
+    border-radius: 2px;
+  }
+  .timeline-item {
+    position: relative;
+    margin-bottom: 1.5rem;
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -1.65rem;
+    top: 0.3rem;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--primary);
+    border: 2px solid white;
+    box-shadow: 0 0 0 2px var(--primary);
+  }
+  .timeline-item.done::before { background: var(--success); box-shadow: 0 0 0 2px var(--success); }
+  .timeline-item.current::before {
+    background: var(--accent);
+    box-shadow: 0 0 0 2px var(--accent), 0 0 0 6px rgba(245,158,11,0.2);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 2px var(--accent), 0 0 0 6px rgba(245,158,11,0.2); }
+    50% { box-shadow: 0 0 0 2px var(--accent), 0 0 0 10px rgba(245,158,11,0.1); }
+  }
+  .timeline-month {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.4rem;
+  }
+  .timeline-content {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem;
+  }
+  .timeline-content h4 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--text);
+  }
+  .timeline-tasks {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  .timeline-tasks li {
+    font-size: 0.85rem;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .timeline-tasks li::before { content: '•'; color: var(--primary-light); }
+
+  /* ===== WEEKLY SCHEDULE ===== */
+  .schedule-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 0.85rem;
+  }
+  .schedule-table th {
+    background: var(--primary);
+    color: white;
+    padding: 0.7rem 0.5rem;
+    text-align: center;
+    font-weight: 600;
+  }
+  .schedule-table th:first-child { border-radius: 10px 0 0 0; }
+  .schedule-table th:last-child { border-radius: 0 10px 0 0; }
+  .schedule-table td {
+    padding: 0.6rem 0.5rem;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    color: var(--muted);
+  }
+  .schedule-table td:first-child {
+    font-weight: 600;
+    color: var(--text);
+    background: #f8f9ff;
+    border-left: 1px solid var(--border);
+  }
+  .schedule-table tr:last-child td { border-bottom: 1px solid var(--border); }
+
+  .cell-subject {
+    display: inline-block;
+    padding: 0.2rem 0.5rem;
+    border-radius: 6px;
+    font-size: 0.78rem;
+    font-weight: 600;
+  }
+  .c-ch { background: #fee2e2; color: #dc2626; }
+  .c-en { background: #dbeafe; color: #1d4ed8; }
+  .c-ma { background: #ede9fe; color: #6d28d9; }
+  .c-sc { background: #d1fae5; color: #065f46; }
+  .c-so { background: #fef3c7; color: #92400e; }
+  .c-re { background: #f1f5f9; color: #64748b; }
+  .c-wr { background: #fce7f3; color: #9d174d; }
+
+  /* ===== PROGRESS ===== */
+  .checklist {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .checklist-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.6rem 0.8rem;
+    border-radius: 10px;
+    background: #f8f9ff;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+  }
+  .checklist-item:hover { background: #eef2ff; }
+  .checklist-item.checked {
+    background: #ecfdf5;
+    border-color: #a7f3d0;
+  }
+  .checklist-item.checked span { text-decoration: line-through; color: var(--muted); }
+  .checklist-item input[type=checkbox] {
+    width: 18px; height: 18px;
+    accent-color: var(--success);
+    flex-shrink: 0;
+  }
+  .checklist-item span { font-size: 0.9rem; }
+
+  .progress-bar-wrapper {
+    background: #e5e7eb;
+    border-radius: 50px;
+    height: 10px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+  }
+  .progress-bar {
+    height: 100%;
+    border-radius: 50px;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    transition: width 0.4s ease;
+  }
+  .progress-label {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* ===== QUIZ ===== */
+  .quiz-subject-tabs {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+  }
+  .q-tab {
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    border: 2px solid var(--border);
+    background: white;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--muted);
+  }
+  .q-tab.active, .q-tab:hover {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: white;
+  }
+
+  .quiz-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  .quiz-num {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--primary-light);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.5rem;
+  }
+  .quiz-q {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 1rem;
+    line-height: 1.5;
+  }
+  .quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .quiz-option {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.7rem 1rem;
+    border-radius: 10px;
+    border: 2px solid var(--border);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.9rem;
+  }
+  .quiz-option:hover { border-color: var(--primary-light); background: #f0f4ff; }
+  .quiz-option.correct { border-color: var(--success); background: #ecfdf5; color: #065f46; }
+  .quiz-option.wrong { border-color: var(--danger); background: #fef2f2; color: #991b1b; }
+  .quiz-option.disabled { cursor: default; }
+  .quiz-option-key {
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+    border: 1px solid var(--border);
+  }
+  .quiz-explain {
+    margin-top: 1rem;
+    padding: 0.8rem 1rem;
+    background: #f0fdf4;
+    border-left: 3px solid var(--success);
+    border-radius: 0 8px 8px 0;
+    font-size: 0.88rem;
+    color: #065f46;
+    display: none;
+    line-height: 1.5;
+  }
+  .quiz-score-bar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.2rem;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border-radius: 12px;
+    color: white;
+    margin-bottom: 1.5rem;
+  }
+  .quiz-score-bar .score-big { font-size: 2rem; font-weight: 900; }
+  .quiz-score-bar .score-text { font-size: 0.9rem; opacity: 0.9; }
+
+  /* ===== TIPS ===== */
+  .tip-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1rem;
+  }
+  .tip-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.2rem;
+  }
+  .tip-card h4 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 0.7rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .tip-card ul {
+    padding-left: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+  .tip-card li {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  /* ===== RESOURCES ===== */
+  .resource-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.2rem;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--text);
+    transition: all 0.2s;
+    margin-bottom: 0.5rem;
+  }
+  .resource-link:hover {
+    border-color: var(--primary);
+    box-shadow: 0 2px 12px rgba(79,70,229,0.1);
+    transform: translateX(3px);
+  }
+  .resource-link .r-icon {
+    font-size: 1.5rem;
+    width: 44px; height: 44px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--bg);
+    border-radius: 10px;
+    flex-shrink: 0;
+  }
+  .resource-link .r-info h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.2rem; }
+  .resource-link .r-info p { font-size: 0.8rem; color: var(--muted); }
+  .resource-link .r-arrow { margin-left: auto; color: var(--muted); font-size: 1.2rem; }
+
+  /* ===== SECTION TITLE ===== */
+  .section-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--text);
+    margin: 1.5rem 0 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 2px;
+    background: var(--border);
+    border-radius: 2px;
+  }
+
+  /* ===== SCORE GUIDE ===== */
+  .score-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    margin-top: 0.5rem;
+  }
+  .score-table th, .score-table td {
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .score-table th { background: var(--bg); font-weight: 700; color: var(--text); }
+  .score-badge {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.8rem;
+  }
+  .s-aplus2 { background: #fef08a; color: #713f12; }
+  .s-aplus { background: #fde68a; color: #78350f; }
+  .s-a { background: #d1fae5; color: #065f46; }
+  .s-bplus2 { background: #bfdbfe; color: #1e40af; }
+  .s-bplus { background: #e0e7ff; color: #3730a3; }
+  .s-b { background: #f1f5f9; color: #475569; }
+  .s-c { background: #fee2e2; color: #991b1b; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 2rem;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  /* ===== Responsive ===== */
+  @media (max-width: 600px) {
+    .hero { padding: 2rem 1rem 3rem; }
+    .countdown-num { font-size: 1.6rem; }
+    .countdown-item { min-width: 60px; padding: 0.7rem; }
+    .subject-grid { grid-template-columns: 1fr; }
+    .tip-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">📚 Shanna 的會考備戰基地</div>
+  <h1>國中教育會考<br>全科衝刺計畫</h1>
+  <p>2027 年 5 月會考 — 從現在開始，每一天都算數 💪</p>
+  <!-- 今日一句 -->
+  <div id="daily-quote" style="
+    margin: 0 auto 2rem;
+    max-width: 520px;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 16px;
+    padding: 1rem 1.4rem;
+    backdrop-filter: blur(10px);
+    font-size: 1rem;
+    line-height: 1.6;
+    letter-spacing: 0.02em;
+  ">
+    <div style="font-size:1.3rem;margin-bottom:0.3rem;">✨ 今日一句</div>
+    <div id="quote-text" style="font-weight:600;"></div>
+    <div id="quote-author" style="font-size:0.8rem;opacity:0.75;margin-top:0.4rem;"></div>
+  </div>
+
+  <div class="countdown" id="countdown">
+    <div class="countdown-item"><span class="countdown-num" id="cd-days">--</span><span class="countdown-label">天</span></div>
+    <div class="countdown-item"><span class="countdown-num" id="cd-hours">--</span><span class="countdown-label">小時</span></div>
+    <div class="countdown-item"><span class="countdown-num" id="cd-mins">--</span><span class="countdown-label">分鐘</span></div>
+    <div class="countdown-item"><span class="countdown-num" id="cd-secs">--</span><span class="countdown-label">秒</span></div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs-wrapper">
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('subjects')">📖 各科範圍</button>
+    <button class="tab-btn" onclick="switchTab('plan')">📅 備戰計畫</button>
+    <button class="tab-btn" onclick="switchTab('schedule')">⏰ 每週課表</button>
+    <button class="tab-btn" onclick="switchTab('quiz')">✏️ 模擬測驗</button>
+    <button class="tab-btn" onclick="switchTab('tips')">💡 讀書技巧</button>
+    <button class="tab-btn" onclick="switchTab('progress')">✅ 進度追蹤</button>
+    <button class="tab-btn" onclick="switchTab('resources')">🔗 考古題資源</button>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- TAB: SUBJECTS -->
+  <div id="tab-subjects" class="tab-panel active">
+    <h2 class="section-title">🎯 會考評分標準</h2>
+    <div class="card">
+      <table class="score-table">
+        <tr><th>等級</th><th>說明</th><th>代表意義</th></tr>
+        <tr><td><span class="score-badge s-aplus2">A++</span></td><td>精熟（頂標）</td><td>答對率超過 90%，全年級頂尖</td></tr>
+        <tr><td><span class="score-badge s-aplus">A+</span></td><td>精熟（前標）</td><td>答對率約 80–90%，表現優秀</td></tr>
+        <tr><td><span class="score-badge s-a">A</span></td><td>精熟</td><td>已完整掌握課程核心概念</td></tr>
+        <tr><td><span class="score-badge s-bplus2">B++</span></td><td>基礎（頂標）</td><td>大部分概念掌握，少數不穩</td></tr>
+        <tr><td><span class="score-badge s-bplus">B+</span></td><td>基礎（前標）</td><td>基本觀念有基礎，需加強</td></tr>
+        <tr><td><span class="score-badge s-b">B</span></td><td>基礎</td><td>達到基本學力水準</td></tr>
+        <tr><td><span class="score-badge s-c">C</span></td><td>待加強</td><td>需要補強基礎</td></tr>
+      </table>
+      <p style="font-size:0.82rem;color:var(--muted);margin-top:0.8rem;">📝 作文另計：6 級分制（1–6分）；滿分為 A++ × 5科 + 作文 6 級分</p>
+    </div>
+
+    <h2 class="section-title">📚 五科考試範圍</h2>
+    <div class="subject-grid">
+
+      <!-- 國文 -->
+      <div class="subject-card s-chinese">
+        <div class="subject-header">
+          <div class="subject-emoji">📜</div>
+          <div><h3>國文</h3><p>60題 × 2分 = 120分</p></div>
+        </div>
+        <div class="subject-body">
+          <h3>考試範圍</h3>
+          <ul class="scope-list">
+            <li>七〜九年級課文閱讀與理解</li>
+            <li>文言文翻譯與字義辨析</li>
+            <li>現代文章段落大意、主旨</li>
+            <li>字音字形（注音、國字辨識）</li>
+            <li>成語、俗語、典故運用</li>
+            <li>修辭技巧（比喻、排比、設問…）</li>
+            <li>作文（議論文為主）</li>
+          </ul>
+          <h3>核心準備重點</h3>
+          <div class="method-tags">
+            <span class="tag">課文精讀</span>
+            <span class="tag">字音字形練習</span>
+            <span class="tag">作文格式</span>
+            <span class="tag">文言文翻譯</span>
+            <span class="tag">閱讀理解題型</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 英文 -->
+      <div class="subject-card s-english">
+        <div class="subject-header">
+          <div class="subject-emoji">🌍</div>
+          <div><h3>英文</h3><p>41題 × 2分＋聽力</p></div>
+        </div>
+        <div class="subject-body">
+          <h3>考試範圍</h3>
+          <ul class="scope-list">
+            <li>國中 1200 個核心單字</li>
+            <li>文法：時態、語態、假設語氣</li>
+            <li>對話理解（日常情境）</li>
+            <li>閱讀測驗（短文、圖表）</li>
+            <li>克漏字（文法＋語意）</li>
+            <li>聽力：對話、短篇報導</li>
+          </ul>
+          <h3>核心準備重點</h3>
+          <div class="method-tags">
+            <span class="tag">單字每日背</span>
+            <span class="tag">文法整理</span>
+            <span class="tag">聽力每天練</span>
+            <span class="tag">閱讀理解技巧</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 數學 -->
+      <div class="subject-card s-math">
+        <div class="subject-header">
+          <div class="subject-emoji">🔢</div>
+          <div><h3>數學</h3><p>25題 × 5分 = 125分</p></div>
+        </div>
+        <div class="subject-body">
+          <h3>考試範圍</h3>
+          <ul class="scope-list">
+            <li>數與式（整數、分數、根號）</li>
+            <li>一元一次、二次方程式</li>
+            <li>聯立方程式、不等式</li>
+            <li>函數與圖形（一次、二次函數）</li>
+            <li>幾何（平行、全等、相似）</li>
+            <li>三角形與圓的性質</li>
+            <li>統計與機率</li>
+          </ul>
+          <h3>核心準備重點</h3>
+          <div class="method-tags">
+            <span class="tag">公式熟記</span>
+            <span class="tag">大量練習題</span>
+            <span class="tag">錯題整理</span>
+            <span class="tag">圖形題解題</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 自然 -->
+      <div class="subject-card s-science">
+        <div class="subject-header">
+          <div class="subject-emoji">🔬</div>
+          <div><h3>自然科學</h3><p>54題 × 2分＋非選</p></div>
+        </div>
+        <div class="subject-body">
+          <h3>考試範圍</h3>
+          <ul class="scope-list">
+            <li>生物：細胞、遺傳、生態系統</li>
+            <li>理化：力學、光學、電學、熱學</li>
+            <li>化學：物質變化、酸鹼鹽、有機</li>
+            <li>地科：地殼變動、天氣、天文</li>
+            <li>實驗題（科學方法、數據判讀）</li>
+          </ul>
+          <h3>核心準備重點</h3>
+          <div class="method-tags">
+            <span class="tag">實驗觀念</span>
+            <span class="tag">圖表判讀</span>
+            <span class="tag">公式應用</span>
+            <span class="tag">四科均衡</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 社會 -->
+      <div class="subject-card s-social">
+        <div class="subject-header">
+          <div class="subject-emoji">🌏</div>
+          <div><h3>社會</h3><p>63題 × 2分＋非選</p></div>
+        </div>
+        <div class="subject-body">
+          <h3>考試範圍</h3>
+          <ul class="scope-list">
+            <li>歷史：台灣史、中國史、世界史</li>
+            <li>地理：台灣地理、亞洲、世界</li>
+            <li>公民：法律、經濟、民主政治</li>
+            <li>時事題（近年重大事件）</li>
+            <li>地圖判讀與數據分析</li>
+          </ul>
+          <h3>核心準備重點</h3>
+          <div class="method-tags">
+            <span class="tag">時間軸整理</span>
+            <span class="tag">地圖背誦</span>
+            <span class="tag">概念連結</span>
+            <span class="tag">時事追蹤</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TAB: PLAN -->
+  <div id="tab-plan" class="tab-panel">
+    <h2 class="section-title">📅 11 個月備戰時間表</h2>
+    <div class="card" style="background:#fffbeb;border-color:#fde68a;">
+      <p style="font-size:0.9rem;color:#92400e;">📌 <strong>會考時程：</strong>2027 年 5 月 15–16 日（預估）｜ 現在距今約 11 個月，時間充足但需有計畫！</p>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item current">
+        <div class="timeline-month">2026 年 7–8 月｜暑假衝刺</div>
+        <div class="timeline-content">
+          <h4>🔥 暑假是最重要的黃金備戰期</h4>
+          <ul class="timeline-tasks">
+            <li>完整複習七年級所有科目基礎</li>
+            <li>英文：把 1200 單字第一輪背完</li>
+            <li>數學：七年級重要題型全部練一遍</li>
+            <li>每週至少做一份各科練習卷</li>
+            <li>建立錯題本習慣（數學＋理化）</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-month">2026 年 9–10 月｜九年級開學</div>
+        <div class="timeline-content">
+          <h4>📚 跟上學校進度，同步複習</h4>
+          <ul class="timeline-tasks">
+            <li>學校課程認真跟上，不落後</li>
+            <li>八年級內容：整理重點筆記</li>
+            <li>國文：開始練習作文（每週一篇）</li>
+            <li>自然：生物＋地科系統複習</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-month">2026 年 11–12 月｜深度補強</div>
+        <div class="timeline-content">
+          <h4>🎯 找出弱科，集中火力</h4>
+          <ul class="timeline-tasks">
+            <li>自我評估各科弱點，排補強順序</li>
+            <li>數學：幾何＋函數重點攻克</li>
+            <li>社會：歷史時間軸整理完畢</li>
+            <li>英文：文法題型分類整理</li>
+            <li>開始做歷年考古題（110–112 年）</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-month">2027 年 1–2 月｜九年級下學期＋寒假</div>
+        <div class="timeline-content">
+          <h4>📝 模擬考全面啟動</h4>
+          <ul class="timeline-tasks">
+            <li>每週完整模擬一個科目（計時）</li>
+            <li>完成 3 年份考古題回顧</li>
+            <li>作文：練習各類主題議論文</li>
+            <li>錯題本每週重做一遍</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-month">2027 年 3–4 月｜最終衝刺</div>
+        <div class="timeline-content">
+          <h4>⚡ 全科總複習，每天限時練習</h4>
+          <ul class="timeline-tasks">
+            <li>每天輪流做各科限時模擬（1.5 小時）</li>
+            <li>整理最易錯的 50 題（每科）</li>
+            <li>理化公式卡每天翻閱</li>
+            <li>英文聽力：每天練 20 分鐘</li>
+            <li>保持規律作息，早睡早起</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-month">2027 年 5 月｜考前 2 週</div>
+        <div class="timeline-content">
+          <h4>🧘 放鬆調整，保持狀態</h4>
+          <ul class="timeline-tasks">
+            <li>不要大量新內容，只複習熟悉的</li>
+            <li>每天翻看筆記、公式、單字</li>
+            <li>規律睡眠（10:30 前就寢）</li>
+            <li>考前一天：準備文具、放鬆心情</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: SCHEDULE -->
+  <div id="tab-schedule" class="tab-panel">
+    <h2 class="section-title">⏰ 平日讀書時間表</h2>
+    <div class="card" style="background:#f0f4ff;">
+      <p style="font-size:0.88rem;color:var(--muted);">💡 每天至少讀 2–2.5 小時，週末拉長到 4 小時。科目每天輪換，避免單一科目疲勞。</p>
+    </div>
+
+    <div class="card">
+      <table class="schedule-table">
+        <thead>
+          <tr>
+            <th>時段</th><th>一</th><th>二</th><th>三</th><th>四</th><th>五</th><th>六</th><th>日</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>放學後<br>17:00–18:00</td>
+            <td><span class="cell-subject c-ma">數學</span></td>
+            <td><span class="cell-subject c-en">英文</span></td>
+            <td><span class="cell-subject c-sc">自然</span></td>
+            <td><span class="cell-subject c-so">社會</span></td>
+            <td><span class="cell-subject c-ch">國文</span></td>
+            <td><span class="cell-subject c-re">自由複習</span></td>
+            <td><span class="cell-subject c-re">戶外活動</span></td>
+          </tr>
+          <tr>
+            <td>晚餐後<br>19:30–21:00</td>
+            <td><span class="cell-subject c-en">英文單字</span></td>
+            <td><span class="cell-subject c-sc">自然</span></td>
+            <td><span class="cell-subject c-ma">數學題</span></td>
+            <td><span class="cell-subject c-ch">國文</span></td>
+            <td><span class="cell-subject c-so">社會</span></td>
+            <td><span class="cell-subject c-ma">弱科補強</span></td>
+            <td><span class="cell-subject c-wr">作文練習</span></td>
+          </tr>
+          <tr>
+            <td>睡前<br>21:00–21:30</td>
+            <td>錯題複習</td>
+            <td>單字複習</td>
+            <td>筆記整理</td>
+            <td>公式卡</td>
+            <td>本週回顧</td>
+            <td>考古題</td>
+            <td>下週計畫</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="section-title">📖 每日讀書節奏（番茄鐘法）</h2>
+    <div class="tip-grid">
+      <div class="tip-card">
+        <h4>🍅 番茄鐘法</h4>
+        <ul>
+          <li>讀書 25 分鐘，休息 5 分鐘</li>
+          <li>每完成 4 個番茄，休息 15 分鐘</li>
+          <li>手機放到另一個房間</li>
+          <li>每個番茄只專注一件事</li>
+        </ul>
+      </div>
+      <div class="tip-card">
+        <h4>📓 每日必做 3 件事</h4>
+        <ul>
+          <li>背 10–15 個英文單字（睡前複習）</li>
+          <li>做 5 題數學題（不偷看解答）</li>
+          <li>看錯題本一頁（不解不睡）</li>
+        </ul>
+      </div>
+      <div class="tip-card">
+        <h4>😴 睡眠作息</h4>
+        <ul>
+          <li>10:30 前就寢（睡眠鞏固記憶）</li>
+          <li>早起 7:00 背單字或看筆記</li>
+          <li>午休 20 分鐘可大幅提升下午效率</li>
+          <li>考前兩週絕對不熬夜</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: QUIZ -->
+  <div id="tab-quiz" class="tab-panel">
+    <h2 class="section-title">✏️ 模擬測驗（歷屆考古題改編）</h2>
+    <div class="quiz-score-bar">
+      <div>
+        <div class="score-big" id="quiz-score-display">0 / 0</div>
+        <div class="score-text" id="quiz-score-text">選題目開始作答 👇</div>
+      </div>
+    </div>
+
+    <div class="quiz-subject-tabs">
+      <button class="q-tab active" onclick="showQuiz('all')">全部</button>
+      <button class="q-tab" onclick="showQuiz('chinese')">📜 國文</button>
+      <button class="q-tab" onclick="showQuiz('english')">🌍 英文</button>
+      <button class="q-tab" onclick="showQuiz('math')">🔢 數學</button>
+      <button class="q-tab" onclick="showQuiz('science')">🔬 自然</button>
+      <button class="q-tab" onclick="showQuiz('social')">🌏 社會</button>
+    </div>
+
+    <div id="quiz-container"></div>
+  </div>
+
+  <!-- TAB: TIPS -->
+  <div id="tab-tips" class="tab-panel">
+    <h2 class="section-title">💡 各科高效讀書法</h2>
+    <div class="tip-grid">
+      <div class="tip-card">
+        <h4>📜 國文攻略</h4>
+        <ul>
+          <li>每天抄寫 5 個易錯國字</li>
+          <li>課文至少讀 3 遍，注意段落結構</li>
+          <li>作文：每週練一篇，注意字數不少於 600</li>
+          <li>文言文：先抓句子主幹再看譯文</li>
+          <li>閱讀題：先看題目，再讀文章</li>
+        </ul>
+      </div>
+      <div class="tip-card">
+        <h4>🌍 英文攻略</h4>
+        <ul>
+          <li>每天固定時間背單字（睡前最佳）</li>
+          <li>聽力：用 YouTube / podcast 練習自然語速</li>
+          <li>文法：整理表格（時態/語態對照）</li>
+          <li>閱讀：先看題目、再讀文章找答案</li>
+          <li>克漏字：先讀整段理解語意再填</li>
+        </ul>
+      </div>
+      <div class="tip-card">
+        <h4>🔢 數學攻略</h4>
+        <ul>
+          <li>每題都要動手算，不能只看解答</li>
+          <li>錯題記進「錯題本」，每週重做</li>
+          <li>計算題先確認公式，再代入</li>
+          <li>幾何題：先標出已知條件再畫輔助線</li>
+          <li>計算過程整齊，避免低級錯誤</li>
+        </ul>
+      </div>
+      <div class="tip-card">
+        <h4>🔬 自然攻略</h4>
+        <ul>
+          <li>理化：先記概念，再記公式</li>
+          <li>生物：用心智圖整理概念關係</li>
+          <li>實驗題：背清楚各實驗的變因</li>
+          <li>圖表題：先看標題再看數據</li>
+          <li>不同章節間的連結很重要（如電磁感應）</li>
+        </ul>
+      </div>
+      <div class="tip-card">
+        <h4>🌏 社會攻略</h4>
+        <ul>
+          <li>歷史：畫時間軸，連結事件因果</li>
+          <li>地理：配合地圖背，不只背文字</li>
+          <li>公民：理解概念比死背條文重要</li>
+          <li>時事：每週看 5 分鐘新聞摘要</li>
+          <li>非選題：用「是什麼→為什麼→影響」回答</li>
+        </ul>
+      </div>
+      <div class="tip-card">
+        <h4>🧠 通用讀書法</h4>
+        <ul>
+          <li>考古題要模擬真實考試（計時作答）</li>
+          <li>錯的題目比答對的更值得研究</li>
+          <li>讀書前寫下今天的目標（具體）</li>
+          <li>每次讀完寫下「今天學到什麼」</li>
+          <li>遇到不懂的隔天立刻問老師</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2 class="section-title">📱 推薦工具與 App</h2>
+    <div class="tip-grid">
+      <div class="tip-card">
+        <h4>⏱️ 時間管理</h4>
+        <ul>
+          <li><strong>Forest App</strong> – 番茄鐘，種樹獎勵機制</li>
+          <li><strong>Toggl Track</strong> – 記錄每科讀書時間</li>
+          <li>實體計時器效果更好</li>
+        </ul>
+      </div>
+      <div class="tip-card">
+        <h4>📖 學習工具</h4>
+        <ul>
+          <li><strong>Anki / Quizlet</strong> – 英文單字間隔記憶</li>
+          <li><strong>Khan Academy</strong> – 數學免費教學影片</li>
+          <li><strong>均一平台</strong> – 台灣中學題庫</li>
+        </ul>
+      </div>
+      <div class="tip-card">
+        <h4>🎧 輕鬆記憶</h4>
+        <ul>
+          <li>自製重點筆記貼在桌邊</li>
+          <li>用錄音背誦（對著手機說）</li>
+          <li>教別人是最好的複習方式</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: PROGRESS -->
+  <div id="tab-progress" class="tab-panel">
+    <h2 class="section-title">✅ 備戰進度追蹤</h2>
+    <div class="card">
+      <div class="progress-label">
+        <span>整體完成進度</span>
+        <span id="overall-progress-text">0%</span>
+      </div>
+      <div class="progress-bar-wrapper">
+        <div class="progress-bar" id="overall-progress-bar" style="width:0%"></div>
+      </div>
+    </div>
+
+    <h3 class="section-title">📜 國文</h3>
+    <ul class="checklist" id="checklist-chinese">
+      <li class="checklist-item" data-id="ch1" onclick="toggleCheck(this)"><input type="checkbox" onclick="event.stopPropagation()"><span>七年級課文全部讀過一遍</span></li>
+      <li class="checklist-item" data-id="ch2" onclick="toggleCheck(this)"><input type="checkbox" onclick="event.stopPropagation()"><span>八年級課文全部讀過一遍</span></li>
+      <li class="checklist-item" data-id="ch3" onclick="toggleCheck(this)"><input type="checkbox" onclick="event.stopPropagation()"><span>字音字形練習 500 題</span></li>
+      <li class="checklist-item" data-id="ch4" onclick="toggleCheck(this)"><input type="checkbox" onclick="event.stopPropagation()"><span>成語練習 200 題</span></li>
+      <li class="checklist-item" data-id="ch5" onclick="toggleCheck(this)"><input type="checkbox" onclick="event.stopPropagation()"><span>作文練習 8 篇以上</span></li>
+      <li class="checklist-item" data-id="ch6" onclick="toggleCheck(this)"><input type="checkbox" onclick="event.stopPropagation()"><span>歷屆考古題（國文）3 份完整作答</span></li>
+    </ul>
+
+    <h3 class="section-title">🌍 英文</h3>
+    <ul class="checklist" id="checklist-english">
+      <li class="checklist-item" data-id="en1" onclick="toggleCheck(this)"><input type="checkbox" onclick="event.stopPropagation()"><span>1200 單字第一輪背完</span></li>
+      <li class="checklist-item" data-id="en2" onclick="toggleCheck(this)"><input type="checkbox" onclick="event.stopPropagation()"><span>1200 單字第二輪複習</span></li>
+      <li class="checklist-item" data-id="en3" onclick="toggleCheck(this)"><input type="checkbox" onclick="event.stopPropagation()"><span>文法重點整理（時態/語態）</span></li>
+      <li class="checklist-item" data-id="en4" onclick="toggleCheck(this)"><input type="checkbox" onclick="event.stopPropagation()"><span>聽力練習 30 回以上</span></li>
+      <li class="checklist-item" data-id="en5" onclick="toggleCheck(this)"><input type="checkbox" onclick="event.stopPropagation()"><span>閱讀測驗技巧練習</span></li>
+      <li class="checklist-item" data-id="en6" onclick="toggleCheck(this)"><input type="checkbox" onclick="event.stopPropagation()"><span>歷屆考古題（英文）3 份完整作答</span></li>
+    </ul>
+
+    <h3 class="section-title">🔢 數學</h3>
+    <ul class="checklist" id="checklist-math">
+      <li class="checklist-item" data-id="ma1" onclick="toggleCheck(this)"><input type="checkbox" onclick="event.stopPropagation()"><span>七年級數學全部重新練習</span></li>
+      <li class="checklist-item" data-id="ma2" onclick="toggleCheck(this)"><input type="checkbox" onclick="event.stopPropagation()"><span>八年級數學全部重新練習</span></li>
+      <li class="checklist-item" data-id="ma3" onclick="toggleCheck(this)"><input type="checkbox" onclick="event.stopPropagation()"><span>函數圖形（一次、二次）熟練</span></li>
+      <li class="checklist-item" data-id="ma4" onclick="toggleCheck(this)"><input type="checkbox" onclick="event.stopPropagation()"><span>幾何題（全等、相似、圓）熟練</span></li>
+      <li class="checklist-item" data-id="ma5" onclick="toggleCheck(this)"><input type="checkbox" onclick="event.stopPropagation()"><span>錯題本整理並重做</span></li>
+      <li class="checklist-item" data-id="ma6" onclick="toggleCheck(this)"><input type="checkbox" onclick="event.stopPropagation()"><span>歷屆考古題（數學）3 份完整作答</span></li>
+    </ul>
+
+    <h3 class="section-title">🔬 自然科學</h3>
+    <ul class="checklist" id="checklist-science">
+      <li class="checklist-item" data-id="sc1" onclick="toggleCheck(this)"><input type="checkbox" onclick="event.stopPropagation()"><span>生物：細胞、遺傳、生態 整理完畢</span></li>
+      <li class="checklist-item" data-id="sc2" onclick="toggleCheck(this)"><input type="checkbox" onclick="event.stopPropagation()"><span>理化：力學、光學 整理完畢</span></li>
+      <li class="checklist-item" data-id="sc3" onclick="toggleCheck(this)"><input type="checkbox" onclick="event.stopPropagation()"><span>化學：酸鹼、氧化還原 整理完畢</span></li>
+      <li class="checklist-item" data-id="sc4" onclick="toggleCheck(this)"><input type="checkbox" onclick="event.stopPropagation()"><span>地科：地殼、天氣、天文 整理完畢</span></li>
+      <li class="checklist-item" data-id="sc5" onclick="toggleCheck(this)"><input type="checkbox" onclick="event.stopPropagation()"><span>實驗題型練習 20 題以上</span></li>
+      <li class="checklist-item" data-id="sc6" onclick="toggleCheck(this)"><input type="checkbox" onclick="event.stopPropagation()"><span>歷屆考古題（自然）3 份完整作答</span></li>
+    </ul>
+
+    <h3 class="section-title">🌏 社會</h3>
+    <ul class="checklist" id="checklist-social">
+      <li class="checklist-item" data-id="so1" onclick="toggleCheck(this)"><input type="checkbox" onclick="event.stopPropagation()"><span>台灣史時間軸整理完畢</span></li>
+      <li class="checklist-item" data-id="so2" onclick="toggleCheck(this)"><input type="checkbox" onclick="event.stopPropagation()"><span>世界史重要事件整理</span></li>
+      <li class="checklist-item" data-id="so3" onclick="toggleCheck(this)"><input type="checkbox" onclick="event.stopPropagation()"><span>地理：台灣地圖、亞洲地圖熟記</span></li>
+      <li class="checklist-item" data-id="so4" onclick="toggleCheck(this)"><input type="checkbox" onclick="event.stopPropagation()"><span>公民：法律、民主、經濟觀念整理</span></li>
+      <li class="checklist-item" data-id="so5" onclick="toggleCheck(this)"><input type="checkbox" onclick="event.stopPropagation()"><span>時事題整理（近 2 年重大事件）</span></li>
+      <li class="checklist-item" data-id="so6" onclick="toggleCheck(this)"><input type="checkbox" onclick="event.stopPropagation()"><span>歷屆考古題（社會）3 份完整作答</span></li>
+    </ul>
+
+    <div style="margin-top:1.5rem;">
+      <button onclick="resetProgress()" style="background:none;border:1px solid #ef4444;color:#ef4444;padding:0.5rem 1rem;border-radius:8px;cursor:pointer;font-size:0.85rem;">🗑️ 重設所有進度</button>
+    </div>
+  </div>
+
+  <!-- TAB: RESOURCES -->
+  <div id="tab-resources" class="tab-panel">
+    <h2 class="section-title">🔗 考古題與學習資源</h2>
+    <div class="card" style="background:#ecfdf5;border-color:#a7f3d0;">
+      <p style="font-size:0.88rem;color:#065f46;">✅ 以下是台灣國中教育會考官方及可信任的備考資源：</p>
+    </div>
+
+    <h3 class="section-title">📄 歷屆考古題</h3>
+    <a class="resource-link" href="https://cap.rcpet.edu.tw/examination.html" target="_blank">
+      <div class="r-icon">🏛️</div>
+      <div class="r-info">
+        <h4>國中教育會考推動工作委員會（官方）</h4>
+        <p>歷年考題、解答、題本 PDF 免費下載</p>
+      </div>
+      <div class="r-arrow">→</div>
+    </a>
+
+    <a class="resource-link" href="https://www.junyiacademy.org/" target="_blank">
+      <div class="r-icon">📐</div>
+      <div class="r-info">
+        <h4>均一平台（Junyiacademy）</h4>
+        <p>免費影片教學＋練習題，台灣課綱，各科皆有</p>
+      </div>
+      <div class="r-arrow">→</div>
+    </a>
+
+    <a class="resource-link" href="https://www.learnmode.net/" target="_blank">
+      <div class="r-icon">🧠</div>
+      <div class="r-info">
+        <h4>LearnMode 學習吧</h4>
+        <p>數位題庫＋教學影片，含歷屆模擬題</p>
+      </div>
+      <div class="r-arrow">→</div>
+    </a>
+
+    <h3 class="section-title">📚 各科線上資源</h3>
+    <a class="resource-link" href="https://quizlet.com" target="_blank">
+      <div class="r-icon">🃏</div>
+      <div class="r-info">
+        <h4>Quizlet – 英文單字記憶</h4>
+        <p>搜尋「國中英文 1200」，有現成單字卡可用</p>
+      </div>
+      <div class="r-arrow">→</div>
+    </a>
+
+    <a class="resource-link" href="https://www.kkbox.com" target="_blank">
+      <div class="r-icon">🎧</div>
+      <div class="r-info">
+        <h4>PaGamO（遊戲化學習）</h4>
+        <p>台大葉丙成教授開發，各科遊戲刷題</p>
+      </div>
+      <div class="r-arrow">→</div>
+    </a>
+
+    <a class="resource-link" href="https://www.youtube.com" target="_blank">
+      <div class="r-icon">🎬</div>
+      <div class="r-info">
+        <h4>YouTube 搜尋：「會考 [科目] 重點整理」</h4>
+        <p>有大量台灣老師製作的免費教學影片</p>
+      </div>
+      <div class="r-arrow">→</div>
+    </a>
+
+    <h3 class="section-title">📅 考試時程提醒</h3>
+    <div class="card">
+      <table class="score-table">
+        <tr><th>日期（預估）</th><th>事項</th></tr>
+        <tr><td>2027 年 3 月</td><td>報名確認、身分證確認</td></tr>
+        <tr><td>2027 年 4 月</td><td>准考證下載，確認考場地點</td></tr>
+        <tr><td>2027 年 5 月 15 日</td><td>會考第一天（國文、英文、數學）</td></tr>
+        <tr><td>2027 年 5 月 16 日</td><td>會考第二天（自然、社會）</td></tr>
+        <tr><td>2027 年 6 月</td><td>成績公布</td></tr>
+      </table>
+      <p style="font-size:0.78rem;color:var(--muted);margin-top:0.6rem;">⚠️ 以上日期為參考估算，請以教育部正式公告為準</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  為 Shanna 加油 💜 距離會考還有時間，每一天都是機會 🌟
+</div>
+
+<script>
+// ===== DAILY QUOTE =====
+const quotes = [
+  { text: '不是因為有希望才堅持，而是因為堅持才會有希望。', author: '' },
+  { text: '今天多努力一點，未來少後悔一分。', author: '' },
+  { text: '你現在的汗水，是你未來的底氣。', author: '' },
+  { text: '讀書苦，但不讀書更苦。', author: '' },
+  { text: '每一個你羨慕的人，都做過你不願意做的事。', author: '' },
+  { text: '不要害怕慢，只要不停下來。', author: '' },
+  { text: '比昨天的自己進步一點點，就足夠了。', author: '' },
+  { text: '困難不是藉口，努力才是答案。', author: '' },
+  { text: '現在流的淚，是以前不好好學習的眼淚。', author: '' },
+  { text: '成功不是偶然，是日積月累的必然。', author: '' },
+  { text: '你以為的極限，只是開始的地方。', author: '' },
+  { text: '只要方向對了，不怕路遠。', author: '' },
+  { text: '錯題本上的每一題，都是你變強的證據。', author: '' },
+  { text: '再難的題，做一遍不會，做十遍就會了。', author: '' },
+  { text: '別讓「明天再說」成為你最大的敵人。', author: '' },
+  { text: '靜下來讀書，是最划算的投資。', author: '' },
+  { text: '不是天才，就靠勤奮。', author: '' },
+  { text: '學習這件事，沒有捷徑，但有方法。', author: '' },
+  { text: '五月的你，會感謝現在的自己。', author: '' },
+  { text: '專注二十五分鐘，比分心三小時更有效。', author: '' },
+  { text: '每背一個單字，都是一塊磚，總有一天會蓋成一棟房。', author: '' },
+  { text: '數學公式背不起來？多寫十遍就記住了。', author: '' },
+  { text: '睡前複習，睡著之後大腦還在幫你記憶。', author: '' },
+  { text: '今天的苦，是明天的勳章。', author: '' },
+  { text: '相信努力的力量，比相信運氣更靠得住。', author: '' },
+  { text: '一次只做一件事，做就做好。', author: '' },
+  { text: '不懂的問，比裝懂更聰明。', author: '' },
+  { text: '會考只是一扇門，你現在在鑄造鑰匙。', author: '' },
+  { text: '累了就休息，休息完再繼續，不能停。', author: '' },
+  { text: '讓未來的自己驕傲，從今天開始。', author: '' },
+  { text: '堅持的人，總是笑到最後。', author: '' },
+];
+(function() {
+  const start = new Date('2026-01-01');
+  const today = new Date();
+  const dayOfYear = Math.floor((today - start) / (1000 * 60 * 60 * 24));
+  const q = quotes[dayOfYear % quotes.length];
+  document.getElementById('quote-text').textContent = '「' + q.text + '」';
+  if (q.author) document.getElementById('quote-author').textContent = '— ' + q.author;
+})();
+
+// ===== COUNTDOWN =====
+function updateCountdown() {
+  const exam = new Date('2027-05-15T08:00:00');
+  const now = new Date();
+  const diff = exam - now;
+  if (diff <= 0) {
+    document.getElementById('cd-days').textContent = '0';
+    document.getElementById('cd-hours').textContent = '0';
+    document.getElementById('cd-mins').textContent = '0';
+    document.getElementById('cd-secs').textContent = '0';
+    return;
+  }
+  const days = Math.floor(diff / (1000*60*60*24));
+  const hours = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+  const mins = Math.floor((diff % (1000*60*60)) / (1000*60));
+  const secs = Math.floor((diff % (1000*60)) / 1000);
+  document.getElementById('cd-days').textContent = days;
+  document.getElementById('cd-hours').textContent = hours;
+  document.getElementById('cd-mins').textContent = mins;
+  document.getElementById('cd-secs').textContent = secs;
+}
+setInterval(updateCountdown, 1000);
+updateCountdown();
+
+// ===== TABS =====
+function switchTab(name) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+// ===== QUIZ DATA =====
+const quizData = [
+  // ===== 數學（優先）=====
+  {
+    subject: 'math', subLabel: '🔢 數學',
+    q: '若 x² − 5x + 6 = 0，則 x 的值為何？',
+    options: ['A. x = 1 或 x = 6', 'B. x = 2 或 x = 3', 'C. x = −2 或 x = −3', 'D. x = 1 或 x = −6'],
+    ans: 1,
+    explain: '把式子拆開：x² − 5x + 6 = (x − 2)(x − 3)，讓括號等於 0，就得到 x = 2 或 x = 3。記住：兩數相乘等於零，代表其中一個一定是零！'
+  },
+  {
+    subject: 'math', subLabel: '🔢 數學',
+    q: '等差數列首項為 3，公差為 4，求第 10 項。',
+    options: ['A. 35', 'B. 39', 'C. 43', 'D. 47'],
+    ans: 1,
+    explain: '公式：第 n 項 = 首項 + (n−1) × 公差。代入：3 + (10−1) × 4 = 3 + 36 = 39。想像你每走一步加 4，從 3 開始走 9 步，就到 39。'
+  },
+  {
+    subject: 'math', subLabel: '🔢 數學',
+    q: '一次函數 y = 2x − 3，當 y = 7 時，x 等於多少？',
+    options: ['A. x = 4', 'B. x = 5', 'C. x = 6', 'D. x = 2'],
+    ans: 1,
+    explain: '把 y = 7 代入：7 = 2x − 3，兩邊加 3 得 10 = 2x，再除以 2 得 x = 5。解方程就像反著操作：加了就減、乘了就除。'
+  },
+  {
+    subject: 'math', subLabel: '🔢 數學',
+    q: '三角形兩邊長分別為 3 和 4，且夾角為直角，則斜邊長為？',
+    options: ['A. 5', 'B. 6', 'C. 7', 'D. √7'],
+    ans: 0,
+    explain: '用畢氏定理：斜邊² = 3² + 4² = 9 + 16 = 25，所以斜邊 = √25 = 5。這是最常考的「3-4-5」直角三角形，要背起來！'
+  },
+  {
+    subject: 'math', subLabel: '🔢 數學',
+    q: '統計：數列 2, 4, 4, 6, 8 的「中位數」是多少？',
+    options: ['A. 4', 'B. 4.8', 'C. 5', 'D. 6'],
+    ans: 0,
+    explain: '把數字由小到大排好（已排好），共 5 個數，中位數就是第 3 個（正中間的那個），也就是 4。中位數跟平均不一樣，它只找「排在中間的那個數」。'
+  },
+  // ===== 理化（優先）=====
+  {
+    subject: 'science', subLabel: '🔬 理化',
+    q: '一物體在粗糙水平面上以「等速度」運動，施力為 20 N，則摩擦力為多少？',
+    options: ['A. 40 N', 'B. 20 N', 'C. 0 N', 'D. 60 N'],
+    ans: 1,
+    explain: '等速度 = 速度沒變 = 合力等於零。合力零代表所有力加起來抵銷，所以摩擦力一定剛好等於施力 = 20 N，方向相反。這是牛頓第一定律！'
+  },
+  {
+    subject: 'science', subLabel: '🔬 理化',
+    q: '鹽酸（HCl）和氫氧化鈉（NaOH）反應後，生成什麼？',
+    options: ['A. 水 + 氯氣', 'B. 食鹽水（NaCl + H₂O）', 'C. 氧氣 + 鹽', 'D. 硫酸鈉'],
+    ans: 1,
+    explain: '酸 + 鹼 → 鹽 + 水，這叫「中和反應」。HCl + NaOH → NaCl（食鹽）+ H₂O（水）。記口訣：「酸鹼中和，生鹽生水」！'
+  },
+  {
+    subject: 'science', subLabel: '🔬 理化',
+    q: '光從空氣進入水中時，速度會如何改變？',
+    options: ['A. 變快', 'B. 變慢', 'C. 不變', 'D. 先快後慢'],
+    ans: 1,
+    explain: '光在空氣中最快，進入較密的介質（水、玻璃）就會變慢。光速變慢就會「折射」，方向也會偏折。這就是筷子插進水裡看起來彎掉的原因！'
+  },
+  {
+    subject: 'science', subLabel: '🔬 理化',
+    q: '下列哪個是「化學變化」？',
+    options: ['A. 冰融化成水', 'B. 水蒸發成水蒸氣', 'C. 鐵生鏽', 'D. 玻璃破碎'],
+    ans: 2,
+    explain: '化學變化 = 產生了新的物質。鐵生鏽之後變成「氧化鐵」，是全新的東西！其他三個（融化、蒸發、破碎）只是外形改變，物質本身沒變，叫做物理變化。'
+  },
+  {
+    subject: 'science', subLabel: '🔬 生物',
+    q: '人體消化澱粉的起點在哪裡？',
+    options: ['A. 胃', 'B. 口腔', 'C. 小腸', 'D. 大腸'],
+    ans: 1,
+    explain: '口腔裡的「唾液澱粉酶」會開始分解澱粉！所以吃米飯細嚼慢嚥，在嘴裡就開始消化了。胃主要消化蛋白質，澱粉在口腔先動工。'
+  },
+  // ===== 國文 =====
+  {
+    subject: 'chinese', subLabel: '📜 國文',
+    q: '「他雖然年少，卻展現了超乎常人的沉穩。」這句話使用哪種修辭？',
+    options: ['A. 誇飾', 'B. 對比', 'C. 借喻', 'D. 轉化'],
+    ans: 1,
+    explain: '「年少」跟「沉穩」放在一起——一個表示「小」，一個表示「很成熟」，兩個感覺剛好相反，互相對照，這就是對比修辭！目的是讓讀者覺得「哇，好特別」。'
+  },
+  {
+    subject: 'chinese', subLabel: '📜 國文',
+    q: '下列成語「因噎廢食」最接近什麼意思？',
+    options: ['A. 做事積極不怕失敗', 'B. 因為小挫折就放棄整件事', 'C. 細嚼慢嚥才健康', 'D. 飲食要節制'],
+    ans: 1,
+    explain: '「噎」是吃東西噎到，「廢食」是不吃東西了。因為被噎到一次就再也不吃東西——用這件荒謬的事比喻「因為遇到小問題，就放棄整件原本有意義的事」。'
+  },
+  // ===== 英文 =====
+  {
+    subject: 'english', subLabel: '🌍 英文',
+    q: 'Mary ______ the piano for three hours when her mom called her for dinner.',
+    options: ['A. has been playing', 'B. had been playing', 'C. was playing', 'D. played'],
+    ans: 1,
+    explain: '媽媽叫她吃飯（這是「過去某一刻」），在那之前她已經彈了三小時——「過去的過去一直做的事」就用過去完成進行式 had been + Ving。簡單說：在過去時間點前，持續做的事。'
+  },
+  {
+    subject: 'english', subLabel: '🌍 英文',
+    q: 'Choose the correct sentence.',
+    options: ['A. She don\'t like coffee.', 'B. She doesn\'t likes coffee.', 'C. She doesn\'t like coffee.', 'D. She not like coffee.'],
+    ans: 2,
+    explain: '主詞是第三人稱單數（She），否定用 doesn\'t，後面的動詞要用「原形」不加 s。所以是 doesn\'t like（不是 doesn\'t likes）。記住：有 doesn\'t，動詞就回原形！'
+  },
+  // ===== 社會 =====
+  {
+    subject: 'social', subLabel: '🌏 社會',
+    q: '台灣在荷蘭統治時期，荷蘭人大量引進什麼作物，奠定後來的農業基礎？',
+    options: ['A. 水稻', 'B. 甘蔗', 'C. 番薯', 'D. 茶葉'],
+    ans: 1,
+    explain: '荷蘭人 17 世紀統治台灣，需要賺錢出口，就大力種甘蔗、做砂糖賣給歐洲。這讓台灣糖業從此發展起來。番薯和茶是後來才大量種植的。'
+  },
+  {
+    subject: 'social', subLabel: '🌏 社會',
+    q: '在台灣，制定法律是哪個機關的主要職權？',
+    options: ['A. 總統府', 'B. 行政院', 'C. 立法院', 'D. 司法院'],
+    ans: 2,
+    explain: '立法院就是「制定法律的地方」，名字就告訴你了——「立法」。行政院是執行政策的，總統是元首，司法院是法院系統。立法院還負責審查國家預算。'
+  }
+];
+
+let quizState = {};
+let currentFilter = 'all';
+let correctCount = 0;
+let answeredCount = 0;
+
+function showQuiz(filter) {
+  currentFilter = filter;
+  document.querySelectorAll('.q-tab').forEach(t => t.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  renderQuiz();
+}
+
+function renderQuiz() {
+  const container = document.getElementById('quiz-container');
+  const filtered = currentFilter === 'all' ? quizData : quizData.filter(q => q.subject === currentFilter);
+
+  let html = '';
+  filtered.forEach((q, i) => {
+    const qid = quizData.indexOf(q);
+    const state = quizState[qid] || {};
+    html += `<div class="quiz-card">
+      <div class="quiz-num">${q.subLabel} · 第 ${i+1} 題</div>
+      <div class="quiz-q">${q.q}</div>
+      <div class="quiz-options">`;
+    q.options.forEach((opt, oi) => {
+      let cls = 'quiz-option';
+      if (state.answered) {
+        cls += ' disabled';
+        if (oi === q.ans) cls += ' correct';
+        else if (oi === state.chosen) cls += ' wrong';
+      }
+      html += `<div class="${cls}" onclick="answerQuiz(${qid}, ${oi})">
+        <span class="quiz-option-key">${['A','B','C','D'][oi]}</span>
+        ${opt.substring(3)}
+      </div>`;
+    });
+    html += `</div>
+      <div class="quiz-explain" id="explain-${qid}" style="${state.answered ? 'display:block' : 'display:none'}">
+        💡 ${q.explain}
+      </div>
+    </div>`;
+  });
+  container.innerHTML = html;
+  updateScoreDisplay();
+}
+
+function answerQuiz(qid, chosen) {
+  if (quizState[qid] && quizState[qid].answered) return;
+  const correct = quizData[qid].ans === chosen;
+  quizState[qid] = { answered: true, chosen, correct };
+  if (correct) correctCount++;
+  answeredCount++;
+  renderQuiz();
+}
+
+function updateScoreDisplay() {
+  document.getElementById('quiz-score-display').textContent = `${correctCount} / ${answeredCount}`;
+  const pct = answeredCount > 0 ? Math.round(correctCount/answeredCount*100) : 0;
+  const msg = answeredCount === 0 ? '選題目開始作答 👇' :
+    pct >= 80 ? `答對率 ${pct}%，表現優秀！🎉` :
+    pct >= 60 ? `答對率 ${pct}%，繼續加油！💪` :
+    `答對率 ${pct}%，記得複習錯的題目喔 📖`;
+  document.getElementById('quiz-score-text').textContent = msg;
+}
+
+// Initialize quiz on tab switch
+document.querySelector('[onclick="switchTab(\'quiz\')"]').addEventListener('click', () => {
+  setTimeout(renderQuiz, 0);
+});
+
+// ===== PROGRESS =====
+function loadProgress() {
+  const data = JSON.parse(localStorage.getItem('shanna_progress') || '{}');
+  document.querySelectorAll('.checklist-item').forEach(item => {
+    const id = item.dataset.id;
+    if (data[id]) {
+      item.classList.add('checked');
+      item.querySelector('input').checked = true;
+    }
+  });
+  updateOverallProgress();
+}
+
+function toggleCheck(item) {
+  item.classList.toggle('checked');
+  const cb = item.querySelector('input');
+  cb.checked = item.classList.contains('checked');
+  saveProgress();
+  updateOverallProgress();
+}
+
+function saveProgress() {
+  const data = {};
+  document.querySelectorAll('.checklist-item').forEach(item => {
+    data[item.dataset.id] = item.classList.contains('checked');
+  });
+  localStorage.setItem('shanna_progress', JSON.stringify(data));
+}
+
+function updateOverallProgress() {
+  const all = document.querySelectorAll('.checklist-item');
+  const done = document.querySelectorAll('.checklist-item.checked');
+  const pct = all.length ? Math.round(done.length / all.length * 100) : 0;
+  document.getElementById('overall-progress-bar').style.width = pct + '%';
+  document.getElementById('overall-progress-text').textContent = `${done.length} / ${all.length} (${pct}%)`;
+}
+
+function resetProgress() {
+  if (!confirm('確定要重設所有進度？')) return;
+  localStorage.removeItem('shanna_progress');
+  document.querySelectorAll('.checklist-item').forEach(item => {
+    item.classList.remove('checked');
+    item.querySelector('input').checked = false;
+  });
+  updateOverallProgress();
+}
+
+loadProgress();
+renderQuiz();
+</script>
+</body>
+</html>
