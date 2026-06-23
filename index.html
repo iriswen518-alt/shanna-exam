@@ -131,34 +131,28 @@
     z-index: 100;
     box-shadow: 0 2px 16px rgba(220,130,170,0.1);
     backdrop-filter: blur(12px);
+    padding: 0.6rem 1rem;
   }
-  .tabs {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
+  .tab-select {
+    display: block;
+    width: 100%;
     max-width: 900px;
     margin: 0 auto;
-    padding: 0 0.5rem;
-    gap: 0;
-  }
-  .tab-btn {
-    background: none;
-    border: none;
-    border-bottom: 2.5px solid transparent;
-    padding: 1rem 0.4rem;
-    font-size: 0.88rem;
+    padding: 0.65rem 1rem;
+    font-size: 1rem;
     font-weight: 600;
-    color: var(--muted);
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.2s;
-    letter-spacing: 0.02em;
-    text-align: center;
-  }
-  .tab-btn.active {
+    font-family: inherit;
     color: var(--primary);
-    border-bottom-color: var(--primary);
+    background: #fdf0f8;
+    border: 2px solid var(--primary-light);
+    border-radius: 12px;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23e06fa0' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.9rem center;
+    cursor: pointer;
   }
-  .tab-btn:hover { color: var(--primary); }
 
   /* ===== CONTAINER ===== */
   .container {
@@ -579,11 +573,16 @@
   .footer { text-align: center; padding: 2rem; font-size: 0.8rem; color: var(--muted); }
 
   /* ===== Responsive ===== */
+  /* RULE: On mobile, never let grid/flex items overflow the viewport.
+     All multi-column layouts must collapse or wrap so content stays visible.
+     white-space:nowrap inside a fixed grid causes overflow — always pair with
+     overflow-x:auto on the container OR use auto-fill columns that respect min-width. */
   @media (max-width: 600px) {
     .hero { padding: 2rem 1rem 3rem; }
     .countdown-num { font-size: 1.5rem; }
     .countdown-item { min-width: 58px; padding: 0.65rem; }
     .subject-grid, .tip-grid { grid-template-columns: 1fr; }
+
   }
 
   /* ===== Scope Modal ===== */
@@ -744,6 +743,44 @@
   .aq-pdf-links.open { display:flex; }
   .btn { background:var(--primary); color:#fff; border:none; border-radius:50px; padding:0.6rem 1.6rem; font-size:0.95rem; font-weight:700; cursor:pointer; font-family:inherit; transition:opacity 0.15s; }
   .btn:hover { opacity:0.88; }
+
+  /* ===== 放鬆一下 ===== */
+  .relax-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1rem; }
+  @media(max-width:600px){ .relax-grid { grid-template-columns:1fr; } }
+
+  /* 呼吸圈 */
+  .breath-wrap { display:flex; flex-direction:column; align-items:center; padding:1.2rem 0.5rem; }
+  .breath-ring { width:140px; height:140px; border-radius:50%;
+    background: radial-gradient(circle, #e8d0f0 0%, #c9a0e8 100%);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    transition: transform 4s ease-in-out, background 1s;
+    box-shadow: 0 0 0 0 rgba(180,130,230,0.4);
+    cursor:default; user-select:none; }
+  .breath-ring.inhale  { transform:scale(1.45); background:radial-gradient(circle,#c3dff7 0%,#7fbfef 100%); box-shadow:0 0 0 16px rgba(120,180,240,0.15); }
+  .breath-ring.hold    { transform:scale(1.45); }
+  .breath-ring.exhale  { transform:scale(0.75); background:radial-gradient(circle,#fce4ec 0%,#f48fb1 100%); box-shadow:0 0 0 0 rgba(0,0,0,0); }
+  .breath-ring.holdin  { transform:scale(0.75); }
+  .breath-phase { font-size:1.15rem; font-weight:800; color:#fff; text-shadow:0 1px 4px rgba(0,0,0,0.2); }
+  .breath-cnt   { font-size:2rem;   font-weight:900; color:#fff; line-height:1; text-shadow:0 1px 4px rgba(0,0,0,0.2); }
+  .breath-hint  { font-size:0.82rem; color:var(--muted); margin-top:0.8rem; text-align:center; }
+
+  /* 休息計時器 */
+  .timer-display { font-size:3rem; font-weight:900; color:var(--primary); text-align:center; letter-spacing:0.05em; margin:0.8rem 0; font-variant-numeric:tabular-nums; }
+  .timer-btns { display:flex; gap:0.5rem; flex-wrap:wrap; justify-content:center; margin-bottom:0.6rem; }
+
+  /* 笑話 */
+  .joke-card { background:linear-gradient(135deg,#fff9e6,#fffbe8); border:1.5px solid #ffe082; border-radius:16px; padding:1.2rem; min-height:80px; font-size:0.97rem; line-height:1.75; color:var(--text); position:relative; }
+  .joke-punchline { color:var(--primary); font-weight:700; display:none; margin-top:0.5rem; }
+  .joke-punchline.show { display:block; }
+
+  /* 短文賞析 */
+  .prose-card { background:linear-gradient(135deg,#f0f7ff,#e8f4f8); border:1.5px solid #b3d4f0; border-radius:16px; padding:1.4rem; }
+  .prose-title { font-weight:800; font-size:1rem; color:var(--secondary); margin-bottom:0.4rem; }
+  .prose-author { font-size:0.78rem; color:var(--muted); margin-bottom:0.9rem; }
+  .prose-body { font-size:0.95rem; line-height:1.95; color:var(--text); white-space:pre-line; }
+  .prose-note { font-size:0.82rem; color:var(--muted); margin-top:0.9rem; padding-top:0.7rem; border-top:1px solid var(--border); font-style:italic; }
+  .prose-nav { display:flex; justify-content:space-between; align-items:center; margin-top:0.8rem; }
+  .prose-idx { font-size:0.8rem; color:var(--muted); }
 </style>
 </head>
 <body>
@@ -789,18 +826,19 @@
 
 <!-- TABS -->
 <div class="tabs-wrapper">
-  <div class="tabs">
-    <button class="tab-btn active" onclick="switchTab('subjects')">📖 各科範圍</button>
-    <button class="tab-btn" onclick="switchTab('plan')">📅 備戰計畫</button>
-    <button class="tab-btn" onclick="switchTab('schedule')">⏰ 每週課表</button>
-    <button class="tab-btn" onclick="switchTab('quiz')">✏️ 模擬測驗</button>
-    <button class="tab-btn" onclick="switchTab('tips')">💡 讀書技巧</button>
-    <button class="tab-btn" onclick="switchTab('progress')">✅ 進度追蹤</button>
-    <button class="tab-btn" onclick="switchTab('resources')">🔗 考古題資源</button>
-    <button class="tab-btn" onclick="switchTab('review')">📝 重點複習</button>
-    <button class="tab-btn" onclick="switchTab('junyi')">📐 均一平台</button>
-    <button class="tab-btn" onclick="switchTab('chat')">💬 子瑜聊聊</button>
-  </div>
+  <select class="tab-select" id="tab-select" onchange="switchTab(this.value)">
+    <option value="subjects">📖 各科範圍</option>
+    <option value="plan">📅 備戰計畫</option>
+    <option value="schedule">⏰ 每週課表</option>
+    <option value="quiz">✏️ 模擬測驗</option>
+    <option value="tips">💡 讀書技巧</option>
+    <option value="progress">✅ 進度追蹤</option>
+    <option value="resources">🔗 考古題資源</option>
+    <option value="review">📝 重點複習</option>
+    <option value="junyi">📐 均一平台</option>
+    <option value="chat">💬 子瑜聊聊</option>
+    <option value="relax">🍃 放鬆一下</option>
+  </select>
 </div>
 
 <div class="container">
@@ -1462,6 +1500,78 @@
     </div>
   </div>
 
+  <!-- TAB: 放鬆一下 -->
+  <div id="tab-relax" class="tab-panel">
+    <h2 class="section-title">🍃 放鬆一下</h2>
+
+    <div class="relax-grid">
+
+      <!-- 呼吸放鬆 -->
+      <div class="card">
+        <h4 style="margin-bottom:0.3rem;">🫁 方塊呼吸法</h4>
+        <p style="font-size:0.8rem;color:var(--muted);margin-bottom:0.5rem;">4秒吸氣 → 4秒憋氣 → 4秒吐氣 → 4秒憋氣，重複放鬆。</p>
+        <div class="breath-wrap">
+          <div class="breath-ring" id="breathRing">
+            <div class="breath-phase" id="breathPhase">準備好了嗎</div>
+            <div class="breath-cnt"  id="breathCnt"></div>
+          </div>
+          <p class="breath-hint" id="breathHint">點下方按鈕開始</p>
+        </div>
+        <button class="btn" id="breathBtn" onclick="breathToggle()" style="width:100%;">▶ 開始</button>
+        <div style="text-align:center;font-size:0.78rem;color:var(--muted);margin-top:0.4rem;" id="breathCycles"></div>
+      </div>
+
+      <!-- 休息計時器 -->
+      <div class="card">
+        <h4 style="margin-bottom:0.5rem;">⏱ 休息計時器</h4>
+        <div class="timer-display" id="timerDisplay">05:00</div>
+        <div class="timer-btns">
+          <button class="q-tab" onclick="timerSet(5)">5 分鐘</button>
+          <button class="q-tab" onclick="timerSet(10)">10 分鐘</button>
+          <button class="q-tab" onclick="timerSet(15)">15 分鐘</button>
+        </div>
+        <div style="display:flex;gap:0.5rem;justify-content:center;">
+          <button class="btn" onclick="timerToggle()" id="timerBtn">▶ 開始</button>
+          <button class="btn" onclick="timerReset()" style="background:var(--muted);">↺ 重設</button>
+        </div>
+        <p style="font-size:0.8rem;color:var(--muted);text-align:center;margin-top:0.6rem;" id="timerMsg">休息一下，充電再出發！</p>
+      </div>
+
+    </div>
+
+    <!-- 好笑笑話 -->
+    <h2 class="section-title" style="margin-top:0.5rem;">😂 好笑笑話</h2>
+    <div class="card" style="padding:1.2rem;">
+      <div class="quiz-subject-tabs" style="margin-bottom:1rem;" id="jokeLangTabs">
+        <button class="q-tab active" onclick="jokeSetLang('zh',this)">中文笑話</button>
+        <button class="q-tab" onclick="jokeSetLang('en',this)">English Jokes</button>
+      </div>
+      <div class="joke-card" id="jokeSetup">按下「下一個笑話」開始！</div>
+      <div class="joke-card joke-punchline" id="jokePunch"></div>
+      <div style="display:flex;gap:0.6rem;margin-top:0.8rem;flex-wrap:wrap;">
+        <button class="btn" onclick="jokeReveal()" id="jokeRevealBtn" style="flex:1;">😏 看答案</button>
+        <button class="btn" onclick="jokeNext()"   style="flex:1;background:var(--secondary);">下一個笑話 →</button>
+      </div>
+    </div>
+
+    <!-- 短文賞析 -->
+    <h2 class="section-title" style="margin-top:1rem;">📖 短文賞析</h2>
+    <div class="card" style="padding:1.4rem;">
+      <div class="quiz-subject-tabs" style="margin-bottom:1rem;" id="proseLangTabs">
+        <button class="q-tab active" onclick="proseSetLang('both',this)">中英對照</button>
+        <button class="q-tab" onclick="proseSetLang('en',this)">English Only</button>
+        <button class="q-tab" onclick="proseSetLang('zh',this)">中文翻譯</button>
+      </div>
+      <div id="proseCard"></div>
+      <div class="prose-nav">
+        <button class="q-tab" onclick="proseNav(-1)">← 上一篇</button>
+        <span class="prose-idx" id="proseIdx">1 / 10</span>
+        <button class="q-tab" onclick="proseNav(1)">下一篇 →</button>
+      </div>
+    </div>
+
+  </div>
+
   <!-- TAB: 子瑜聊聊 -->
   <div id="tab-chat" class="tab-panel">
     <h2 class="section-title">💬 子瑜聊聊</h2>
@@ -1758,9 +1868,9 @@ function esc(s) {
 // ===== TABS =====
 function switchTab(name) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('tab-' + name).classList.add('active');
-  event.currentTarget.classList.add('active');
+  const sel = document.getElementById('tab-select');
+  if (sel) sel.value = name;
 }
 
 // ===== QUIZ DATA =====
@@ -1928,8 +2038,8 @@ function updateScoreDisplay() {
 }
 
 // Initialize quiz on tab switch
-document.querySelector('[onclick="switchTab(\'quiz\')"]').addEventListener('click', () => {
-  setTimeout(renderQuiz, 0);
+document.getElementById('tab-select').addEventListener('change', (e) => {
+  if (e.target.value === 'quiz') setTimeout(renderQuiz, 0);
 });
 
 // ===== PROGRESS =====
@@ -3648,6 +3758,312 @@ async function sendChat() {
   btn.disabled = false;
   document.getElementById('chatInput').focus();
 }
+
+// ===== 放鬆一下：呼吸練習 =====
+const BREATH_PHASES = [
+  { name:'吸氣', en:'Inhale', cls:'inhale',  dur:4 },
+  { name:'憋氣', en:'Hold',   cls:'hold',    dur:4 },
+  { name:'吐氣', en:'Exhale', cls:'exhale',  dur:4 },
+  { name:'憋氣', en:'Hold',   cls:'holdin',  dur:4 },
+];
+let breathTimer = null, breathRunning = false, breathPh = 0, breathSec = 0, breathCycleCount = 0;
+
+function breathToggle() {
+  if (breathRunning) {
+    clearInterval(breathTimer);
+    breathRunning = false;
+    document.getElementById('breathBtn').textContent = '▶ 繼續';
+  } else {
+    breathRunning = true;
+    document.getElementById('breathBtn').textContent = '⏸ 暫停';
+    if (breathSec === 0) breathPhaseStart();
+    breathTimer = setInterval(breathTick, 1000);
+  }
+}
+function breathPhaseStart() {
+  const ph = BREATH_PHASES[breathPh];
+  const ring = document.getElementById('breathRing');
+  ring.className = 'breath-ring ' + ph.cls;
+  document.getElementById('breathPhase').textContent = ph.name;
+  document.getElementById('breathHint').textContent = ph.en;
+  breathSec = ph.dur;
+  document.getElementById('breathCnt').textContent = breathSec;
+}
+function breathTick() {
+  breathSec--;
+  document.getElementById('breathCnt').textContent = breathSec > 0 ? breathSec : '';
+  if (breathSec <= 0) {
+    breathPh = (breathPh + 1) % BREATH_PHASES.length;
+    if (breathPh === 0) {
+      breathCycleCount++;
+      document.getElementById('breathCycles').textContent = '已完成 ' + breathCycleCount + ' 個循環 ✨';
+    }
+    breathPhaseStart();
+  }
+}
+
+// ===== 放鬆一下：計時器 =====
+let timerSecs = 300, timerTotal = 300, timerRunning = false, timerInt = null;
+function timerSet(min) {
+  clearInterval(timerInt); timerRunning = false;
+  document.getElementById('timerBtn').textContent = '▶ 開始';
+  timerSecs = timerTotal = min * 60;
+  timerDraw();
+  document.getElementById('timerMsg').textContent = min + ' 分鐘放鬆，充電再出發！';
+}
+function timerToggle() {
+  if (timerRunning) {
+    clearInterval(timerInt); timerRunning = false;
+    document.getElementById('timerBtn').textContent = '▶ 繼續';
+  } else {
+    if (timerSecs <= 0) { timerReset(); return; }
+    timerRunning = true;
+    document.getElementById('timerBtn').textContent = '⏸ 暫停';
+    timerInt = setInterval(() => {
+      timerSecs--;
+      timerDraw();
+      if (timerSecs <= 0) {
+        clearInterval(timerInt); timerRunning = false;
+        document.getElementById('timerBtn').textContent = '▶ 開始';
+        document.getElementById('timerMsg').textContent = '休息時間到！💪 回去繼續加油！';
+        document.getElementById('timerDisplay').style.color = 'var(--success)';
+      }
+    }, 1000);
+  }
+}
+function timerReset() {
+  clearInterval(timerInt); timerRunning = false;
+  timerSecs = timerTotal;
+  document.getElementById('timerBtn').textContent = '▶ 開始';
+  document.getElementById('timerDisplay').style.color = 'var(--primary)';
+  timerDraw();
+}
+function timerDraw() {
+  const m = String(Math.floor(timerSecs / 60)).padStart(2, '0');
+  const s = String(timerSecs % 60).padStart(2, '0');
+  document.getElementById('timerDisplay').textContent = m + ':' + s;
+}
+
+// ===== 放鬆一下：笑話 =====
+const JOKES = {
+  zh: [
+    { s:'老師問：「什麼動物最誠實？」', p:'小明說：「羊！因為牠從來不說謊（羊）話。」' },
+    { s:'為什麼數學書總是很傷心？', p:'因為裡面的問題太多了。' },
+    { s:'媽媽問：「你數學考幾分？」\n小明說：「和拿破崙一樣高。」\n媽媽：「幾分？」', p:'「他個子很矮啊……零分。」' },
+    { s:'老師：「天空為什麼是藍色的？」', p:'學生：「因為如果是綠色，我們就分不清天空和草地，都不知道要站哪。」' },
+    { s:'為什麼外星人不來地球？', p:'因為他們看了評價，只有一顆星。' },
+    { s:'圖書館員問：「你要借幾本書？」\n小明說：「我要借三本。」\n館員說：「請說安靜一點！」', p:'小明（小聲）：「我要借三本。」' },
+    { s:'物理老師說：「光的速度比聲音快，所以有些人看起來很聰明——」', p:'「——直到開口說話。」' },
+    { s:'爸爸對兒子說：「你要像愛迪生一樣努力。」\n兒子說：「那我可以不去上學嗎？」', p:'爸爸：「為什麼？」\n兒子：「因為愛迪生沒有讀完學校！」' },
+  ],
+  en: [
+    { s:'Why don\'t scientists trust atoms?', p:'Because they make up everything!\n（因為它們構成了一切！make up = 組成 / 捏造，雙關）' },
+    { s:'I\'m reading a book about anti-gravity.', p:'It\'s impossible to put down!\n（根本放不下！put down = 放下書 / 受重力影響）' },
+    { s:'Why did the scarecrow win an award?', p:'Because he was outstanding in his field!\n（因為他在自己的田裡很傑出！outstanding in his field = 優秀 / 站在田裡）' },
+    { s:'What do you call a fish without eyes?', p:'A fsh! （把 i 拿掉 — i = eye 眼睛）' },
+    { s:'Time flies like an arrow.\nFruit flies like a banana.', p:'（時間如箭飛逝。果蠅喜歡香蕉。\nflies + like 雙重雙關，讓人愣一下！）' },
+    { s:'Why can\'t your nose be 12 inches long?', p:'Because then it would be a foot!\n（因為那就變成一「英尺」了！foot = 腳 / 12 英寸）' },
+    { s:'I told my doctor I broke my arm in two places.', p:'He told me to stop going to those places.\n（他叫我不要再去那兩個地方了！place = 部位 / 地點）' },
+    { s:'Why do programmers prefer dark mode?', p:'Because light attracts bugs!\n（因為光會吸引蟲子！bugs = 程式錯誤 / 蟲子）' },
+    { s:'A student asked the teacher: "Will I be punished for something I didn\'t do?"', p:'Teacher: "Of course not."\nStudent: "Good, because I didn\'t do my homework."\n（老師：「當然不會。」學生：「太好了，因為我沒做作業。」）' },
+    { s:'I asked my dog what two minus two is.', p:'He said nothing.\n（我問我的狗 2 減 2 等於多少，牠什麼都沒說。said nothing = 什麼都沒說 / 答對了：零）' },
+  ],
+};
+let jokeIdxZh = -1, jokeIdxEn = -1, jokeLang = 'zh';
+function jokeSetLang(lang, btn) {
+  jokeLang = lang;
+  document.querySelectorAll('#jokeLangTabs .q-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('jokeSetup').textContent = '按「下一個笑話」繼續！';
+  document.getElementById('jokePunch').classList.remove('show');
+  document.getElementById('jokePunch').textContent = '';
+}
+function jokeNext() {
+  const pool = JOKES[jokeLang];
+  const idx = (jokeLang === 'zh') ? ++jokeIdxZh % pool.length : ++jokeIdxEn % pool.length;
+  if (jokeLang === 'zh') jokeIdxZh = idx; else jokeIdxEn = idx;
+  const j = pool[idx];
+  document.getElementById('jokeSetup').textContent = j.s;
+  document.getElementById('jokePunch').classList.remove('show');
+  document.getElementById('jokePunch').textContent = j.p;
+  document.getElementById('jokeRevealBtn').style.display = 'block';
+}
+function jokeReveal() {
+  document.getElementById('jokePunch').classList.add('show');
+  document.getElementById('jokeRevealBtn').style.display = 'none';
+}
+
+// ===== 放鬆一下：短文賞析 =====
+const PROSE = [
+  {
+    title: 'The Road Not Taken（未走之路）',
+    author: 'Robert Frost，1916',
+    en: `Two roads diverged in a yellow wood,
+And sorry I could not travel both
+And be one traveler, long I stood
+And looked down one as far as I could
+To where it bent in the undergrowth.
+
+I shall be telling this with a sigh
+Somewhere ages and ages hence:
+Two roads diverged in a wood, and I—
+I took the one less traveled by,
+And that has made all the difference.`,
+    zh: `黃色的樹林中，小路分叉成兩條，
+可惜我無法兩條都走，
+我作為獨行的旅人，久久站立，
+目送其中一條蜿蜒而去，
+消失在林叢的轉彎處。
+
+多年之後，在某個地方，
+我將帶著一聲嘆息說起：
+樹林裡有兩條路，而我——
+我選了較少人走的那條，
+那讓一切截然不同。`,
+    note: '人生常常沒有「更好」的路，只有「你選的那條路」。考前的每一個選擇——認真讀書還是玩手機——都在悄悄累積差距。',
+  },
+  {
+    title: 'On Living Deliberately（刻意地活著）',
+    author: 'Henry David Thoreau，《湖濱散記》，1854',
+    en: `I went to the woods because I wished to live deliberately, to front only the essential facts of life, and see if I could not learn what it had to teach, and not, when I came to die, discover that I had not lived.
+
+I wanted to live deep and suck out all the marrow of life.`,
+    zh: `我走進森林，是因為我希望刻意地生活——只面對生命中最根本的事實，看看我能否從中學到生命要教給我的東西；免得到了臨死那一刻，才發現自己根本沒有真正活過。
+
+我想要深深地活，把生命的骨髓都汲取乾淨。`,
+    note: '「刻意地活著」——不是漫無目的地滑手機、發呆，而是清醒地知道自己在做什麼、為什麼而做。讀書也是一種刻意的選擇。',
+  },
+  {
+    title: 'You Are Enough（你已經足夠了）',
+    author: 'Atticus，現代詩',
+    en: `She was a girl
+who knew how to be happy
+even when she was sad.
+
+And that's important.`,
+    zh: `她是一個女孩，
+懂得即使在悲傷中
+仍然保持快樂。
+
+這很重要。`,
+    note: '考試很辛苦，偶爾崩潰沒關係。但比起成績，學會在壓力中找到一絲光，才是真正重要的能力。',
+  },
+  {
+    title: 'The Preciousness of Time（時間的珍貴）',
+    author: 'Benjamin Franklin，1748',
+    en: `Dost thou love life? Then do not squander time, for that is the stuff life is made of.
+
+Lost time is never found again.`,
+    zh: `你熱愛生命嗎？那就不要浪費時間，因為時間正是生命的材料。
+
+失去的時間，永遠找不回來。`,
+    note: '富蘭克林說的話放到現在仍然一針見血。不必把每分鐘都逼死自己，但要清楚自己把時間花在哪裡。',
+  },
+  {
+    title: 'Everything Will Be All Right（一切都會好的）',
+    author: 'Julian of Norwich，14世紀',
+    en: `All shall be well,
+and all shall be well,
+and all manner of thing shall be well.`,
+    zh: `一切都會好的，
+一切都會好的，
+所有的一切，都終將好起來。`,
+    note: '這句話寫於 14 世紀瘟疫橫行的黑暗年代，卻依然溫柔有力。考前焦慮很正常，深呼吸，告訴自己：一切都會好的。',
+  },
+  {
+    title: 'To See the World in a Grain of Sand（一沙一世界）',
+    author: 'William Blake，《天真的預言》，1803',
+    en: `To see a World in a Grain of Sand
+And a Heaven in a Wild Flower,
+Hold Infinity in the palm of your hand
+And Eternity in an hour.`,
+    zh: `在一粒沙中看見一個世界，
+在一朵野花中看見天堂，
+把無限握在掌心，
+把永恆裝進一個小時。`,
+    note: '最好的學習就像這樣——一道數學題背後是整個邏輯世界，一篇文言文背後是幾千年的歷史。試著用這種眼光看待每一個知識點。',
+  },
+  {
+    title: 'The Best Time to Start（最好的時機）',
+    author: '中國古諺，改編',
+    en: `The best time to plant a tree was twenty years ago.
+The second best time is now.`,
+    zh: `種一棵樹最好的時機是二十年前，
+其次，就是現在。`,
+    note: '不要再後悔沒有早點開始讀書了。現在開始，永遠不算太晚。',
+  },
+  {
+    title: 'On Courage（論勇氣）',
+    author: 'Maya Angelou',
+    en: `Courage is the most important of all the virtues, because without courage you can't practice any other virtue consistently.
+
+You can practice any virtue erratically, but nothing consistently without courage.`,
+    zh: `勇氣是所有美德中最重要的，因為沒有勇氣，你就無法持續地實踐任何其他美德。
+
+你可以偶爾展現各種美德，但沒有勇氣，就沒有辦法持之以恆。`,
+    note: '讀書需要勇氣——面對自己不懂的地方、承認自己還不夠好、然後繼續努力。這本身就是一種修練。',
+  },
+  {
+    title: '生命中的美好瞬間',
+    author: '林清玄，《心的菩提》',
+    en: `A cup of tea in the afternoon,
+a book on the lap,
+rain outside the window,
+and nowhere you have to be.
+
+That is enough.`,
+    zh: `下午一杯茶，
+膝上一本書，
+窗外的雨聲，
+不必趕去任何地方。
+
+這就夠了。`,
+    note: '讀書備考的日子很緊繃，但也要允許自己偶爾享受這樣簡單的美好。休息不是偷懶，是讓自己走得更遠。',
+  },
+  {
+    title: 'Keep Going（繼續前行）',
+    author: 'Edgar Allan Poe',
+    en: `I have great faith in fools —
+self-confidence, my friends call it.`,
+    zh: `我對笨蛋充滿信心——
+我的朋友管那叫「自信」。`,
+    note: '有時候你需要的不是完美，只是一點「不管了，試試看」的傻勁。會考也一樣，別想太多，坐下來讀就對了。',
+  },
+];
+let proseIdx = 0, proseLang = 'both';
+function proseSetLang(lang, btn) {
+  proseLang = lang;
+  document.querySelectorAll('#proseLangTabs .q-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  proseRender();
+}
+function proseNav(dir) {
+  proseIdx = (proseIdx + dir + PROSE.length) % PROSE.length;
+  proseRender();
+}
+function proseRender() {
+  const p = PROSE[proseIdx];
+  document.getElementById('proseIdx').textContent = (proseIdx + 1) + ' / ' + PROSE.length;
+  let html = '<div class="prose-card">';
+  html += '<div class="prose-title">' + esc(p.title) + '</div>';
+  html += '<div class="prose-author">' + esc(p.author) + '</div>';
+  if (proseLang !== 'zh') {
+    html += '<div class="prose-body" style="margin-bottom:' + (proseLang === 'both' ? '1rem' : '0') + '">' + esc(p.en) + '</div>';
+  }
+  if (proseLang !== 'en') {
+    const zhStyle = proseLang === 'both' ? 'color:var(--secondary);font-size:0.92rem;' : '';
+    html += '<div class="prose-body" style="' + zhStyle + '">' + esc(p.zh) + '</div>';
+  }
+  html += '<div class="prose-note">💡 ' + esc(p.note) + '</div>';
+  html += '</div>';
+  document.getElementById('proseCard').innerHTML = html;
+}
+
+// 初始化放鬆分頁
+(function initRelax() {
+  proseRender();
+  jokeNext();
+})();
 </script>
 </body>
 </html>
