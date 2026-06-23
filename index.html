@@ -50,14 +50,14 @@
     pointer-events: none;
     z-index: 0;
   }
-  /* Shanna blended into right side — multiply removes white wall */
+  /* Shanna blended into right side — multiply tints white wall pink */
   .hero-bg-right {
     position: absolute;
     inset: 0;
-    background: url('shanna_bg.jpg') right top / auto 100% no-repeat;
+    background: url('shanna_bg.jpg') right center / cover no-repeat;
     mix-blend-mode: multiply;
-    -webkit-mask-image: linear-gradient(to right, transparent 30%, rgba(0,0,0,0.6) 55%, black 75%);
-    mask-image: linear-gradient(to right, transparent 30%, rgba(0,0,0,0.6) 55%, black 75%);
+    -webkit-mask-image: linear-gradient(to right, transparent 20%, rgba(0,0,0,0.5) 45%, black 65%);
+    mask-image: linear-gradient(to right, transparent 20%, rgba(0,0,0,0.5) 45%, black 65%);
     pointer-events: none;
     z-index: 1;
   }
