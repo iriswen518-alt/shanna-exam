@@ -133,8 +133,8 @@
     backdrop-filter: blur(12px);
   }
   .tabs {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
     max-width: 900px;
     margin: 0 auto;
     padding: 0 0.5rem;
@@ -144,7 +144,7 @@
     background: none;
     border: none;
     border-bottom: 2.5px solid transparent;
-    padding: 1rem 1.1rem;
+    padding: 1rem 0.4rem;
     font-size: 0.88rem;
     font-weight: 600;
     color: var(--muted);
@@ -152,6 +152,7 @@
     white-space: nowrap;
     transition: all 0.2s;
     letter-spacing: 0.02em;
+    text-align: center;
   }
   .tab-btn.active {
     color: var(--primary);
@@ -716,6 +717,33 @@
   .detail-exam-box::before { content:'📝 '; }
   .detail-method-step { background:#e8f5e9; border-left:3px solid #4caf50; border-radius:0 8px 8px 0; padding:0.45rem 0.8rem; margin-bottom:0.35rem; font-size:0.87rem; }
   .detail-method-step::before { content:'✅ '; }
+
+  /* ===== 考古題測驗 ===== */
+  .aq-controls { display:flex; flex-wrap:wrap; gap:0.5rem; margin-bottom:1rem; }
+  .aq-label { font-size:0.78rem; font-weight:700; color:var(--muted); margin:0.3rem 0 0.2rem; }
+  .aq-progress-bar { height:6px; background:var(--border); border-radius:3px; margin-bottom:1rem; overflow:hidden; }
+  .aq-progress-fill { height:100%; background:linear-gradient(90deg,var(--primary),var(--secondary)); border-radius:3px; transition:width 0.4s; }
+  .aq-card { background:#fff; border:1.5px solid var(--border); border-radius:18px; padding:1.4rem; margin-bottom:1rem; }
+  .aq-meta { font-size:0.78rem; color:var(--muted); margin-bottom:0.6rem; display:flex; gap:0.5rem; flex-wrap:wrap; }
+  .aq-q { font-size:1rem; font-weight:600; line-height:1.7; color:var(--text); margin-bottom:1rem; }
+  .aq-figure-note { font-size:0.8rem; background:#fff3cd; border:1px solid #ffc107; border-radius:8px; padding:0.4rem 0.8rem; margin-bottom:0.8rem; color:#856404; }
+  .aq-opts { display:flex; flex-direction:column; gap:0.5rem; }
+  .aq-opt { padding:0.75rem 1rem; border-radius:12px; border:1.5px solid var(--border); background:#fff; font-size:0.93rem; cursor:pointer; text-align:left; transition:all 0.15s; color:var(--text); font-family:inherit; }
+  .aq-opt:hover:not([disabled]) { border-color:var(--primary); background:#fdf0f7; }
+  .aq-opt.correct { background:#d4edda; border-color:#28a745; color:#155724; font-weight:700; }
+  .aq-opt.wrong   { background:#f8d7da; border-color:#dc3545; color:#721c24; }
+  .aq-opt.reveal  { background:#e8f4e8; border-color:#28a745; color:#155724; }
+  .aq-nav { display:flex; justify-content:space-between; align-items:center; margin-top:1rem; }
+  .aq-score-chip { background:var(--primary); color:#fff; border-radius:50px; padding:0.3rem 0.9rem; font-size:0.85rem; font-weight:700; }
+  .aq-start-screen { text-align:center; padding:2rem 1rem; }
+  .aq-start-screen p { color:var(--muted); font-size:0.9rem; margin-bottom:1.5rem; }
+  .aq-finish { text-align:center; padding:2rem 1rem; }
+  .aq-finish .score-big { font-size:2.5rem; font-weight:800; color:var(--primary); }
+  .aq-pdf-toggle { font-size:0.82rem; color:var(--muted); cursor:pointer; text-decoration:underline; margin-top:0.8rem; display:inline-block; }
+  .aq-pdf-links { display:none; flex-wrap:wrap; gap:0.5rem; margin-top:0.6rem; }
+  .aq-pdf-links.open { display:flex; }
+  .btn { background:var(--primary); color:#fff; border:none; border-radius:50px; padding:0.6rem 1.6rem; font-size:0.95rem; font-weight:700; cursor:pointer; font-family:inherit; transition:opacity 0.15s; }
+  .btn:hover { opacity:0.88; }
 </style>
 </head>
 <body>
@@ -1132,72 +1160,50 @@
     <!-- 考古題測驗 -->
     <h2 class="section-title" style="margin-top:2rem;">📄 考古題測驗（歷屆原題）</h2>
     <div class="card" style="padding:1rem;">
-      <p style="font-size:0.85rem;color:var(--muted);margin-bottom:1rem;">選年份，點科目開啟 PDF 作答（官方原版，不改題）。</p>
-      <div class="quiz-subject-tabs" id="exam-year-tabs" style="margin-bottom:1rem;">
-        <button class="q-tab active" onclick="switchExamYear('115',this)">115 年</button>
-        <button class="q-tab" onclick="switchExamYear('114',this)">114 年</button>
-        <button class="q-tab" onclick="switchExamYear('113',this)">113 年</button>
-        <button class="q-tab" onclick="switchExamYear('112',this)">112 年</button>
+
+      <!-- 篩選控制列 -->
+      <div class="aq-label">選年份</div>
+      <div class="aq-controls" id="aq-year-tabs">
+        <button class="q-tab active" onclick="aqSetYear('all',this)">全部年份</button>
+        <button class="q-tab" onclick="aqSetYear('115',this)">115 年</button>
+        <button class="q-tab" onclick="aqSetYear('114',this)">114 年</button>
+        <button class="q-tab" onclick="aqSetYear('113',this)">113 年</button>
+        <button class="q-tab" onclick="aqSetYear('112',this)">112 年</button>
       </div>
-      <div id="exam-panels">
 
-        <!-- 115 年 -->
-        <div id="exam-115" class="exam-year-panel">
-          <div style="display:flex;flex-wrap:wrap;gap:0.6rem;">
-            <a class="exam-subj-btn ans" href="https://drive.google.com/file/d/1fxfOLQPMdCEMSuziD1qsQZg3vVOGt8df/view?usp=drive_link" target="_blank" rel="noopener">✅ 參考答案</a>
-            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1NceEHPUXT0fZo6UgdCuSdGApQ4embM0t/view?usp=drive_link" target="_blank" rel="noopener">✍️ 寫作測驗</a>
-            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1FQtq4_a4GTsTKURdzPhDkKmONKRXtTJ9/view?usp=drive_link" target="_blank" rel="noopener">📜 國文科</a>
-            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1pzRZpkZEBg4x7GNTAIrdfGJCxNSKgok-/view?usp=drive_link" target="_blank" rel="noopener">📖 英語（閱讀）</a>
-            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1zRjsoyQhLRJfmmHtBJfi5qJa6ND1uVJ6/view?usp=drive_link" target="_blank" rel="noopener">🎧 英語（聽力）</a>
-            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1G-grfVw1NldMD3TRG-7Lco-yOuaoTKoK/view?usp=drive_link" target="_blank" rel="noopener">🔢 數學科</a>
-            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1ITxBlFhNSIbg1u1C7FrU2ODk951wt-RT/view?usp=drive_link" target="_blank" rel="noopener">🌏 社會科</a>
-            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1ZJNPG9Wz3zuI8UkPGUY50URejxxZYmQ8/view?usp=drive_link" target="_blank" rel="noopener">🔬 自然科</a>
-          </div>
-        </div>
-
-        <!-- 114 年 -->
-        <div id="exam-114" class="exam-year-panel" style="display:none;">
-          <div style="display:flex;flex-wrap:wrap;gap:0.6rem;">
-            <a class="exam-subj-btn ans" href="https://drive.google.com/file/d/175hz0lHG4GTDNxYet9lrRDu0lmC_G08o/view?usp=drive_link" target="_blank" rel="noopener">✅ 參考答案</a>
-            <a class="exam-subj-btn" href="https://drive.google.com/file/d/15yGt7NgV0OsYTP8LdYF7BCntfTjZwQ7q/view?usp=drive_link" target="_blank" rel="noopener">✍️ 寫作測驗</a>
-            <a class="exam-subj-btn" href="https://drive.google.com/file/d/102j8F3hoCvGgMCVP6x6oHN9cCd0R6_Ii/view?usp=drive_link" target="_blank" rel="noopener">📜 國文科</a>
-            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1Or0bC16Jn2hA0uAF2zrryHoY46ywIQjK/view?usp=drive_link" target="_blank" rel="noopener">📖 英語（閱讀）</a>
-            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1NQNXowVBpE4N7i790_88YXZ03zt2ktFn/view?usp=drive_link" target="_blank" rel="noopener">🎧 英語（聽力）</a>
-            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1c2AGC67Bq344EdGSZkO9SZhrY50hHTJx/view?usp=drive_link" target="_blank" rel="noopener">🔢 數學科</a>
-            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1vFl3qctoBXYcCtWbAqKUqhekIMgV6q-m/view?usp=drive_link" target="_blank" rel="noopener">🌏 社會科</a>
-            <a class="exam-subj-btn" href="https://drive.google.com/file/d/18_lHom7zYhyOoMvxHt4hKJS_CynFOoZ1/view?usp=drive_link" target="_blank" rel="noopener">🔬 自然科</a>
-          </div>
-        </div>
-
-        <!-- 113 年 -->
-        <div id="exam-113" class="exam-year-panel" style="display:none;">
-          <div style="display:flex;flex-wrap:wrap;gap:0.6rem;">
-            <a class="exam-subj-btn ans" href="https://drive.google.com/file/d/1cWlogP9FBRX1eD5kjgVDP2_6f8VCLSB4/view?usp=drive_link" target="_blank" rel="noopener">✅ 參考答案</a>
-            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1fhW7ywN8LoIGGroAMQS5JzqCStKlY2Ux/view?usp=drive_link" target="_blank" rel="noopener">✍️ 寫作測驗</a>
-            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1Xr5AwMNQipYZblCEbZadyBvLVcT_8XSv/view?usp=drive_link" target="_blank" rel="noopener">📜 國文科</a>
-            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1ZU8SG-4jdV1DGvPzpgzoi_hhRiD4NT3S/view?usp=drive_link" target="_blank" rel="noopener">📖 英語（閱讀）</a>
-            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1iAZySLpGHqKdwyIlriM58ve8vW9aMV0Q/view?usp=drive_link" target="_blank" rel="noopener">🎧 英語（聽力）</a>
-            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1MXfrOI_4KyxF6A-2NNd_J_eIuo3Epa46/view?usp=drive_link" target="_blank" rel="noopener">🔢 數學科</a>
-            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1NJYibw-N2mHZP5lL8-rOhirWv_ZFQNiz/view?usp=drive_link" target="_blank" rel="noopener">🌏 社會科</a>
-            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1lO1_3Iq62BmTHR8m29or7I8VtS8qZdDR/view?usp=drive_link" target="_blank" rel="noopener">🔬 自然科</a>
-          </div>
-        </div>
-
-        <!-- 112 年 -->
-        <div id="exam-112" class="exam-year-panel" style="display:none;">
-          <div style="display:flex;flex-wrap:wrap;gap:0.6rem;">
-            <a class="exam-subj-btn ans" href="https://drive.google.com/file/d/1OT5r0que_0bXSy0kwLEOEJMssce2OnL0/view?usp=drive_link" target="_blank" rel="noopener">✅ 參考答案</a>
-            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1EUA2uOUApWOF-rrB91umx2Hi887KQ_3t/view?usp=drive_link" target="_blank" rel="noopener">✍️ 寫作測驗</a>
-            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1dy9SuFFJro5R8SOIZRbA8ytq2Ol-UnZ9/view?usp=drive_link" target="_blank" rel="noopener">📜 國文科</a>
-            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1SXbjT6B_F8eQh2GZEvB6KmgR0k2lDK8A/view?usp=drive_link" target="_blank" rel="noopener">📖 英語（閱讀）</a>
-            <a class="exam-subj-btn" href="https://drive.google.com/file/d/119yW4wSJXxczoMJqGihwXOsu94p8cmXU/view?usp=drive_link" target="_blank" rel="noopener">🎧 英語（聽力）</a>
-            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1im3JF0E8d8RC__Z8MW9MQXCuonjPN3f_/view?usp=drive_link" target="_blank" rel="noopener">🔢 數學科</a>
-            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1vIVX90btDzk3XnNVfSQv0wRTw2A6omjL/view?usp=drive_link" target="_blank" rel="noopener">🌏 社會科</a>
-            <a class="exam-subj-btn" href="https://drive.google.com/file/d/1Bo87vJFakmGzyUqqjHzTCF-fv75DFgx_/view?usp=drive_link" target="_blank" rel="noopener">🔬 自然科</a>
-          </div>
-        </div>
-
+      <div class="aq-label">選科目</div>
+      <div class="aq-controls" id="aq-subj-tabs">
+        <button class="q-tab active" onclick="aqSetSubj('all',this)">全部科目</button>
+        <button class="q-tab" onclick="aqSetSubj('chinese',this)">📜 國文</button>
+        <button class="q-tab" onclick="aqSetSubj('math',this)">🔢 數學</button>
+        <button class="q-tab" onclick="aqSetSubj('english',this)">📖 英語</button>
+        <button class="q-tab" onclick="aqSetSubj('social',this)">🌏 社會</button>
+        <button class="q-tab" onclick="aqSetSubj('science',this)">🔬 自然</button>
       </div>
+
+      <div class="aq-label">出題模式</div>
+      <div class="aq-controls" id="aq-mode-tabs">
+        <button class="q-tab active" onclick="aqSetMode('random20',this)">隨機 20 題</button>
+        <button class="q-tab" onclick="aqSetMode('random40',this)">隨機 40 題</button>
+        <button class="q-tab" onclick="aqSetMode('all',this)">全部題目</button>
+        <button class="q-tab" onclick="aqSetMode('noFig',this)">純文字題</button>
+      </div>
+
+      <button class="btn" id="aq-start-btn" onclick="aqStart()" style="width:100%;margin-top:0.5rem;font-size:1rem;padding:0.8rem;">開始作答</button>
+
+      <!-- 測驗區 -->
+      <div id="aq-quiz-area" style="display:none;margin-top:1rem;">
+        <div class="aq-progress-bar"><div class="aq-progress-fill" id="aq-prog-fill" style="width:0%"></div></div>
+        <div style="display:flex;justify-content:space-between;font-size:0.82rem;color:var(--muted);margin-bottom:0.8rem;">
+          <span id="aq-prog-text">第 1 題 / 共 20 題</span>
+          <span id="aq-score-text">答對 0 / 0</span>
+        </div>
+        <div id="aq-card-area"></div>
+      </div>
+
+      <!-- 結果區 -->
+      <div id="aq-result-area" style="display:none;"></div>
+
     </div>
   </div>
 
@@ -1592,12 +1598,161 @@ function updateCountdown() {
 setInterval(updateCountdown, 1000);
 updateCountdown();
 
-// ===== EXAM YEAR TABS =====
-function switchExamYear(year, btn) {
-  document.querySelectorAll('.exam-year-panel').forEach(p => p.style.display = 'none');
-  document.querySelectorAll('#exam-year-tabs .q-tab').forEach(b => b.classList.remove('active'));
-  document.getElementById('exam-' + year).style.display = 'block';
+// ===== 考古題測驗 ENGINE =====
+const AQ_PDF = {
+  '115': { chinese:'1FQtq4_a4GTsTKURdzPhDkKmONKRXtTJ9', english:'1pzRZpkZEBg4x7GNTAIrdfGJCxNSKgok-', math:'1G-grfVw1NldMD3TRG-7Lco-yOuaoTKoK', social:'1ITxBlFhNSIbg1u1C7FrU2ODk951wt-RT', science:'1ZJNPG9Wz3zuI8UkPGUY50URejxxZYmQ8' },
+  '114': { chinese:'102j8F3hoCvGgMCVP6x6oHN9cCd0R6_Ii', english:'1Or0bC16Jn2hA0uAF2zrryHoY46ywIQjK', math:'1c2AGC67Bq344EdGSZkO9SZhrY50hHTJx', social:'1vFl3qctoBXYcCtWbAqKUqhekIMgV6q-m', science:'18_lHom7zYhyOoMvxHt4hKJS_CynFOoZ1' },
+  '113': { chinese:'1Xr5AwMNQipYZblCEbZadyBvLVcT_8XSv', english:'1ZU8SG-4jdV1DGvPzpgzoi_hhRiD4NT3S', math:'1MXfrOI_4KyxF6A-2NNd_J_eIuo3Epa46', social:'1NJYibw-N2mHZP5lL8-rOhirWv_ZFQNiz', science:'1lO1_3Iq62BmTHR8m29or7I8VtS8qZdDR' },
+  '112': { chinese:'1dy9SuFFJro5R8SOIZRbA8ytq2Ol-UnZ9', english:'1SXbjT6B_F8eQh2GZEvB6KmgR0k2lDK8A', math:'1im3JF0E8d8RC__Z8MW9MQXCuonjPN3f_', social:'1vIVX90btDzk3XnNVfSQv0wRTw2A6omjL', science:'1Bo87vJFakmGzyUqqjHzTCF-fv75DFgx_' },
+};
+const AQ_LABEL = { chinese:'📜 國文', math:'🔢 數學', english:'📖 英語', social:'🌏 社會', science:'🔬 自然' };
+
+let aqData = null, aqQueue = [], aqIdx = 0, aqCorrect = 0, aqAnswered = false;
+let aqYear = 'all', aqSubj = 'all', aqMode = 'random20';
+
+function aqSetYear(v, btn) {
+  aqYear = v;
+  document.querySelectorAll('#aq-year-tabs .q-tab').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
+}
+function aqSetSubj(v, btn) {
+  aqSubj = v;
+  document.querySelectorAll('#aq-subj-tabs .q-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function aqSetMode(v, btn) {
+  aqMode = v;
+  document.querySelectorAll('#aq-mode-tabs .q-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+async function aqStart() {
+  if (!aqData) {
+    document.getElementById('aq-start-btn').textContent = '載入題庫中…';
+    try {
+      const r = await fetch('exam_quiz_data.json');
+      aqData = await r.json();
+    } catch(e) {
+      alert('題庫載入失敗，請重新整理頁面。');
+      document.getElementById('aq-start-btn').textContent = '開始作答';
+      return;
+    }
+  }
+
+  // Collect matching questions
+  let pool = [];
+  const years = aqYear === 'all' ? Object.keys(aqData) : [aqYear];
+  years.forEach(y => {
+    const subjs = aqSubj === 'all' ? Object.keys(aqData[y] || {}) : [aqSubj];
+    subjs.forEach(s => {
+      (aqData[y]?.[s] || []).forEach(q => {
+        if (aqMode === 'noFig' && q.has_figure) return;
+        pool.push({...q, year: y});
+      });
+    });
+  });
+
+  if (!pool.length) { alert('沒有符合條件的題目，請調整篩選條件。'); return; }
+
+  // Shuffle
+  for (let i = pool.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
+
+  const limit = aqMode === 'random20' ? 20 : aqMode === 'random40' ? 40 : pool.length;
+  aqQueue = pool.slice(0, limit);
+  aqIdx = 0; aqCorrect = 0;
+
+  document.getElementById('aq-result-area').style.display = 'none';
+  document.getElementById('aq-quiz-area').style.display = 'block';
+  document.getElementById('aq-start-btn').textContent = '重新出題';
+  aqRender();
+}
+
+function aqRender() {
+  const q = aqQueue[aqIdx];
+  const total = aqQueue.length;
+  const pct = Math.round((aqIdx / total) * 100);
+  document.getElementById('aq-prog-fill').style.width = pct + '%';
+  document.getElementById('aq-prog-text').textContent = '第 ' + (aqIdx + 1) + ' 題 / 共 ' + total + ' 題';
+  document.getElementById('aq-score-text').textContent = '答對 ' + aqCorrect + ' / ' + aqIdx;
+  aqAnswered = false;
+
+  const pdfId = AQ_PDF[q.year]?.[q.subj];
+  const pdfLink = pdfId ? '<a href="https://drive.google.com/file/d/' + pdfId + '/view" target="_blank" rel="noopener" style="color:var(--primary)">開啟原版 PDF</a>' : '';
+  const figNote = q.has_figure ? '<div class="aq-figure-note">此題含圖表，建議搭配原版 PDF 對照作答。' + pdfLink + '</div>' : '';
+
+  const opts = q.options.map((o, i) => {
+    const letter = 'ABCD'[i];
+    return '<button class="aq-opt" onclick="aqAnswer(' + i + ',this)">' +
+      '<strong style="margin-right:0.5rem">(' + letter + ')</strong>' + esc(o) +
+    '</button>';
+  }).join('');
+
+  document.getElementById('aq-card-area').innerHTML =
+    '<div class="aq-card">' +
+      '<div class="aq-meta">' +
+        '<span style="background:var(--primary-light);color:var(--text);border-radius:50px;padding:0.15rem 0.6rem;">' + q.year + ' 年</span>' +
+        '<span style="background:var(--border);border-radius:50px;padding:0.15rem 0.6rem;">' + AQ_LABEL[q.subj] + '</span>' +
+        '<span style="color:var(--muted)">第 ' + q.num + ' 題</span>' +
+      '</div>' +
+      figNote +
+      '<div class="aq-q">' + esc(q.q) + '</div>' +
+      '<div class="aq-opts">' + opts + '</div>' +
+    '</div>' +
+    '<div class="aq-nav">' +
+      '<div id="aq-next-wrap" style="display:none">' +
+        '<button class="btn" onclick="aqNext()" style="padding:0.55rem 1.4rem;">' +
+          (aqIdx + 1 < aqQueue.length ? '下一題 →' : '查看成績') +
+        '</button>' +
+      '</div>' +
+      '<div id="aq-ans-reveal" style="display:none;font-size:0.88rem;color:var(--muted)"></div>' +
+    '</div>';
+}
+
+function aqAnswer(idx, btn) {
+  if (aqAnswered) return;
+  aqAnswered = true;
+  const q = aqQueue[aqIdx];
+  const correct = q.ans;
+  document.querySelectorAll('.aq-opt').forEach((b, i) => {
+    b.disabled = true;
+    if (i === correct) b.classList.add(idx === correct ? 'correct' : 'reveal');
+    if (i === idx && idx !== correct) b.classList.add('wrong');
+  });
+  if (idx === correct) { aqCorrect++; }
+  document.getElementById('aq-score-text').textContent = '答對 ' + aqCorrect + ' / ' + (aqIdx + 1);
+  document.getElementById('aq-next-wrap').style.display = 'block';
+  const msg = idx === correct ? '✅ 答對了！' : '❌ 答錯了，正確答案是 (' + 'ABCD'[correct] + ')';
+  document.getElementById('aq-ans-reveal').style.display = 'block';
+  document.getElementById('aq-ans-reveal').textContent = msg;
+}
+
+function aqNext() {
+  aqIdx++;
+  if (aqIdx >= aqQueue.length) { aqFinish(); return; }
+  aqRender();
+  document.getElementById('aq-card-area').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function aqFinish() {
+  document.getElementById('aq-quiz-area').style.display = 'none';
+  const total = aqQueue.length;
+  const pct = Math.round((aqCorrect / total) * 100);
+  const grade = pct >= 90 ? '精熟 A++' : pct >= 80 ? '精熟 A+' : pct >= 70 ? '精熟 A' : pct >= 60 ? '基礎 B' : '繼續加油！';
+  document.getElementById('aq-result-area').style.display = 'block';
+  document.getElementById('aq-result-area').innerHTML =
+    '<div class="aq-finish">' +
+      '<div class="score-big">' + aqCorrect + ' / ' + total + '</div>' +
+      '<div style="font-size:1.2rem;font-weight:700;color:var(--secondary);margin:0.4rem 0">' + grade + '</div>' +
+      '<div style="font-size:0.9rem;color:var(--muted);margin-bottom:1.5rem">正確率 ' + pct + '%</div>' +
+      '<button class="btn" onclick="aqStart()">再來一輪</button>' +
+    '</div>';
+}
+
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
 // ===== TABS =====
@@ -3477,12 +3632,18 @@ async function sendChat() {
     });
     const data = await res.json();
     removeTyping();
-    const reply = data.content && data.content[0] ? data.content[0].text : '哎呀，子瑜暫時沒辦法回覆，等一下再試試看 🌸';
-    chatHistory.push({ role: 'assistant', content: reply });
-    appendMsg('assistant', reply);
+    if (!res.ok) {
+      console.error('API Error:', res.status, data);
+      appendMsg('assistant', `❌ API錯誤 ${res.status}：${data.error?.message || JSON.stringify(data)}`);
+    } else {
+      const reply = data.content && data.content[0] ? data.content[0].text : '哎呀，子瑜暫時沒辦法回覆，等一下再試試看 🌸';
+      chatHistory.push({ role: 'assistant', content: reply });
+      appendMsg('assistant', reply);
+    }
   } catch (e) {
     removeTyping();
-    appendMsg('assistant', '網路好像有點問題，過一下再試試看喔 🌸');
+    console.error('Fetch Error:', e);
+    appendMsg('assistant', `❌ 錯誤：${e.message}`);
   }
   btn.disabled = false;
   document.getElementById('chatInput').focus();
