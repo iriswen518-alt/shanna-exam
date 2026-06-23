@@ -35,32 +35,24 @@
 
   /* ===== HERO ===== */
   .hero {
-    background: linear-gradient(160deg, #f9c6d8 0%, #e8a0c4 35%, #c9a0e8 70%, #a8c4f0 100%);
+    background:
+      linear-gradient(to right, #f9c6d8 20%, rgba(232,160,196,0.9) 40%, rgba(201,160,232,0.7) 65%, rgba(201,160,232,0.15) 100%),
+      url('shanna_bg.jpg') right top / auto 100% no-repeat,
+      linear-gradient(160deg, #f9c6d8 0%, #e8a0c4 35%, #c9a0e8 70%, #a8c4f0 100%);
     color: #3d1f40;
     padding: 3rem 1.5rem 4rem;
     text-align: center;
     position: relative;
     overflow: hidden;
   }
-  /* Left side: Tzuyu (original tzuyu.jpg) */
   .hero::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: url('tzuyu.jpg') left center / auto 100% no-repeat;
-    -webkit-mask-image: linear-gradient(to right, black 0%, black 25%, transparent 65%);
-    mask-image: linear-gradient(to right, black 0%, black 25%, transparent 65%);
+    background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.06'%3E%3Ccircle cx='20' cy='20' r='3'/%3E%3Ccircle cx='60' cy='20' r='2'/%3E%3Ccircle cx='40' cy='50' r='2.5'/%3E%3Ccircle cx='10' cy='60' r='2'/%3E%3Ccircle cx='70' cy='60' r='3'/%3E%3C/g%3E%3C/svg%3E");
     pointer-events: none;
   }
-  /* Right side: Shanna */
-  .hero-bg-right {
-    position: absolute;
-    inset: 0;
-    background: url('shanna_bg.jpg') right center / auto 100% no-repeat;
-    -webkit-mask-image: linear-gradient(to left, black 0%, black 25%, transparent 65%);
-    mask-image: linear-gradient(to left, black 0%, black 25%, transparent 65%);
-    pointer-events: none;
-  }
+  .hero-bg-right { display: none; }
   .hero::after {
     content: '🌸 ✨ 🌸 ✨ 🌸';
     position: absolute;
