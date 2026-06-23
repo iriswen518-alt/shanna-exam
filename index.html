@@ -35,22 +35,21 @@
 
   /* ===== HERO ===== */
   .hero {
-    background: linear-gradient(135deg, #f9c6d8 0%, #e8a0c8 40%, #c9a0e8 100%);
+    background: linear-gradient(160deg, #f9c6d8 0%, #e8a0c4 35%, #c9a0e8 70%, #a8c4f0 100%);
     color: #3d1f40;
     padding: 3rem 1.5rem 4rem;
     text-align: center;
     position: relative;
     overflow: hidden;
   }
-  /* Left side: Tzuyu */
+  /* Left side: Tzuyu (original tzuyu.jpg) */
   .hero::before {
     content: '';
     position: absolute;
     inset: 0;
-    background:
-      url('tzuyu_bg.jpg') left center / auto 100% no-repeat;
-    -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,0.55) 0%, transparent 55%);
-    mask-image: linear-gradient(to right, rgba(0,0,0,0.55) 0%, transparent 55%);
+    background: url('tzuyu.jpg') left center / auto 100% no-repeat;
+    -webkit-mask-image: linear-gradient(to right, black 0%, black 25%, transparent 65%);
+    mask-image: linear-gradient(to right, black 0%, black 25%, transparent 65%);
     pointer-events: none;
   }
   /* Right side: Shanna */
@@ -58,8 +57,8 @@
     position: absolute;
     inset: 0;
     background: url('shanna_bg.jpg') right center / auto 100% no-repeat;
-    -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,0.55) 0%, transparent 55%);
-    mask-image: linear-gradient(to left, rgba(0,0,0,0.55) 0%, transparent 55%);
+    -webkit-mask-image: linear-gradient(to left, black 0%, black 25%, transparent 65%);
+    mask-image: linear-gradient(to left, black 0%, black 25%, transparent 65%);
     pointer-events: none;
   }
   .hero::after {
