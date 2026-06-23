@@ -35,21 +35,32 @@
 
   /* ===== HERO ===== */
   .hero {
-    background:
-      linear-gradient(to right, #f9c6d8 25%, rgba(232,160,196,0.92) 45%, rgba(201,160,232,0.75) 65%, rgba(201,160,232,0.35) 85%, transparent 100%),
-      url('tzuyu.jpg') right top / auto 100% no-repeat,
-      linear-gradient(160deg, #f9c6d8 0%, #e8a0c4 35%, #c9a0e8 70%, #a8c4f0 100%);
+    background: linear-gradient(135deg, #f9c6d8 0%, #e8a0c8 40%, #c9a0e8 100%);
     color: #3d1f40;
     padding: 3rem 1.5rem 4rem;
     text-align: center;
     position: relative;
     overflow: hidden;
   }
+  /* Left side: Tzuyu */
   .hero::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.06'%3E%3Ccircle cx='20' cy='20' r='3'/%3E%3Ccircle cx='60' cy='20' r='2'/%3E%3Ccircle cx='40' cy='50' r='2.5'/%3E%3Ccircle cx='10' cy='60' r='2'/%3E%3Ccircle cx='70' cy='60' r='3'/%3E%3C/g%3E%3C/svg%3E");
+    background:
+      url('tzuyu_bg.jpg') left center / auto 100% no-repeat;
+    -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,0.55) 0%, transparent 55%);
+    mask-image: linear-gradient(to right, rgba(0,0,0,0.55) 0%, transparent 55%);
+    pointer-events: none;
+  }
+  /* Right side: Shanna */
+  .hero-bg-right {
+    position: absolute;
+    inset: 0;
+    background: url('shanna_bg.jpg') right center / auto 100% no-repeat;
+    -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,0.55) 0%, transparent 55%);
+    mask-image: linear-gradient(to left, rgba(0,0,0,0.55) 0%, transparent 55%);
+    pointer-events: none;
   }
   .hero::after {
     content: '🌸 ✨ 🌸 ✨ 🌸';
@@ -799,7 +810,7 @@
 
 <!-- HERO -->
 <div class="hero">
-  <img src="shanna_avatar.png" alt="璿璿" class="hero-avatar">
+  <div class="hero-bg-right"></div>
   <div class="hero-badge">📚 會考備戰基地</div>
   <h1>國中教育會考<br>全科衝刺計畫</h1>
   <p>2027 年 5 月會考 — 從現在開始，每一天都算數 💪</p>
