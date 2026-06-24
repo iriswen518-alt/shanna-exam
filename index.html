@@ -251,6 +251,24 @@
     border: none; border-radius: 12px;
     display: block;
   }
+  .embed-card {
+    border: 1px solid var(--border); border-radius: 16px;
+    overflow: hidden; background: white; margin-bottom: 1rem;
+  }
+  .embed-bar {
+    display: flex; align-items: center; gap: 0.5rem;
+    padding: 0.7rem 0.9rem; background: #fdf0f6;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.9rem; font-weight: 700; color: var(--text);
+  }
+  .embed-bar a {
+    margin-left: auto; font-size: 0.78rem; font-weight: 600;
+    color: var(--primary); text-decoration: none; white-space: nowrap;
+  }
+  .embed-frame {
+    width: 100%; height: 60vh; min-height: 420px;
+    border: none; display: block;
+  }
 
   /* ===== CHAT ===== */
   .chat-wrap { display: flex; flex-direction: column; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 16px rgba(224,111,160,0.12); }
@@ -1657,23 +1675,29 @@
     </a>
 
     <h3 class="section-title">📖 出版商學習平台</h3>
-    <a class="resource-link" href="https://www.hanlin.com.tw/" target="_blank">
-      <div class="r-icon">🟣</div>
-      <div class="r-info">
-        <h4>翰林出版學習資源</h4>
-        <p>翰林版教學影片、歷屆試題解析、線上測驗</p>
+    <div class="embed-card">
+      <div class="embed-bar">
+        <span>🟠 南一教育集團</span>
+        <a href="https://www.nani.com.tw/" target="_blank" rel="noopener">在新分頁開啟 ↗</a>
       </div>
-      <div class="r-arrow">→</div>
-    </a>
+      <iframe class="embed-frame" src="https://www.nani.com.tw/" loading="lazy" title="南一教育集團"></iframe>
+    </div>
 
-    <a class="resource-link" href="https://www.kh.edu.tw/" target="_blank">
-      <div class="r-icon">🟢</div>
-      <div class="r-info">
-        <h4>康軒學習網</h4>
-        <p>康軒版課本補充資料、習作解答、各科學習資源</p>
+    <div class="embed-card">
+      <div class="embed-bar">
+        <span>🟣 翰林出版</span>
+        <a href="https://www.hle.com.tw/" target="_blank" rel="noopener">在新分頁開啟 ↗</a>
       </div>
-      <div class="r-arrow">→</div>
-    </a>
+      <iframe class="embed-frame" src="https://www.hle.com.tw/" loading="lazy" title="翰林出版"></iframe>
+    </div>
+
+    <div class="embed-card">
+      <div class="embed-bar">
+        <span>🟢 康軒文教集團</span>
+        <a href="https://www.knsh.com.tw/" target="_blank" rel="noopener">在新分頁開啟 ↗</a>
+      </div>
+      <iframe class="embed-frame" src="https://www.knsh.com.tw/" loading="lazy" title="康軒文教集團"></iframe>
+    </div>
 
     <h3 class="section-title">🏫 教育部官方平台</h3>
     <a class="resource-link" href="https://adl.edu.tw/" target="_blank">
