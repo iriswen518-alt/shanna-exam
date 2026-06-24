@@ -595,10 +595,11 @@
     gap: 0.5rem;
   }
   .section-title::after { content: ''; flex: 1; height: 1.5px; background: var(--border); border-radius: 2px; }
-  .section-title.collapsible { cursor: pointer; user-select: none; -webkit-tap-highlight-color: transparent; }
-  .collapse-chevron { font-size: 0.8rem; color: var(--muted); transition: transform 0.2s ease; flex-shrink: 0; }
-  .section-title.collapsed .collapse-chevron { transform: rotate(-90deg); }
-  .section-body.collapsed { display: none; }
+  .collapsible { cursor: pointer; user-select: none; -webkit-tap-highlight-color: transparent; }
+  .collapse-chevron { font-size: 0.8rem; color: var(--muted); transition: transform 0.2s ease; flex-shrink: 0; margin-left: auto; order: 2; }
+  .subject-header .collapse-chevron { color: rgba(255,255,255,0.9); }
+  .collapsed > .collapse-chevron { transform: rotate(-90deg); }
+  .section-body.collapsed, .subject-body.collapsed, .collapse-body.collapsed { display: none; }
 
   /* ===== SCORE GUIDE ===== */
   .score-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
@@ -973,7 +974,6 @@
 <!-- HERO -->
 <div class="hero">
   <div class="hero-bg-right"></div>
-  <img class="hero-avatar" src="shanna.jpg?v=1" alt="羽璿" style="object-position:center 25%;" onerror="this.style.display='none'">
   <h1>璿璿衝會考</h1>
   <p>2027 年 5 月會考 — 從現在開始，每一天都算數 💪</p>
   <!-- 子瑜應援卡 -->
@@ -1656,16 +1656,7 @@
       <div class="r-arrow">→</div>
     </a>
 
-    <h3 class="section-title">📖 三大出版商學習平台</h3>
-    <a class="resource-link" href="https://www.nanyi.com.tw/" target="_blank">
-      <div class="r-icon">🟠</div>
-      <div class="r-info">
-        <h4>南一書局學習資源</h4>
-        <p>南一版各科電子書、學習單、複習講義、歷屆題解</p>
-      </div>
-      <div class="r-arrow">→</div>
-    </a>
-
+    <h3 class="section-title">📖 出版商學習平台</h3>
     <a class="resource-link" href="https://www.hanlin.com.tw/" target="_blank">
       <div class="r-icon">🟣</div>
       <div class="r-info">
@@ -2112,6 +2103,69 @@ function esc(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
+// ===== 區塊折疊 =====
+function bindCollapse(headEl, bodyEl) {
+  headEl.classList.add('collapsible');
+  if (!headEl.querySelector(':scope > .collapse-chevron')) {
+    var chev = document.createElement('span');
+    chev.className = 'collapse-chevron';
+    chev.textContent = '▾';
+    headEl.appendChild(chev);
+  }
+  headEl.addEventListener('click', function() {
+    headEl.classList.toggle('collapsed');
+    bodyEl.classList.toggle('collapsed');
+  });
+}
+
+function initCollapsibleSections() {
+  // 1) 各分頁的 h2 大區塊
+  document.querySelectorAll('.tab-panel').forEach(function(panel) {
+    Array.prototype.slice.call(panel.children)
+      .filter(function(el) { return el.matches && el.matches('h2.section-title'); })
+      .forEach(function(title) {
+        var body = document.createElement('div');
+        body.className = 'section-body';
+        var node = title.nextElementSibling;
+        while (node && !(node.matches && node.matches('h2.section-title'))) {
+          var next = node.nextElementSibling;
+          body.appendChild(node);
+          node = next;
+        }
+        title.after(body);
+        bindCollapse(title, body);
+      });
+  });
+
+  // 2) 五科考試範圍：各科卡片（點科目標題列收合）
+  document.querySelectorAll('.subject-card').forEach(function(card) {
+    var head = card.querySelector(':scope > .subject-header');
+    var body = card.querySelector(':scope > .subject-body');
+    if (head && body) bindCollapse(head, body);
+  });
+
+  // 3) 攻略 / 工具等小卡片（h4 標題）
+  document.querySelectorAll('.tip-card').forEach(function(card) {
+    var head = card.querySelector(':scope > h4');
+    if (!head) return;
+    var body = document.createElement('div');
+    body.className = 'collapse-body';
+    var node = head.nextElementSibling;
+    while (node) {
+      var next = node.nextElementSibling;
+      body.appendChild(node);
+      node = next;
+    }
+    head.after(body);
+    bindCollapse(head, body);
+  });
+}
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initCollapsibleSections);
+} else {
+  initCollapsibleSections();
+}
+
 // ===== TABS =====
 const BOTTOM_NAV_TABS = ['subjects','quiz','progress','chat'];
 
@@ -2258,6 +2312,7 @@ const quizData = [
 
 let quizState = {};
 let currentFilter = 'all';
+let currentGradeFilter = 0;
 let correctCount = 0;
 let answeredCount = 0;
 
@@ -2268,9 +2323,32 @@ function showQuiz(filter) {
   renderQuiz();
 }
 
+// 科目篩選（只切換同一列的按鈕狀態）
+function setSubjFilter(subject, btn) {
+  currentFilter = subject;
+  if (btn && btn.parentNode) {
+    btn.parentNode.querySelectorAll('.q-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  renderQuiz();
+}
+
+// 年級篩選
+function setGradeFilter(grade, btn) {
+  currentGradeFilter = grade;
+  if (btn && btn.parentNode) {
+    btn.parentNode.querySelectorAll('.q-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  renderQuiz();
+}
+
 function renderQuiz() {
   const container = document.getElementById('quiz-container');
-  const filtered = currentFilter === 'all' ? quizData : quizData.filter(q => q.subject === currentFilter);
+  const filtered = quizData.filter(q =>
+    (currentFilter === 'all' || q.subject === currentFilter) &&
+    (currentGradeFilter === 0 || q.grade === currentGradeFilter)
+  );
 
   let html = '';
   filtered.forEach((q, i) => {
@@ -2298,7 +2376,7 @@ function renderQuiz() {
       </div>
     </div>`;
   });
-  container.innerHTML = html;
+  container.innerHTML = html || '<div style="text-align:center;color:var(--muted);padding:2rem 1rem;">這個科目／年級組合目前還沒有題目 🌸<br>換個篩選條件試試看</div>';
   updateScoreDisplay();
 }
 
