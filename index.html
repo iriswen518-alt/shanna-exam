@@ -1355,43 +1355,19 @@
 
   <!-- TAB: QUIZ -->
   <div id="tab-quiz" class="tab-panel">
-    <h2 class="section-title">✏️ 模擬測驗（歷屆考古題改編）</h2>
-    <div class="quiz-score-bar">
-      <div>
-        <div class="score-big" id="quiz-score-display">0 / 0</div>
-        <div class="score-text" id="quiz-score-text">選題目開始作答 👇</div>
-      </div>
-    </div>
-
-    <div class="quiz-subject-tabs" id="quiz-subj-tabs">
-      <button class="q-tab active" onclick="setSubjFilter('all',this)">全部科目</button>
-      <button class="q-tab" onclick="setSubjFilter('chinese',this)">📜 國文</button>
-      <button class="q-tab" onclick="setSubjFilter('english',this)">🌍 英文</button>
-      <button class="q-tab" onclick="setSubjFilter('math',this)">🔢 數學</button>
-      <button class="q-tab" onclick="setSubjFilter('science',this)">🔬 自然</button>
-      <button class="q-tab" onclick="setSubjFilter('social',this)">🌏 社會</button>
-    </div>
-    <div class="quiz-subject-tabs" id="quiz-grade-tabs" style="margin-top:0.5rem;">
-      <button class="q-tab active" onclick="setGradeFilter(0,this)">全部年級</button>
-      <button class="q-tab" onclick="setGradeFilter(7,this)">7 年級</button>
-      <button class="q-tab" onclick="setGradeFilter(8,this)">8 年級</button>
-      <button class="q-tab" onclick="setGradeFilter(9,this)">9 年級</button>
-    </div>
-
-    <div id="quiz-container"></div>
-
-    <!-- 考古題測驗 -->
-    <h2 class="section-title" style="margin-top:2rem;">📄 考古題測驗（歷屆原題）</h2>
+    <h2 class="section-title">📝 線上測驗</h2>
+    <p style="font-size:0.86rem;color:var(--muted);margin:-0.3rem 0 1rem;line-height:1.6;">歷屆考古題原題＋改編練習一起作答。選好條件按「開始作答」，一題一題作答、即時對答案，最後看成績。</p>
     <div class="card" style="padding:1rem;">
 
       <!-- 篩選控制列 -->
-      <div class="aq-label">選年份</div>
+      <div class="aq-label">選年份／題型</div>
       <div class="aq-controls" id="aq-year-tabs">
-        <button class="q-tab active" onclick="aqSetYear('all',this)">全部年份</button>
+        <button class="q-tab active" onclick="aqSetYear('all',this)">全部</button>
         <button class="q-tab" onclick="aqSetYear('115',this)">115 年</button>
         <button class="q-tab" onclick="aqSetYear('114',this)">114 年</button>
         <button class="q-tab" onclick="aqSetYear('113',this)">113 年</button>
         <button class="q-tab" onclick="aqSetYear('112',this)">112 年</button>
+        <button class="q-tab" onclick="aqSetYear('改編',this)">✏️ 改編題</button>
       </div>
 
       <div class="aq-label">選科目</div>
@@ -1964,6 +1940,29 @@ function aqSetMode(v, btn) {
   btn.classList.add('active');
 }
 
+// 把「改編題」(quizData) 併入考古題題庫，年份鍵用「改編」
+function mergeAdaptedIntoAq() {
+  if (!aqData || aqData['改編']) return;
+  if (typeof quizData === 'undefined' || !quizData.length) return;
+  const bucket = {};
+  quizData.forEach(function(q, i) {
+    const s = q.subject;
+    if (!bucket[s]) bucket[s] = [];
+    bucket[s].push({
+      num: bucket[s].length + 1,
+      q: q.q,
+      // 模擬題選項帶「A. 」前綴，去掉前 3 字以符合考古題格式
+      options: q.options.map(function(o){ return o.replace(/^[A-D][.、]\s*/, ''); }),
+      ans: q.ans,
+      has_figure: false,
+      subj: s,
+      subjLabel: (AQ_LABEL[s] || q.subLabel || '').replace(/^\S+\s*/, ''),
+      explain: q.explain || ''
+    });
+  });
+  aqData['改編'] = bucket;
+}
+
 async function aqStart() {
   if (!aqData) {
     document.getElementById('aq-start-btn').textContent = '載入題庫中…';
@@ -1975,6 +1974,7 @@ async function aqStart() {
       document.getElementById('aq-start-btn').textContent = '開始作答';
       return;
     }
+    mergeAdaptedIntoAq();
   }
 
   // Collect matching questions
@@ -2031,7 +2031,7 @@ function aqRender() {
   document.getElementById('aq-card-area').innerHTML =
     '<div class="aq-card">' +
       '<div class="aq-meta">' +
-        '<span style="background:var(--primary-light);color:var(--text);border-radius:50px;padding:0.15rem 0.6rem;">' + q.year + ' 年</span>' +
+        '<span style="background:var(--primary-light);color:var(--text);border-radius:50px;padding:0.15rem 0.6rem;">' + (/^\d+$/.test(q.year) ? q.year + ' 年' : q.year) + '</span>' +
         '<span style="background:var(--border);border-radius:50px;padding:0.15rem 0.6rem;">' + AQ_LABEL[q.subj] + '</span>' +
         '<span style="color:var(--muted)">第 ' + q.num + ' 題</span>' +
       '</div>' +
@@ -2062,9 +2062,13 @@ function aqAnswer(idx, btn) {
   if (idx === correct) { aqCorrect++; }
   document.getElementById('aq-score-text').textContent = '答對 ' + aqCorrect + ' / ' + (aqIdx + 1);
   document.getElementById('aq-next-wrap').style.display = 'block';
-  const msg = idx === correct ? '✅ 答對了！' : '❌ 答錯了，正確答案是 (' + 'ABCD'[correct] + ')';
-  document.getElementById('aq-ans-reveal').style.display = 'block';
-  document.getElementById('aq-ans-reveal').textContent = msg;
+  let msg = idx === correct ? '✅ 答對了！' : '❌ 答錯了，正確答案是 (' + 'ABCD'[correct] + ')';
+  if (q.explain) {
+    msg += '<div style="margin-top:0.5rem;padding:0.6rem 0.8rem;background:#fff8fc;border-left:3px solid var(--primary);border-radius:8px;line-height:1.6;color:var(--text);">💡 ' + esc(q.explain) + '</div>';
+  }
+  const reveal = document.getElementById('aq-ans-reveal');
+  reveal.style.display = 'block';
+  reveal.innerHTML = msg;
 }
 
 function aqNext() {
@@ -2335,6 +2339,7 @@ function setGradeFilter(grade, btn) {
 
 function renderQuiz() {
   const container = document.getElementById('quiz-container');
+  if (!container) return; // 模擬測驗已整合進考古題引擎，舊清單檢視已移除
   const filtered = quizData.filter(q =>
     (currentFilter === 'all' || q.subject === currentFilter) &&
     (currentGradeFilter === 0 || q.grade === currentGradeFilter)
