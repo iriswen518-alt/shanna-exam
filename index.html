@@ -595,6 +595,10 @@
     gap: 0.5rem;
   }
   .section-title::after { content: ''; flex: 1; height: 1.5px; background: var(--border); border-radius: 2px; }
+  .section-title.collapsible { cursor: pointer; user-select: none; -webkit-tap-highlight-color: transparent; }
+  .collapse-chevron { font-size: 0.8rem; color: var(--muted); transition: transform 0.2s ease; flex-shrink: 0; }
+  .section-title.collapsed .collapse-chevron { transform: rotate(-90deg); }
+  .section-body.collapsed { display: none; }
 
   /* ===== SCORE GUIDE ===== */
   .score-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
@@ -969,6 +973,7 @@
 <!-- HERO -->
 <div class="hero">
   <div class="hero-bg-right"></div>
+  <img class="hero-avatar" src="shanna.jpg?v=1" alt="羽璿" style="object-position:center 25%;" onerror="this.style.display='none'">
   <h1>璿璿衝會考</h1>
   <p>2027 年 5 月會考 — 從現在開始，每一天都算數 💪</p>
   <!-- 子瑜應援卡 -->
