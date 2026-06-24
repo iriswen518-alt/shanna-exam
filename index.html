@@ -750,7 +750,6 @@
   @media (max-width: 600px) {
     .hero { padding: 1rem 1rem 1.2rem; }
     .tzuyu-card { display: none; }
-    #daily-quote { display: none; }
     .countdown-num { font-size: 1.5rem; }
     .countdown-item { min-width: 58px; padding: 0.65rem; }
     .subject-grid, .tip-grid { grid-template-columns: 1fr; }
@@ -999,25 +998,8 @@
     <div class="tzuyu-avatar"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/151020_%ED%8A%B8%EC%99%80%EC%9D%B4%EC%8A%A4_-_%EB%8D%B0%EB%B7%94_%EC%87%BC%EC%BC%80%EC%9D%B4%EC%8A%A4_TWICE_-_Debut_Showcase_27.jpg/250px-151020_%ED%8A%B8%EC%99%80%EC%9D%B4%EC%8A%A4_-_%EB%8D%B0%EB%B7%94_%EC%87%BC%EC%BC%80%EC%9D%B4%EC%8A%A4_TWICE_-_Debut_Showcase_27.jpg" alt="子瑜" onerror="this.parentNode.innerHTML='🌸'"></div>
     <div>
       <div class="tzuyu-from">💌 周子瑜 Tzuyu 說：</div>
-      <div class="tzuyu-msg">「璿，你是最棒的！<span class="tzuyu-heart">♡</span>」</div>
+      <div class="tzuyu-msg" id="tzuyuMsg">「璿，你是最棒的！<span class="tzuyu-heart">♡</span>」</div>
     </div>
-  </div>
-
-  <!-- 今日一句 -->
-  <div id="daily-quote" style="
-    margin: 0 auto 2rem;
-    max-width: 520px;
-    background: rgba(255,255,255,0.15);
-    border: 1px solid rgba(255,255,255,0.3);
-    border-radius: 16px;
-    padding: 1rem 1.4rem;
-    backdrop-filter: blur(10px);
-    font-size: 1rem;
-    line-height: 1.6;
-    letter-spacing: 0.02em;
-  ">
-    <div id="quote-text" style="font-weight:600;"></div>
-    <div id="quote-author" style="font-size:0.8rem;opacity:0.75;margin-top:0.4rem;"></div>
   </div>
 
   <div class="countdown" id="countdown">
@@ -1903,47 +1885,31 @@ window.onerror = function(msg, src, line, col, err) {
   return false;
 };
 
-// ===== DAILY QUOTE =====
-const quotes = [
-  { text: '不是因為有希望才堅持，而是因為堅持才會有希望。', author: '' },
-  { text: '今天多努力一點，未來少後悔一分。', author: '' },
-  { text: '你現在的汗水，是你未來的底氣。', author: '' },
-  { text: '讀書苦，但不讀書更苦。', author: '' },
-  { text: '每一個你羨慕的人，都做過你不願意做的事。', author: '' },
-  { text: '不要害怕慢，只要不停下來。', author: '' },
-  { text: '比昨天的自己進步一點點，就足夠了。', author: '' },
-  { text: '困難不是藉口，努力才是答案。', author: '' },
-  { text: '現在流的淚，是以前不好好學習的眼淚。', author: '' },
-  { text: '成功不是偶然，是日積月累的必然。', author: '' },
-  { text: '你以為的極限，只是開始的地方。', author: '' },
-  { text: '只要方向對了，不怕路遠。', author: '' },
-  { text: '錯題本上的每一題，都是你變強的證據。', author: '' },
-  { text: '再難的題，做一遍不會，做十遍就會了。', author: '' },
-  { text: '別讓「明天再說」成為你最大的敵人。', author: '' },
-  { text: '靜下來讀書，是最划算的投資。', author: '' },
-  { text: '不是天才，就靠勤奮。', author: '' },
-  { text: '學習這件事，沒有捷徑，但有方法。', author: '' },
-  { text: '五月的你，會感謝現在的自己。', author: '' },
-  { text: '專注二十五分鐘，比分心三小時更有效。', author: '' },
-  { text: '每背一個單字，都是一塊磚，總有一天會蓋成一棟房。', author: '' },
-  { text: '數學公式背不起來？多寫十遍就記住了。', author: '' },
-  { text: '睡前複習，睡著之後大腦還在幫你記憶。', author: '' },
-  { text: '今天的苦，是明天的勳章。', author: '' },
-  { text: '相信努力的力量，比相信運氣更靠得住。', author: '' },
-  { text: '一次只做一件事，做就做好。', author: '' },
-  { text: '不懂的問，比裝懂更聰明。', author: '' },
-  { text: '會考只是一扇門，你現在在鑄造鑰匙。', author: '' },
-  { text: '累了就休息，休息完再繼續，不能停。', author: '' },
-  { text: '讓未來的自己驕傲，從今天開始。', author: '' },
-  { text: '堅持的人，總是笑到最後。', author: '' },
+// ===== 子瑜每日應援（每天換一句）=====
+const tzuyuLines = [
+  '璿，你是最棒的！',
+  '璿，今天也要加油喔！',
+  '璿，我相信你一定可以！',
+  '璿，你比自己想的還要厲害！',
+  '璿，每一天的努力都會被看見！',
+  '璿，慢慢來，你已經很棒了！',
+  '璿，累了就休息一下，再繼續！',
+  '璿，今天的你，又進步了一點！',
+  '璿，別怕難，你做得到！',
+  '璿，堅持下去，五月會謝謝現在的你！',
+  '璿，你的努力，子瑜都看得見！',
+  '璿，深呼吸，你可以的！',
+  '璿，一題一題來，你超強的！',
+  '璿，今天也要笑笑的讀書喔！',
+  '璿，你是會發光的女孩！',
 ];
 (function() {
   const start = new Date('2026-01-01');
   const today = new Date();
   const dayOfYear = Math.floor((today - start) / (1000 * 60 * 60 * 24));
-  const q = quotes[dayOfYear % quotes.length];
-  document.getElementById('quote-text').textContent = '「' + q.text + '」';
-  if (q.author) document.getElementById('quote-author').textContent = '— ' + q.author;
+  const line = tzuyuLines[dayOfYear % tzuyuLines.length];
+  const el = document.getElementById('tzuyuMsg');
+  if (el) el.innerHTML = '「' + line + '<span class="tzuyu-heart">♡</span>」';
 })();
 
 // ===== COUNTDOWN =====
