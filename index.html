@@ -4528,36 +4528,92 @@ const ZIYU_KB = [
   { keys:['哈哈','哈','笑','好笑'], reply:'哈哈哈！璿璿好可愛 😄\n\n好啦，笑完我們繼續讀書！\n有什麼不懂的科目或概念，告訴我，我來幫妳解釋 🌸' },
 ];
 
+// 主題 → 直接顯示該主題內容的權威頁面（皆已實測 200、點下去即是該主題本身，無需再搜尋）
+const TOPIC_LINKS = [
+  // 國文
+  { re:/比喻|明喻|暗喻|借喻/,            label:'維基 · 比喻',         url:'https://zh.wikipedia.org/zh-tw/比喻' },
+  { re:/起承轉合|作文結構|作文格式/,      label:'維基 · 起承轉合',     url:'https://zh.wikipedia.org/zh-tw/起承轉合' },
+  { re:/修辭|排比|設問|反問|誇飾|類疊|對偶/, label:'維基 · 修辭格',    url:'https://zh.wikipedia.org/zh-tw/修辭格' },
+  { re:/文言文|古文|之乎者也/,            label:'維基 · 文言文',       url:'https://zh.wikipedia.org/zh-tw/文言文' },
+  { re:/段落大意|主題句|段落/,            label:'維基 · 段落',         url:'https://zh.wikipedia.org/zh-tw/段落' },
+  // 英文
+  { re:/時態|現在式|過去式|完成式|進行式/, label:'維基 · 時態',         url:'https://zh.wikipedia.org/zh-tw/時態' },
+  { re:/假設語氣|虛擬語氣/,               label:'維基 · 虛擬語氣',     url:'https://zh.wikipedia.org/zh-tw/虛擬語氣' },
+  { re:/被動|passive/,                   label:'維基 · 被動語態',     url:'https://zh.wikipedia.org/zh-tw/被動語態' },
+  { re:/關係代名詞|關係代詞/,             label:'維基 · 關係代詞',     url:'https://zh.wikipedia.org/zh-tw/關係代詞' },
+  { re:/字根|字首|字尾|前綴|後綴|prefix|suffix|詞綴/, label:'維基 · 詞綴', url:'https://zh.wikipedia.org/zh-tw/詞綴' },
+  { re:/borrow|lend/,                    label:'劍橋字典 · borrow',   url:'https://dictionary.cambridge.org/zht/詞典/英語-漢語-繁體/borrow' },
+  { re:/affect|effect/,                  label:'劍橋字典 · affect',   url:'https://dictionary.cambridge.org/zht/詞典/英語-漢語-繁體/affect' },
+  // 數學
+  { re:/方程式|解方程|移項/,              label:'維基 · 一元一次方程', url:'https://zh.wikipedia.org/zh-tw/一元一次方程' },
+  { re:/因式分解|乘法公式/,               label:'維基 · 因式分解',     url:'https://zh.wikipedia.org/zh-tw/因式分解' },
+  { re:/畢氏|勾股|斜邊/,                  label:'維基 · 勾股定理',     url:'https://zh.wikipedia.org/zh-tw/勾股定理' },
+  { re:/斜率|一次函數|直線/,              label:'維基 · 一次函數',     url:'https://zh.wikipedia.org/zh-tw/一次函數' },
+  { re:/二次函數|拋物線|頂點/,            label:'維基 · 二次函數',     url:'https://zh.wikipedia.org/zh-tw/二次函數' },
+  { re:/全等/,                           label:'維基 · 全等三角形',   url:'https://zh.wikipedia.org/zh-tw/全等三角形' },
+  { re:/相似/,                           label:'維基 · 相似三角形',   url:'https://zh.wikipedia.org/zh-tw/相似三角形' },
+  { re:/機率|擲骰/,                       label:'維基 · 機率',         url:'https://zh.wikipedia.org/zh-tw/機率' },
+  // 自然
+  { re:/牛頓|慣性|合力|等速/,             label:'維基 · 牛頓運動定律', url:'https://zh.wikipedia.org/zh-tw/牛頓運動定律' },
+  { re:/光合作用|葉綠/,                   label:'維基 · 光合作用',     url:'https://zh.wikipedia.org/zh-tw/光合作用' },
+  { re:/酸鹼中和|中和反應|中和/,          label:'維基 · 中和反應',     url:'https://zh.wikipedia.org/zh-tw/中和反應' },
+  { re:/酸鹼|酸性|鹼性|中性|ph/,          label:'維基 · PH值',         url:'https://zh.wikipedia.org/zh-tw/PH值' },
+  { re:/dna|遺傳|染色體|孟德爾/,          label:'維基 · 去氧核醣核酸', url:'https://zh.wikipedia.org/zh-tw/去氧核醣核酸' },
+  { re:/電流|電壓|電阻|歐姆/,             label:'維基 · 歐姆定律',     url:'https://zh.wikipedia.org/zh-tw/歐姆定律' },
+  // 社會
+  { re:/三權|五院|行政院|立法院|司法院|權力分立/, label:'維基 · 權力分立', url:'https://zh.wikipedia.org/zh-tw/權力分立' },
+  { re:/供需|供給|需求|物價|通膨|通貨膨脹|景氣/, label:'維基 · 供給與需求', url:'https://zh.wikipedia.org/zh-tw/供給與需求' },
+  { re:/法律位階|法律|憲法|位階/,         label:'維基 · 中央法規標準法', url:'https://zh.wikipedia.org/zh-tw/中央法規標準法' },
+  { re:/地形|山地|平原|丘陵|台地/,        label:'維基 · 台灣地形',     url:'https://zh.wikipedia.org/zh-tw/台灣地形' },
+  { re:/工業革命|法國大革命|美國獨立/,    label:'維基 · 工業革命',     url:'https://zh.wikipedia.org/zh-tw/工業革命' },
+];
+
+// 依「璿實際問的主題」給一個直接內容頁；沒有對應主題才退回官方歷屆題庫
+function chatLinks(text) {
+  const s = (text || '').toLowerCase();
+  let topic = null;
+  for (const it of TOPIC_LINKS) { if (it.re.test(s)) { topic = it; break; } }
+  const direct = topic
+    ? '[[L:' + topic.label + '（直接看說明）|' + topic.url + ']]'
+    : '[[L:官方歷屆會考題庫（直接下載考題）|https://cap.rcpet.edu.tw/examination.html]]';
+  return '\n\n📌 延伸連結：\n'
+    + direct
+    + '\n[[T:quiz|站內 · 線上測驗]]　[[T:resources|站內 · 考古題庫]]';
+}
+
 function ziyuReply(text) {
   const t = text.toLowerCase();
+  let reply = null;
   // 優先精確匹配
   for (const item of ZIYU_KB) {
-    if (item.keys.some(k => t.includes(k))) return item.reply;
+    if (item.keys.some(k => t.includes(k))) { reply = item.reply; break; }
   }
   // 科目偵測
-  if (t.includes('國文') || t.includes('作文') || t.includes('古文') || t.includes('詩')) {
-    return '國文的問題！告訴我具體是什麼，例如：文言文翻譯、修辭技巧、作文結構……我來幫妳解釋 📖';
+  if (reply === null) {
+    if (t.includes('國文') || t.includes('作文') || t.includes('古文') || t.includes('詩')) {
+      reply = '國文的問題！告訴我具體是什麼，例如：文言文翻譯、修辭技巧、作文結構……我來幫妳解釋 📖';
+    } else if (t.includes('英文') || t.includes('english') || t.includes('單字') || t.includes('文法')) {
+      reply = '英文問題！告訴我具體是哪一個，例如：時態、被動語態、關係代名詞……我來幫妳說清楚 🔤';
+    } else if (t.includes('數學') || t.includes('math') || t.includes('幾何') || t.includes('代數')) {
+      reply = '數學問題！告訴我是哪個單元，例如：方程式、因式分解、幾何……我來幫妳一步一步解 📐';
+    } else if (t.includes('自然') || t.includes('理化') || t.includes('生物') || t.includes('化學') || t.includes('物理') || t.includes('地科')) {
+      reply = '自然科問題！告訴我是哪個主題，例如：牛頓定律、光合作用、酸鹼……我來幫妳整理 🔬';
+    } else if (t.includes('社會') || t.includes('歷史') || t.includes('地理') || t.includes('公民')) {
+      reply = '社會科問題！告訴我是哪個部分，例如：台灣歷史、地形、法律制度……我來幫妳複習 🌏';
+    }
   }
-  if (t.includes('英文') || t.includes('english') || t.includes('單字') || t.includes('文法')) {
-    return '英文問題！告訴我具體是哪一個，例如：時態、被動語態、關係代名詞……我來幫妳說清楚 🔤';
+  // 預設回應（找不到任何科目）
+  if (reply === null) {
+    const defaults = [
+      '嗨璿璿！有什麼學習問題可以問我 🌸\n例如：「比喻是什麼？」「解方程式怎麼做？」「光合作用是什麼？」',
+      '告訴我妳在讀哪一科？我來幫妳解釋重點概念！五科我都可以 💪',
+      '璿璿有什麼不懂的地方？把問題說出來，我們一起解決 ✨',
+      '我在這裡陪妳讀書！有任何五科的問題都可以問我 📚\n國文、英文、數學、自然、社會都可以喔！',
+    ];
+    reply = defaults[Math.floor(Math.random() * defaults.length)];
   }
-  if (t.includes('數學') || t.includes('math') || t.includes('幾何') || t.includes('代數')) {
-    return '數學問題！告訴我是哪個單元，例如：方程式、因式分解、幾何……我來幫妳一步一步解 📐';
-  }
-  if (t.includes('自然') || t.includes('理化') || t.includes('生物') || t.includes('化學') || t.includes('物理') || t.includes('地科')) {
-    return '自然科問題！告訴我是哪個主題，例如：牛頓定律、光合作用、酸鹼……我來幫妳整理 🔬';
-  }
-  if (t.includes('社會') || t.includes('歷史') || t.includes('地理') || t.includes('公民')) {
-    return '社會科問題！告訴我是哪個部分，例如：台灣歷史、地形、法律制度……我來幫妳複習 🌏';
-  }
-  // 預設回應
-  const defaults = [
-    '嗨璿璿！有什麼學習問題可以問我 🌸\n例如：「比喻是什麼？」「解方程式怎麼做？」「光合作用是什麼？」',
-    '告訴我妳在讀哪一科？我來幫妳解釋重點概念！五科我都可以 💪',
-    '璿璿有什麼不懂的地方？把問題說出來，我們一起解決 ✨',
-    '我在這裡陪妳讀書！有任何五科的問題都可以問我 📚\n國文、英文、數學、自然、社會都可以喔！',
-  ];
-  return defaults[Math.floor(Math.random() * defaults.length)];
+  // 依璿實際問的主題，自動附上「直接內容頁＋站內分頁」連結
+  return reply + chatLinks(text);
 }
 
 function appendMsg(role, text) {
@@ -4570,7 +4626,19 @@ function appendMsg(role, text) {
   label.textContent = isZiyu ? '子瑜' : '璿璿';
   const bubble = document.createElement('div');
   bubble.className = 'chat-bubble ' + (isZiyu ? 'ziyu' : 'shanna');
-  bubble.innerHTML = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+  let html = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  if (isZiyu) {
+    // 站內分頁連結： [[T:tab|文字]]
+    html = html.replace(/\[\[T:([a-z]+)\|([^\]|]+)\]\]/g, function(m, tab, label){
+      return '<a class="chat-link" onclick="switchTab(\'' + tab + '\')">' + label + ' ›</a>';
+    });
+    // 外部權威網站連結： [[L:文字|https://…]]
+    html = html.replace(/\[\[L:([^|\]]+)\|(https?:\/\/[^\]]+)\]\]/g, function(m, label, url){
+      return '<a class="chat-link ext" href="' + url + '" target="_blank" rel="noopener">' + label + ' ↗</a>';
+    });
+  }
+  html = html.replace(/\n/g,'<br>');
+  bubble.innerHTML = html;
   row.appendChild(label);
   row.appendChild(bubble);
   msgs.appendChild(row);
