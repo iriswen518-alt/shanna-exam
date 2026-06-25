@@ -45,10 +45,7 @@
 
   /* ===== HERO ===== */
   .hero {
-    background:
-      linear-gradient(to right, #f9c6d8 25%, rgba(232,160,196,0.92) 45%, rgba(201,160,232,0.75) 65%, rgba(201,160,232,0.35) 85%, transparent 100%),
-      url('tzuyu.jpg') right top / auto 100% no-repeat,
-      linear-gradient(160deg, #f9c6d8 0%, #e8a0c4 35%, #c9a0e8 70%, #a8c4f0 100%);
+    background: linear-gradient(110deg, #f9c6d8 0%, #f3bdd3 18%, #ecb4cf 34%, #e0aed6 50%, #d2abde 66%, #c0b0ea 83%, #aec4f0 100%);
     color: #3d1f40;
     padding: 1.2rem 1.5rem 1.5rem;
     text-align: center;
@@ -62,7 +59,18 @@
     background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.06'%3E%3Ccircle cx='20' cy='20' r='3'/%3E%3Ccircle cx='60' cy='20' r='2'/%3E%3Ccircle cx='40' cy='50' r='2.5'/%3E%3Ccircle cx='10' cy='60' r='2'/%3E%3Ccircle cx='70' cy='60' r='3'/%3E%3C/g%3E%3C/svg%3E");
     pointer-events: none;
   }
-  .hero-bg-right { display: none; }
+  .hero-bg-right {
+    position: absolute;
+    top: 0; right: 0; bottom: 0;
+    width: 42%;
+    background: url('tzuyu.jpg') center right / cover no-repeat;
+    mix-blend-mode: multiply;
+    -webkit-mask-image: radial-gradient(ellipse 78% 125% at 82% 42%, #000 32%, rgba(0,0,0,0.35) 62%, transparent 82%);
+    mask-image: radial-gradient(ellipse 78% 125% at 82% 42%, #000 32%, rgba(0,0,0,0.35) 62%, transparent 82%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .hero h1, .hero p, .hero-badge, .countdown, .tzuyu-card { position: relative; z-index: 1; }
   .hero::after {
     content: '🌸 ✨ 🌸 ✨ 🌸';
     position: absolute;
@@ -337,6 +345,7 @@
     border: 1px solid var(--border);
     overflow: hidden;
     transition: transform 0.2s, box-shadow 0.2s;
+    align-self: start;
   }
   .subject-card:hover {
     transform: translateY(-3px);
@@ -983,6 +992,100 @@
     margin: 0 auto 1rem;
     display: block;
   }
+
+  /* ===== 天氣 widget ===== */
+  .weather-strip {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    background: rgba(255,255,255,0.78);
+    border: 1px solid rgba(255,255,255,0.9);
+    border-radius: 16px;
+    padding: 0.6rem 0.9rem;
+    margin-top: 0.9rem;
+    box-shadow: 0 4px 16px rgba(200,100,160,0.12);
+    backdrop-filter: blur(4px);
+  }
+  .weather-strip .wx-icon { font-size: 1.9rem; line-height: 1; }
+  .weather-strip .wx-info { flex: 1; min-width: 0; }
+  .weather-strip .wx-temp { font-size: 1.25rem; font-weight: 800; color: #3d1f40; }
+  .weather-strip .wx-temp .wx-city { font-size: 0.78rem; font-weight: 600; color: #8a5a78; margin-left: 0.35rem; }
+  .weather-strip .wx-desc { font-size: 0.78rem; color: #8a5a78; margin-top: 0.1rem; }
+  .weather-strip .wx-hl {
+    font-size: 0.82rem; font-weight: 700; color: #b05a86;
+    background: rgba(255,255,255,0.7); border-radius: 10px;
+    padding: 0.3rem 0.55rem; white-space: nowrap; flex-shrink: 0;
+  }
+
+  /* ===== 行事曆 ===== */
+  .cal-remind {
+    display: flex; align-items: center; gap: 0.7rem;
+    background: linear-gradient(110deg,#ffe0ec,#f3e0ff);
+    border: 1px solid var(--border);
+    border-radius: 16px; padding: 0.9rem 1.1rem; margin-bottom: 1rem;
+  }
+  .cal-remind .cr-emoji { font-size: 1.7rem; line-height: 1; flex-shrink: 0; }
+  .cal-remind .cr-text { flex: 1; min-width: 0; }
+  .cal-remind .cr-title { font-weight: 800; color: var(--text); font-size: 0.95rem; }
+  .cal-remind .cr-sub { font-size: 0.8rem; color: var(--muted); margin-top: 0.15rem; }
+  .cal-remind .cr-days { text-align: center; flex-shrink: 0; }
+  .cal-remind .cr-days .crd-num { font-size: 1.7rem; font-weight: 900; color: var(--primary); line-height: 1; }
+  .cal-remind .cr-days .crd-label { font-size: 0.72rem; color: var(--muted); }
+
+  .cal-add { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+  .cal-add input, .cal-add select {
+    font-family: inherit; font-size: 0.9rem; padding: 0.55rem 0.7rem;
+    border: 1px solid var(--border); border-radius: 12px; background: #fff; color: var(--text);
+  }
+  .cal-add input[type=date] { flex: 1 1 130px; }
+  .cal-add input[type=text] { flex: 2 1 160px; }
+  .cal-add select { flex: 1 1 110px; }
+  .cal-add button {
+    flex: 1 1 100%; font-family: inherit; font-size: 0.95rem; font-weight: 700;
+    padding: 0.6rem; border: none; border-radius: 12px;
+    background: var(--primary); color: #fff; cursor: pointer;
+  }
+  .cal-add button:active { background: #c8558c; }
+
+  .cal-grid-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.7rem; }
+  .cal-grid-head button {
+    border: 1px solid var(--border); background: #fff; color: var(--primary);
+    border-radius: 10px; width: 34px; height: 34px; font-size: 1.1rem; cursor: pointer;
+  }
+  .cal-grid-head .cgh-title { font-weight: 800; font-size: 1rem; }
+  .cal-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 4px; }
+  .cal-grid .cg-dow { text-align: center; font-size: 0.72rem; color: var(--muted); padding: 0.2rem 0; font-weight: 700; }
+  .cal-cell {
+    aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    border-radius: 10px; font-size: 0.85rem; color: var(--text); position: relative; cursor: default;
+  }
+  .cal-cell.muted { color: #d8c4d2; }
+  .cal-cell.today { background: var(--primary); color: #fff; font-weight: 800; }
+  .cal-cell.has-event:not(.today) { background: #fbe4f0; font-weight: 700; }
+  .cal-cell .cg-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); margin-top: 2px; }
+  .cal-cell.today .cg-dot { background: #fff; }
+
+  .cal-list { margin-top: 1rem; }
+  .cal-event {
+    display: flex; align-items: center; gap: 0.7rem;
+    background: #fff; border: 1px solid var(--border); border-radius: 14px;
+    padding: 0.7rem 0.9rem; margin-bottom: 0.55rem;
+  }
+  .cal-event .ce-emoji { font-size: 1.3rem; flex-shrink: 0; }
+  .cal-event .ce-body { flex: 1; min-width: 0; }
+  .cal-event .ce-title { font-weight: 700; font-size: 0.92rem; }
+  .cal-event .ce-date { font-size: 0.76rem; color: var(--muted); margin-top: 0.12rem; }
+  .cal-event .ce-count {
+    font-size: 0.8rem; font-weight: 800; color: var(--primary);
+    background: #fbe4f0; border-radius: 10px; padding: 0.3rem 0.5rem; white-space: nowrap; flex-shrink: 0;
+  }
+  .cal-event .ce-count.past { color: var(--muted); background: #f0eaef; }
+  .cal-event .ce-count.today { color: #fff; background: var(--accent); }
+  .cal-event .ce-del {
+    border: none; background: none; color: #d8a0c0; font-size: 1.2rem; cursor: pointer;
+    padding: 0 0.2rem; flex-shrink: 0;
+  }
+  .cal-empty { text-align: center; color: var(--muted); font-size: 0.85rem; padding: 1rem 0; }
 </style>
 </head>
 <body>
@@ -1008,12 +1111,22 @@
     <div class="countdown-item"><span class="countdown-num" id="cd-mins">--</span><span class="countdown-label">分鐘</span></div>
     <div class="countdown-item"><span class="countdown-num" id="cd-secs">--</span><span class="countdown-label">秒</span></div>
   </div>
+
+  <div class="weather-strip" id="weatherStrip">
+    <span class="wx-icon" id="wxIcon">🌈</span>
+    <div class="wx-info">
+      <div class="wx-temp"><span id="wxTemp">--</span>°<span class="wx-city">台北市</span></div>
+      <div class="wx-desc" id="wxDesc">載入今日天氣中…</div>
+    </div>
+    <div class="wx-hl">最高 <span id="wxHi">--</span>° ／ 最低 <span id="wxLo">--</span>°</div>
+  </div>
 </div>
 
 <!-- TABS -->
 <div class="tabs-wrapper">
   <select class="tab-select" id="tab-select" onchange="switchTab(this.value)">
     <option value="subjects">📖 各科範圍</option>
+    <option value="calendar">🗓️ 行事曆</option>
     <option value="plan">📅 備戰計畫</option>
     <option value="schedule">⏰ 每週課表</option>
     <option value="quiz">✏️ 模擬測驗</option>
@@ -1028,6 +1141,48 @@
 </div>
 
 <div class="container">
+
+  <!-- TAB: 行事曆 -->
+  <div id="tab-calendar" class="tab-panel">
+    <h2 class="section-title">🗓️ 行事曆</h2>
+
+    <div class="cal-remind" id="calRemind">
+      <span class="cr-emoji">⏰</span>
+      <div class="cr-text">
+        <div class="cr-title" id="crTitle">—</div>
+        <div class="cr-sub" id="crSub">—</div>
+      </div>
+      <div class="cr-days"><div class="crd-num" id="crNum">--</div><div class="crd-label">天</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><div class="card-icon" style="background:#fbe4f0;">➕</div><strong>新增行事曆項目</strong></div>
+      <div class="cal-add">
+        <input type="date" id="calDate">
+        <input type="text" id="calTitle" placeholder="例如：第一次模擬考、璿生日…" maxlength="30">
+        <select id="calType">
+          <option value="exam">📝 考試</option>
+          <option value="study">📚 讀書計畫</option>
+          <option value="birthday">🎂 生日</option>
+          <option value="activity">🎈 活動</option>
+          <option value="other">📌 其他</option>
+        </select>
+        <button onclick="calAdd()">新增項目</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="cal-grid-head">
+        <button onclick="calMonthShift(-1)">‹</button>
+        <span class="cgh-title" id="calGridTitle">—</span>
+        <button onclick="calMonthShift(1)">›</button>
+      </div>
+      <div class="cal-grid" id="calGrid"></div>
+    </div>
+
+    <h2 class="section-title">📋 即將到來</h2>
+    <div class="cal-list" id="calList"></div>
+  </div>
 
   <!-- TAB: SUBJECTS -->
   <div id="tab-subjects" class="tab-panel active">
@@ -1911,6 +2066,193 @@ function updateCountdown() {
 }
 setInterval(updateCountdown, 1000);
 updateCountdown();
+
+// ===== 今日天氣（台北市 / Open-Meteo，免金鑰）=====
+(function loadWeather() {
+  // WMO 天氣代碼 → emoji + 中文描述
+  var WX = {
+    0:['☀️','晴天'],1:['🌤️','晴時多雲'],2:['⛅','多雲'],3:['☁️','陰天'],
+    45:['🌫️','有霧'],48:['🌫️','霧淞'],
+    51:['🌦️','毛毛雨'],53:['🌦️','毛毛雨'],55:['🌧️','毛毛雨'],
+    61:['🌧️','小雨'],63:['🌧️','中雨'],65:['🌧️','大雨'],
+    66:['🌧️','凍雨'],67:['🌧️','凍雨'],
+    71:['🌨️','小雪'],73:['🌨️','中雪'],75:['❄️','大雪'],77:['❄️','雪珠'],
+    80:['🌦️','陣雨'],81:['🌧️','陣雨'],82:['⛈️','強陣雨'],
+    85:['🌨️','陣雪'],86:['🌨️','陣雪'],
+    95:['⛈️','雷雨'],96:['⛈️','雷雨伴冰雹'],99:['⛈️','強雷雨伴冰雹']
+  };
+  var url = 'https://api.open-meteo.com/v1/forecast?latitude=25.0375&longitude=121.5637'
+    + '&current=temperature_2m,weather_code&daily=temperature_2m_max,temperature_2m_min'
+    + '&timezone=Asia%2FTaipei&forecast_days=1';
+  fetch(url).then(function(r){ return r.json(); }).then(function(d){
+    var code = d.current.weather_code;
+    var info = WX[code] || ['🌈','天氣'];
+    var t = Math.round(d.current.temperature_2m);
+    var hi = Math.round(d.daily.temperature_2m_max[0]);
+    var lo = Math.round(d.daily.temperature_2m_min[0]);
+    document.getElementById('wxIcon').textContent = info[0];
+    document.getElementById('wxDesc').textContent = info[1];
+    document.getElementById('wxTemp').textContent = t;
+    document.getElementById('wxHi').textContent = hi;
+    document.getElementById('wxLo').textContent = lo;
+  }).catch(function(){
+    document.getElementById('wxDesc').textContent = '天氣載入失敗，請稍後再試';
+  });
+})();
+
+// ===== 行事曆 =====
+var CAL_KEY = 'shanna_calendar_events';
+var CAL_TYPE = {
+  exam:['📝','考試'], study:['📚','讀書計畫'], birthday:['🎂','生日'],
+  activity:['🎈','活動'], other:['📌','其他']
+};
+var calViewYear, calViewMonth; // 目前檢視的月份
+
+function calToday() { var n = new Date(); return new Date(n.getFullYear(), n.getMonth(), n.getDate()); }
+function calParse(s) { var p = s.split('-'); return new Date(+p[0], +p[1]-1, +p[2]); }
+function calDaysTo(dateStr) {
+  return Math.round((calParse(dateStr) - calToday()) / 86400000);
+}
+
+function calLoad() {
+  var raw = localStorage.getItem(CAL_KEY);
+  if (raw) { try { return JSON.parse(raw); } catch(e) {} }
+  // 預設種子：會考兩天
+  var seed = [
+    { date:'2027-05-15', title:'國中教育會考 第一天', type:'exam' },
+    { date:'2027-05-16', title:'國中教育會考 第二天', type:'exam' }
+  ];
+  localStorage.setItem(CAL_KEY, JSON.stringify(seed));
+  return seed;
+}
+function calSave(list) { localStorage.setItem(CAL_KEY, JSON.stringify(list)); }
+
+function calAdd() {
+  var date = document.getElementById('calDate').value;
+  var title = document.getElementById('calTitle').value.trim();
+  var type = document.getElementById('calType').value;
+  if (!date) { alert('請選擇日期'); return; }
+  if (!title) { alert('請輸入項目名稱'); return; }
+  var list = calLoad();
+  list.push({ date:date, title:title, type:type });
+  calSave(list);
+  document.getElementById('calTitle').value = '';
+  // 跳到新增項目所在月份
+  var d = calParse(date);
+  calViewYear = d.getFullYear(); calViewMonth = d.getMonth();
+  calRenderAll();
+}
+
+var calSorted = []; // 目前清單顯示順序，供刪除用
+function calDeleteIdx(i) {
+  var e = calSorted[i];
+  if (!e) return;
+  if (!confirm('要刪除「' + e.title + '」嗎？')) return;
+  var list = calLoad();
+  // 移除第一個完全相符的項目
+  for (var k = 0; k < list.length; k++) {
+    if (list[k].date === e.date && list[k].title === e.title && list[k].type === e.type) { list.splice(k,1); break; }
+  }
+  calSave(list);
+  calRenderAll();
+}
+
+function calMonthShift(n) {
+  calViewMonth += n;
+  if (calViewMonth < 0) { calViewMonth = 11; calViewYear--; }
+  if (calViewMonth > 11) { calViewMonth = 0; calViewYear++; }
+  calRenderGrid();
+}
+
+function calFmt(dateStr) {
+  var d = calParse(dateStr);
+  var w = ['日','一','二','三','四','五','六'][d.getDay()];
+  return (d.getMonth()+1) + '月' + d.getDate() + '日（' + w + '）';
+}
+function calCountLabel(days) {
+  if (days === 0) return ['今天！','today'];
+  if (days < 0) return ['已過 ' + (-days) + ' 天','past'];
+  return ['還有 ' + days + ' 天',''];
+}
+
+function calRenderGrid() {
+  var grid = document.getElementById('calGrid');
+  if (!grid) return;
+  document.getElementById('calGridTitle').textContent = calViewYear + ' 年 ' + (calViewMonth+1) + ' 月';
+  var list = calLoad();
+  var eventDays = {};
+  list.forEach(function(e){
+    var d = calParse(e.date);
+    if (d.getFullYear() === calViewYear && d.getMonth() === calViewMonth) eventDays[d.getDate()] = true;
+  });
+  var first = new Date(calViewYear, calViewMonth, 1).getDay();
+  var dim = new Date(calViewYear, calViewMonth+1, 0).getDate();
+  var t = calToday();
+  var isThisMonth = (t.getFullYear() === calViewYear && t.getMonth() === calViewMonth);
+  var html = '';
+  ['日','一','二','三','四','五','六'].forEach(function(w){ html += '<div class="cg-dow">'+w+'</div>'; });
+  for (var i = 0; i < first; i++) html += '<div class="cal-cell muted"></div>';
+  for (var day = 1; day <= dim; day++) {
+    var cls = 'cal-cell';
+    if (isThisMonth && day === t.getDate()) cls += ' today';
+    if (eventDays[day]) cls += ' has-event';
+    html += '<div class="'+cls+'">'+day+(eventDays[day]?'<span class="cg-dot"></span>':'')+'</div>';
+  }
+  grid.innerHTML = html;
+}
+
+function calRenderList() {
+  var box = document.getElementById('calList');
+  if (!box) return;
+  calSorted = calLoad().slice().sort(function(a,b){ return a.date < b.date ? -1 : 1; });
+  if (!calSorted.length) { box.innerHTML = '<div class="cal-empty">還沒有任何項目，從上方新增吧 ✏️</div>'; return; }
+  var html = '';
+  calSorted.forEach(function(e, i){
+    var info = CAL_TYPE[e.type] || ['📌','其他'];
+    var days = calDaysTo(e.date);
+    var lab = calCountLabel(days);
+    html += '<div class="cal-event">'
+      + '<span class="ce-emoji">'+info[0]+'</span>'
+      + '<div class="ce-body"><div class="ce-title">'+calEsc(e.title)+'</div>'
+      + '<div class="ce-date">'+calFmt(e.date)+'｜'+info[1]+'</div></div>'
+      + '<span class="ce-count '+lab[1]+'">'+lab[0]+'</span>'
+      + '<button class="ce-del" onclick="calDeleteIdx('+i+')">×</button>'
+      + '</div>';
+  });
+  box.innerHTML = html;
+}
+
+function calEsc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// 自動提醒：找出最近一個未到的項目，顯示倒數第幾天
+function calRenderRemind() {
+  var box = document.getElementById('calRemind');
+  if (!box) return;
+  var upcoming = calLoad().filter(function(e){ return calDaysTo(e.date) >= 0; })
+    .sort(function(a,b){ return a.date < b.date ? -1 : 1; });
+  if (!upcoming.length) {
+    document.getElementById('crTitle').textContent = '目前沒有即將到來的項目';
+    document.getElementById('crSub').textContent = '新增考試或活動就會自動倒數提醒';
+    document.getElementById('crNum').textContent = '–';
+    return;
+  }
+  var e = upcoming[0];
+  var info = CAL_TYPE[e.type] || ['📌','其他'];
+  var days = calDaysTo(e.date);
+  document.getElementById('crTitle').textContent = info[0] + ' ' + e.title;
+  document.getElementById('crSub').textContent = calFmt(e.date) + (days === 0 ? '｜就是今天！' : '｜倒數中');
+  document.getElementById('crNum').textContent = days === 0 ? '0' : days;
+}
+
+function calRenderAll() { calRenderRemind(); calRenderGrid(); calRenderList(); }
+
+(function calInit() {
+  var t = calToday();
+  calViewYear = t.getFullYear(); calViewMonth = t.getMonth();
+  var di = document.getElementById('calDate');
+  if (di) di.value = t.getFullYear() + '-' + String(t.getMonth()+1).padStart(2,'0') + '-' + String(t.getDate()).padStart(2,'0');
+  calRenderAll();
+})();
 
 // ===== 考古題測驗 ENGINE =====
 const AQ_PDF = {
@@ -4761,6 +5103,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <div class="more-sheet" id="moreSheet">
   <div class="more-sheet-title">全部功能</div>
   <div class="more-grid">
+    <button class="more-item" onclick="switchTabNav('calendar');closeMore()"><span class="more-icon">🗓️</span>行事曆</button>
     <button class="more-item" onclick="switchTabNav('plan');closeMore()"><span class="more-icon">📅</span>備戰計畫</button>
     <button class="more-item" onclick="switchTabNav('schedule');closeMore()"><span class="more-icon">⏰</span>每週課表</button>
     <button class="more-item" onclick="switchTabNav('tips');closeMore()"><span class="more-icon">💡</span>讀書技巧</button>
