@@ -917,7 +917,11 @@
   .detail-method-step::before { content:'✅ '; }
 
   /* ===== 考古題測驗 ===== */
-  .aq-controls { display:flex; flex-wrap:wrap; gap:0.5rem; margin-bottom:1rem; }
+  .aq-controls { display:grid; grid-template-columns:repeat(3,1fr); gap:0.5rem; margin-bottom:1rem; }
+  .aq-controls .q-tab {
+    padding:0.5rem 0.4rem; text-align:center; white-space:nowrap;
+    overflow:hidden; text-overflow:ellipsis;
+  }
   .aq-label { font-size:0.78rem; font-weight:700; color:var(--muted); margin:0.3rem 0 0.2rem; }
   .aq-progress-bar { height:6px; background:var(--border); border-radius:3px; margin-bottom:1rem; overflow:hidden; }
   .aq-progress-fill { height:100%; background:linear-gradient(90deg,var(--primary),var(--secondary)); border-radius:3px; transition:width 0.4s; }
