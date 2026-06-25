@@ -2501,6 +2501,20 @@ function initCollapsibleSections() {
     head.after(body);
     bindCollapse(head, body);
   });
+
+  // 4) 各分頁的 h3 子區塊（進度追蹤各科、資源分類…）：點 h3 收合其下內容
+  document.querySelectorAll('.tab-panel h3.section-title').forEach(function(head) {
+    var body = document.createElement('div');
+    body.className = 'collapse-body';
+    var node = head.nextElementSibling;
+    while (node && !(node.matches && node.matches('h3.section-title, h2.section-title'))) {
+      var next = node.nextElementSibling;
+      body.appendChild(node);
+      node = next;
+    }
+    head.after(body);
+    bindCollapse(head, body);
+  });
 }
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initCollapsibleSections);
