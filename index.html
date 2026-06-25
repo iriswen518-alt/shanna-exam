@@ -1003,24 +1003,28 @@
   .weather-strip {
     display: flex;
     align-items: center;
-    gap: 0.7rem;
-    background: rgba(255,255,255,0.78);
-    border: 1px solid rgba(255,255,255,0.9);
-    border-radius: 16px;
-    padding: 0.6rem 0.9rem;
-    margin-top: 0.9rem;
-    box-shadow: 0 4px 16px rgba(200,100,160,0.12);
-    backdrop-filter: blur(4px);
+    gap: 0.6rem;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    margin: 0.9rem 0 0 auto;        /* 靠右下角 */
+    width: fit-content;
+    box-shadow: none;
+    backdrop-filter: none;
+    position: relative;
+    z-index: 1;                      /* 壓在背景照片之上 */
+    text-align: left;
   }
-  .weather-strip .wx-icon { font-size: 1.9rem; line-height: 1; }
-  .weather-strip .wx-info { flex: 1; min-width: 0; }
+  .weather-strip .wx-icon { font-size: 1.9rem; line-height: 1; flex-shrink: 0; }
+  .weather-strip .wx-info { flex: 0 1 auto; min-width: 0; }
   .weather-strip .wx-temp { font-size: 1.25rem; font-weight: 800; color: #3d1f40; }
   .weather-strip .wx-temp .wx-city { font-size: 0.78rem; font-weight: 600; color: #8a5a78; margin-left: 0.35rem; }
   .weather-strip .wx-desc { font-size: 0.78rem; color: #8a5a78; margin-top: 0.1rem; }
   .weather-strip .wx-hl {
     font-size: 0.82rem; font-weight: 700; color: #b05a86;
-    background: rgba(255,255,255,0.7); border-radius: 10px;
-    padding: 0.3rem 0.55rem; white-space: nowrap; flex-shrink: 0;
+    background: transparent; border-radius: 0;
+    padding: 0 0 0 0.5rem; white-space: nowrap; flex-shrink: 0;
   }
 
   /* ===== 行事曆 ===== */
