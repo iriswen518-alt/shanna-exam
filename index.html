@@ -183,7 +183,10 @@
     touch-action: manipulation;
     white-space: nowrap;
   }
-  .bnav-btn.active { color: #d0408a; }
+  /* 選中分頁黃色高亮（沿用 morning-board 配色） */
+  .bnav-btn.active { color: #8a6d00; background: #fff8d6; }
+  .bnav-btn.active svg { color: #c79a00; }
+  .bnav-btn.active .bnav-dot { background: #c79a00; }
   .bnav-btn svg { width: 22px; height: 22px; }
   .bnav-btn .bnav-dot {
     width: 4px; height: 4px;
@@ -241,6 +244,9 @@
     transition: background 0.15s;
   }
   .more-item:active { background: #f5d0e8; }
+  /* 選中分頁黃色高亮（更多面板項目） */
+  .more-item.active { background: #fff8d6; color: #8a6d00; }
+  .more-item.active .more-icon { color: #c79a00; }
   .more-item .more-icon { font-size: 1.3rem; line-height: 1; }
 
   /* ===== CONTAINER ===== */
@@ -2542,6 +2548,11 @@ function switchTab(name) {
     // tab is in "更多", highlight the more button
     document.getElementById('bnav-more').classList.add('active');
   }
+  // sync 更多面板項目高亮
+  document.querySelectorAll('.more-item').forEach(b => {
+    const oc = b.getAttribute('onclick') || '';
+    b.classList.toggle('active', oc.indexOf("'" + name + "'") !== -1);
+  });
   const ps = document.getElementById('page-scroll');
   if (ps) ps.scrollTop = 0;
   // Hide FAB on chat tab to avoid overlapping the send button
