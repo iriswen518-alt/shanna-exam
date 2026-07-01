@@ -2480,9 +2480,29 @@ function aqAnswer(idx, btn) {
   if (q.explain) {
     msg += '<div style="margin-top:0.5rem;padding:0.6rem 0.8rem;background:#fff8fc;border-left:3px solid var(--primary);border-radius:8px;line-height:1.6;color:var(--text);">💡 ' + esc(q.explain) + '</div>';
   }
+  if (!q.explain) {
+    msg += '<div style="margin-top:0.5rem;"><button class="btn" style="padding:0.4rem 1rem;font-size:0.85rem;" onclick="aqExplain(this)">💡 問子瑜為什麼</button></div>' +
+           '<div id="aq-ai-explain" style="display:none;margin-top:0.5rem;padding:0.6rem 0.8rem;background:#f4f0fb;border-left:3px solid var(--secondary);border-radius:8px;line-height:1.6;color:var(--text);"></div>';
+  }
   const reveal = document.getElementById('aq-ans-reveal');
   reveal.style.display = 'block';
   reveal.innerHTML = msg;
+}
+
+async function aqExplain(btn) {
+  const q = aqQueue[aqIdx];
+  const box = document.getElementById('aq-ai-explain');
+  if (!q || !box) return;
+  btn.disabled = true; btn.textContent = '子瑜想想…💭';
+  box.style.display = 'block'; box.textContent = '子瑜正在解釋…💭';
+  const opts = q.options.map((o, i) => 'ABCD'[i] + '. ' + o).join('　');
+  const prompt = '請用國中生聽得懂的白話，簡短（約120字內）解釋這題會考題為什麼選這個答案：\n題目：' + q.q + '\n選項：' + opts + '\n正確答案是 (' + 'ABCD'[q.ans] + ')。';
+  try {
+    const r = await fetch(ZIYU_API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ bot: 'ziyu', q: prompt, history: [] }) });
+    const d = await r.json();
+    box.textContent = (d && d.reply) ? '💡 ' + d.reply : '子瑜現在有點忙（或今天額度用完了），等一下再問我一次好嗎？';
+  } catch (e) { box.textContent = '網路好像不太順，等一下再按一次～'; }
+  btn.parentElement.style.display = 'none';
 }
 
 function aqNext() {
@@ -4565,8 +4585,8 @@ const tagData = {
 
 document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeScope(); });
 
-// ===== 子瑜聊聊（關鍵字智慧回應，不需 API Key）=====
-const chatHistory = [];
+// ===== 子瑜聊聊（AI 中繼＋本地關鍵字庫）=====
+// chatHistory 在下方 AI 中繼區以 let 宣告（避免重複宣告造成整段 script 掛掉）
 
 // ── 子瑜知識庫 ──
 const ZIYU_KB = [
