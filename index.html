@@ -1565,7 +1565,7 @@
         <button class="q-tab" onclick="aqSetHide(false,this)">顯示全部</button>
       </div>
       <div id="aq-mastered-bar" style="display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;font-size:0.82rem;color:var(--muted);margin:0.2rem 0 0.6rem;">
-        <span>已答對並學會 <b id="aq-mastered-count" style="color:var(--success,#28a745);font-weight:800;">0</b> 題，之後預設不再出現</span>
+        <span>今天已學會 <b id="aq-today-count" style="color:var(--primary);font-weight:800;">0</b> 題　·　累計學會 <b id="aq-mastered-count" style="color:var(--success,#28a745);font-weight:800;">0</b> 題，之後預設不再出現</span>
         <button class="q-tab" id="aq-reset-btn" onclick="aqResetMastered()" style="padding:0.2rem 0.7rem;">清除學習紀錄</button>
       </div>
 
@@ -2294,14 +2294,21 @@ let aqYear = 'all', aqSubj = 'all', aqMode = 'random20', aqHideMastered = true;
 
 // ===== 學習進度：答對就記為「已學會」，之後預設不再出現，存 localStorage =====
 const AQ_MKEY = 'shanna_aq_mastered_v1';
+const AQ_LOGKEY = 'shanna_aq_mastered_dates_v1'; // { key: 'YYYY-MM-DD' } 每題首次學會的日期
 function aqLoadMastered() { try { return new Set(JSON.parse(localStorage.getItem(AQ_MKEY) || '[]')); } catch(e) { return new Set(); } }
 function aqSaveMastered() { try { localStorage.setItem(AQ_MKEY, JSON.stringify([...aqMastered])); } catch(e) {} }
+function aqLoadLog() { try { return JSON.parse(localStorage.getItem(AQ_LOGKEY) || '{}'); } catch(e) { return {}; } }
+function aqSaveLog() { try { localStorage.setItem(AQ_LOGKEY, JSON.stringify(aqMasterLog)); } catch(e) {} }
+function aqToday() { var n = new Date(); return n.getFullYear() + '-' + String(n.getMonth()+1).padStart(2,'0') + '-' + String(n.getDate()).padStart(2,'0'); }
 const aqMastered = aqLoadMastered();
+const aqMasterLog = aqLoadLog();
 document.addEventListener('DOMContentLoaded', aqUpdateMasteredUI);
 function aqKey(q) { return q.year + '|' + q.subj + '|' + q.num; }
 function aqUpdateMasteredUI() {
   const el = document.getElementById('aq-mastered-count');
   if (el) el.textContent = aqMastered.size;
+  const t = document.getElementById('aq-today-count');
+  if (t) { const today = aqToday(); t.textContent = Object.values(aqMasterLog).filter(d => d === today).length; }
 }
 function aqSetHide(v, btn) {
   aqHideMastered = v;
@@ -2311,7 +2318,9 @@ function aqSetHide(v, btn) {
 function aqResetMastered() {
   if (!aqMastered.size) { alert('目前沒有已學會的紀錄。'); return; }
   if (confirm('確定清除全部 ' + aqMastered.size + ' 題的學習紀錄？清除後這些題目會重新出現。')) {
-    aqMastered.clear(); aqSaveMastered(); aqUpdateMasteredUI();
+    aqMastered.clear(); aqSaveMastered();
+    for (const k in aqMasterLog) delete aqMasterLog[k]; aqSaveLog();
+    aqUpdateMasteredUI();
   }
 }
 
@@ -2458,7 +2467,12 @@ function aqAnswer(idx, btn) {
   });
   if (idx === correct) {
     aqCorrect++;
-    aqMastered.add(aqKey(q)); aqSaveMastered(); aqUpdateMasteredUI();
+    const mk = aqKey(q);
+    if (!aqMastered.has(mk)) {
+      aqMastered.add(mk); aqSaveMastered();
+      aqMasterLog[mk] = aqToday(); aqSaveLog();
+      aqUpdateMasteredUI();
+    }
   }
   document.getElementById('aq-score-text').textContent = '答對 ' + aqCorrect + ' / ' + (aqIdx + 1);
   document.getElementById('aq-next-wrap').style.display = 'block';
