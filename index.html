@@ -1559,6 +1559,16 @@
         <button class="q-tab" onclick="aqSetMode('noFig',this)">純文字題</button>
       </div>
 
+      <div class="aq-label">已學會的題目</div>
+      <div class="aq-controls" id="aq-hide-tabs">
+        <button class="q-tab active" onclick="aqSetHide(true,this)">隱藏學會</button>
+        <button class="q-tab" onclick="aqSetHide(false,this)">顯示全部</button>
+      </div>
+      <div id="aq-mastered-bar" style="display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;font-size:0.82rem;color:var(--muted);margin:0.2rem 0 0.6rem;">
+        <span>已答對並學會 <b id="aq-mastered-count" style="color:var(--success,#28a745);font-weight:800;">0</b> 題，之後預設不再出現</span>
+        <button class="q-tab" id="aq-reset-btn" onclick="aqResetMastered()" style="padding:0.2rem 0.7rem;">清除學習紀錄</button>
+      </div>
+
       <button class="btn" id="aq-start-btn" onclick="aqStart()" style="width:100%;margin-top:0.5rem;font-size:1rem;padding:0.8rem;">開始作答</button>
 
       <!-- 測驗區 -->
@@ -2280,7 +2290,30 @@ const AQ_PDF = {
 const AQ_LABEL = { chinese:'📜 國文', math:'🔢 數學', english:'📖 英語', social:'🌏 社會', science:'🔬 自然' };
 
 let aqData = null, aqQueue = [], aqIdx = 0, aqCorrect = 0, aqAnswered = false;
-let aqYear = 'all', aqSubj = 'all', aqMode = 'random20';
+let aqYear = 'all', aqSubj = 'all', aqMode = 'random20', aqHideMastered = true;
+
+// ===== 學習進度：答對就記為「已學會」，之後預設不再出現，存 localStorage =====
+const AQ_MKEY = 'shanna_aq_mastered_v1';
+function aqLoadMastered() { try { return new Set(JSON.parse(localStorage.getItem(AQ_MKEY) || '[]')); } catch(e) { return new Set(); } }
+function aqSaveMastered() { try { localStorage.setItem(AQ_MKEY, JSON.stringify([...aqMastered])); } catch(e) {} }
+const aqMastered = aqLoadMastered();
+document.addEventListener('DOMContentLoaded', aqUpdateMasteredUI);
+function aqKey(q) { return q.year + '|' + q.subj + '|' + q.num; }
+function aqUpdateMasteredUI() {
+  const el = document.getElementById('aq-mastered-count');
+  if (el) el.textContent = aqMastered.size;
+}
+function aqSetHide(v, btn) {
+  aqHideMastered = v;
+  document.querySelectorAll('#aq-hide-tabs .q-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function aqResetMastered() {
+  if (!aqMastered.size) { alert('目前沒有已學會的紀錄。'); return; }
+  if (confirm('確定清除全部 ' + aqMastered.size + ' 題的學習紀錄？清除後這些題目會重新出現。')) {
+    aqMastered.clear(); aqSaveMastered(); aqUpdateMasteredUI();
+  }
+}
 
 function aqSetYear(v, btn) {
   aqYear = v;
@@ -2343,12 +2376,18 @@ async function aqStart() {
     subjs.forEach(s => {
       (aqData[y]?.[s] || []).forEach(q => {
         if (aqMode === 'noFig' && q.has_figure) return;
+        if (aqHideMastered && aqMastered.has(y + '|' + q.subj + '|' + q.num)) return;
         pool.push({...q, year: y});
       });
     });
   });
 
-  if (!pool.length) { alert('沒有符合條件的題目，請調整篩選條件。'); return; }
+  if (!pool.length) {
+    alert(aqHideMastered && aqMastered.size
+      ? '這個範圍的題目你都已經學會了！可切換到「顯示全部」再複習一次，或換其他年份／科目。'
+      : '沒有符合條件的題目，請調整篩選條件。');
+    return;
+  }
 
   // Shuffle
   for (let i = pool.length - 1; i > 0; i--) {
@@ -2417,7 +2456,10 @@ function aqAnswer(idx, btn) {
     if (i === correct) b.classList.add(idx === correct ? 'correct' : 'reveal');
     if (i === idx && idx !== correct) b.classList.add('wrong');
   });
-  if (idx === correct) { aqCorrect++; }
+  if (idx === correct) {
+    aqCorrect++;
+    aqMastered.add(aqKey(q)); aqSaveMastered(); aqUpdateMasteredUI();
+  }
   document.getElementById('aq-score-text').textContent = '答對 ' + aqCorrect + ' / ' + (aqIdx + 1);
   document.getElementById('aq-next-wrap').style.display = 'block';
   let msg = idx === correct ? '✅ 答對了！' : '❌ 答錯了，正確答案是 (' + 'ABCD'[correct] + ')';
