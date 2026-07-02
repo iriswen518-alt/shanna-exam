@@ -433,11 +433,7 @@
   }
   .timeline-month { font-size: 0.83rem; font-weight: 700; color: var(--primary); letter-spacing: 0.04em; margin-bottom: 0.4rem; }
   .timeline-content {
-    background: white;
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 1rem;
-    box-shadow: 0 2px 8px rgba(220,130,170,0.06);
+    padding: 0.2rem 0 0.4rem;
   }
   .timeline-content h4 { font-size: 0.93rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text); }
   .timeline-tasks { list-style: none; display: flex; flex-direction: column; gap: 0.3rem; }
@@ -1141,18 +1137,18 @@
 <!-- TABS -->
 <div class="tabs-wrapper">
   <select class="tab-select" id="tab-select" onchange="switchTab(this.value)">
-    <option value="subjects">📖 各科範圍</option>
-    <option value="calendar">🗓️ 行事曆</option>
-    <option value="plan">📅 備戰計畫</option>
-    <option value="schedule">⏰ 每週課表</option>
-    <option value="quiz">✏️ 模擬測驗</option>
-    <option value="tips">💡 讀書技巧</option>
-    <option value="progress">✅ 進度追蹤</option>
-    <option value="resources">🔗 考古題資源</option>
-    <option value="review">📝 重點複習</option>
-    <option value="junyi">📐 均一平台</option>
-    <option value="chat">💬 子瑜聊聊</option>
-    <option value="relax">🍃 放鬆一下</option>
+    <option value="subjects">各科範圍</option>
+    <option value="calendar">行事曆</option>
+    <option value="plan">備戰計畫</option>
+    <option value="schedule">每週課表</option>
+    <option value="quiz">模擬測驗</option>
+    <option value="tips">讀書技巧</option>
+    <option value="progress">進度追蹤</option>
+    <option value="resources">考古題資源</option>
+    <option value="review">重點複習</option>
+    <option value="junyi">均一平台</option>
+    <option value="chat">子瑜聊聊</option>
+    <option value="relax">放鬆一下</option>
   </select>
 </div>
 
@@ -1160,7 +1156,7 @@
 
   <!-- TAB: 行事曆 -->
   <div id="tab-calendar" class="tab-panel">
-    <h2 class="section-title">🗓️ 行事曆</h2>
+    <h2 class="section-title">考試日曆</h2>
 
     <div class="cal-remind" id="calRemind">
       <span class="cr-emoji">⏰</span>
@@ -1177,11 +1173,11 @@
         <input type="date" id="calDate">
         <input type="text" id="calTitle" placeholder="例如：第一次模擬考、璿生日…" maxlength="30">
         <select id="calType">
-          <option value="exam">📝 考試</option>
-          <option value="study">📚 讀書計畫</option>
-          <option value="birthday">🎂 生日</option>
-          <option value="activity">🎈 活動</option>
-          <option value="other">📌 其他</option>
+          <option value="exam">考試</option>
+          <option value="study">讀書計畫</option>
+          <option value="birthday">生日</option>
+          <option value="activity">活動</option>
+          <option value="other">其他</option>
         </select>
         <button onclick="calAdd()">新增項目</button>
       </div>
@@ -1196,13 +1192,13 @@
       <div class="cal-grid" id="calGrid"></div>
     </div>
 
-    <h2 class="section-title">📋 即將到來</h2>
+    <h2 class="section-title">即將到來</h2>
     <div class="cal-list" id="calList"></div>
   </div>
 
   <!-- TAB: SUBJECTS -->
   <div id="tab-subjects" class="tab-panel active">
-    <h2 class="section-title">🎯 會考評分標準</h2>
+    <h2 class="section-title">評分標準</h2>
     <div class="card">
       <div class="grade-list">
         <div class="grade-row"><span class="score-badge s-aplus2">A++</span><div class="grade-info"><strong>精熟・頂標</strong><span>答對率 90% 以上，全年級頂尖</span></div></div>
@@ -1216,7 +1212,7 @@
       <p style="font-size:0.82rem;color:var(--muted);margin-top:0.8rem;">📝 作文另計：6 級分制（1–6分）；滿分為 A++ × 5科 + 作文 6 級分</p>
     </div>
 
-    <h2 class="section-title">📚 五科考試範圍</h2>
+    <h2 class="section-title">考試範圍</h2>
     <div class="subject-grid">
 
       <!-- 國文 -->
@@ -1355,7 +1351,7 @@
 
   <!-- TAB: PLAN -->
   <div id="tab-plan" class="tab-panel">
-    <h2 class="section-title">📅 11 個月備戰時間表</h2>
+    <h2 class="section-title">備戰時程</h2>
     <div class="card" style="background:#fffbeb;border-color:#fde68a;">
       <p style="font-size:0.9rem;color:#92400e;">📌 <strong>會考時程：</strong>2027 年 5 月 15–16 日（預估）｜ 現在距今約 11 個月，時間充足但需有計畫！</p>
     </div>
@@ -1364,7 +1360,7 @@
       <div class="timeline-item current">
         <div class="timeline-month">2026 年 7–8 月｜暑假衝刺</div>
         <div class="timeline-content">
-          <h4>🔥 暑假是最重要的黃金備戰期</h4>
+          <h4>暑假是最重要的黃金備戰期</h4>
           <ul class="timeline-tasks">
             <li>完整複習七年級所有科目基礎</li>
             <li>英文：把 1200 單字第一輪背完</li>
@@ -1378,7 +1374,7 @@
       <div class="timeline-item">
         <div class="timeline-month">2026 年 9–10 月｜九年級開學</div>
         <div class="timeline-content">
-          <h4>📚 跟上學校進度，同步複習</h4>
+          <h4>跟上學校進度，同步複習</h4>
           <ul class="timeline-tasks">
             <li>學校課程認真跟上，不落後</li>
             <li>八年級內容：整理重點筆記</li>
@@ -1391,7 +1387,7 @@
       <div class="timeline-item">
         <div class="timeline-month">2026 年 11–12 月｜深度補強</div>
         <div class="timeline-content">
-          <h4>🎯 找出弱科，集中火力</h4>
+          <h4>找出弱科，集中火力</h4>
           <ul class="timeline-tasks">
             <li>自我評估各科弱點，排補強順序</li>
             <li>數學：幾何＋函數重點攻克</li>
@@ -1405,7 +1401,7 @@
       <div class="timeline-item">
         <div class="timeline-month">2027 年 1–2 月｜九年級下學期＋寒假</div>
         <div class="timeline-content">
-          <h4>📝 模擬考全面啟動</h4>
+          <h4>模擬考全面啟動</h4>
           <ul class="timeline-tasks">
             <li>每週完整模擬一個科目（計時）</li>
             <li>完成 3 年份考古題回顧</li>
@@ -1418,7 +1414,7 @@
       <div class="timeline-item">
         <div class="timeline-month">2027 年 3–4 月｜最終衝刺</div>
         <div class="timeline-content">
-          <h4>⚡ 全科總複習，每天限時練習</h4>
+          <h4>全科總複習，每天限時練習</h4>
           <ul class="timeline-tasks">
             <li>每天輪流做各科限時模擬（1.5 小時）</li>
             <li>整理最易錯的 50 題（每科）</li>
@@ -1432,7 +1428,7 @@
       <div class="timeline-item">
         <div class="timeline-month">2027 年 5 月｜考前 2 週</div>
         <div class="timeline-content">
-          <h4>🧘 放鬆調整，保持狀態</h4>
+          <h4>放鬆調整，保持狀態</h4>
           <ul class="timeline-tasks">
             <li>不要大量新內容，只複習熟悉的</li>
             <li>每天翻看筆記、公式、單字</li>
@@ -1446,7 +1442,7 @@
 
   <!-- TAB: SCHEDULE -->
   <div id="tab-schedule" class="tab-panel">
-    <h2 class="section-title">⏰ 平日讀書時間表</h2>
+    <h2 class="section-title">讀書作息</h2>
     <div class="card" style="background:#f0f4ff;">
       <p style="font-size:0.88rem;color:var(--muted);">💡 每天至少讀 2–2.5 小時，週末拉長到 4 小時。科目每天輪換，避免單一科目疲勞。</p>
     </div>
@@ -1493,10 +1489,10 @@
       </table>
     </div>
 
-    <h2 class="section-title">📖 每日讀書節奏（番茄鐘法）</h2>
+    <h2 class="section-title">讀書節奏</h2>
     <div class="tip-grid">
       <div class="tip-card">
-        <h4>🍅 番茄鐘法</h4>
+        <h4>番茄鐘法</h4>
         <ul>
           <li>讀書 25 分鐘，休息 5 分鐘</li>
           <li>每完成 4 個番茄，休息 15 分鐘</li>
@@ -1505,7 +1501,7 @@
         </ul>
       </div>
       <div class="tip-card">
-        <h4>📓 每日必做 3 件事</h4>
+        <h4>每日必做 3 件事</h4>
         <ul>
           <li>背 10–15 個英文單字（睡前複習）</li>
           <li>做 5 題數學題（不偷看解答）</li>
@@ -1513,7 +1509,7 @@
         </ul>
       </div>
       <div class="tip-card">
-        <h4>😴 睡眠作息</h4>
+        <h4>睡眠作息</h4>
         <ul>
           <li>10:30 前就寢（睡眠鞏固記憶）</li>
           <li>早起 7:00 背單字或看筆記</li>
@@ -1526,35 +1522,35 @@
 
   <!-- TAB: QUIZ -->
   <div id="tab-quiz" class="tab-panel">
-    <h2 class="section-title">📝 線上測驗</h2>
+    <h2 class="section-title">線上測驗</h2>
     <p style="font-size:0.86rem;color:var(--muted);margin:-0.3rem 0 1rem;line-height:1.6;">歷屆考古題原題＋改編練習一起作答。選好條件按「開始作答」，一題一題作答、即時對答案，最後看成績。</p>
     <div class="card" style="padding:1rem;">
 
       <!-- 篩選控制列 -->
       <div class="aq-label">選年份／題型</div>
       <div class="aq-controls" id="aq-year-tabs">
-        <button class="q-tab active" onclick="aqSetYear('all',this)">全部</button>
-        <button class="q-tab" onclick="aqSetYear('115',this)">115 年</button>
-        <button class="q-tab" onclick="aqSetYear('114',this)">114 年</button>
-        <button class="q-tab" onclick="aqSetYear('113',this)">113 年</button>
-        <button class="q-tab" onclick="aqSetYear('112',this)">112 年</button>
-        <button class="q-tab" onclick="aqSetYear('改編',this)">✏️ 改編題</button>
+        <button class="q-tab active" onclick="aqSetYear('all',this)">全部年份</button>
+        <button class="q-tab" onclick="aqSetYear('115',this)">115年</button>
+        <button class="q-tab" onclick="aqSetYear('114',this)">114年</button>
+        <button class="q-tab" onclick="aqSetYear('113',this)">113年</button>
+        <button class="q-tab" onclick="aqSetYear('112',this)">112年</button>
+        <button class="q-tab" onclick="aqSetYear('改編',this)">改編題庫</button>
       </div>
 
       <div class="aq-label">選科目</div>
       <div class="aq-controls" id="aq-subj-tabs">
         <button class="q-tab active" onclick="aqSetSubj('all',this)">全部科目</button>
-        <button class="q-tab" onclick="aqSetSubj('chinese',this)">📜 國文</button>
-        <button class="q-tab" onclick="aqSetSubj('math',this)">🔢 數學</button>
-        <button class="q-tab" onclick="aqSetSubj('english',this)">📖 英語</button>
-        <button class="q-tab" onclick="aqSetSubj('social',this)">🌏 社會</button>
-        <button class="q-tab" onclick="aqSetSubj('science',this)">🔬 自然</button>
+        <button class="q-tab" onclick="aqSetSubj('chinese',this)">國文試題</button>
+        <button class="q-tab" onclick="aqSetSubj('math',this)">數學試題</button>
+        <button class="q-tab" onclick="aqSetSubj('english',this)">英語試題</button>
+        <button class="q-tab" onclick="aqSetSubj('social',this)">社會試題</button>
+        <button class="q-tab" onclick="aqSetSubj('science',this)">自然試題</button>
       </div>
 
       <div class="aq-label">出題模式</div>
       <div class="aq-controls" id="aq-mode-tabs">
-        <button class="q-tab active" onclick="aqSetMode('random20',this)">隨機 20 題</button>
-        <button class="q-tab" onclick="aqSetMode('random40',this)">隨機 40 題</button>
+        <button class="q-tab active" onclick="aqSetMode('random20',this)">隨機20題</button>
+        <button class="q-tab" onclick="aqSetMode('random40',this)">隨機40題</button>
         <button class="q-tab" onclick="aqSetMode('all',this)">全部題目</button>
         <button class="q-tab" onclick="aqSetMode('noFig',this)">純文字題</button>
       </div>
@@ -1566,7 +1562,7 @@
       </div>
       <div id="aq-mastered-bar" style="display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;font-size:0.82rem;color:var(--muted);margin:0.2rem 0 0.6rem;">
         <span>今天已學會 <b id="aq-today-count" style="color:var(--primary);font-weight:800;">0</b> 題　·　累計學會 <b id="aq-mastered-count" style="color:var(--success,#28a745);font-weight:800;">0</b> 題，之後預設不再出現</span>
-        <button class="q-tab" id="aq-reset-btn" onclick="aqResetMastered()" style="padding:0.2rem 0.7rem;">清除學習紀錄</button>
+        <button class="q-tab" id="aq-reset-btn" onclick="aqResetMastered()" style="padding:0.2rem 0.7rem;">清除紀錄</button>
       </div>
 
       <button class="btn" id="aq-start-btn" onclick="aqStart()" style="width:100%;margin-top:0.5rem;font-size:1rem;padding:0.8rem;">開始作答</button>
@@ -1589,10 +1585,10 @@
 
   <!-- TAB: TIPS -->
   <div id="tab-tips" class="tab-panel">
-    <h2 class="section-title">💡 各科高效讀書法</h2>
+    <h2 class="section-title">讀書方法</h2>
     <div class="tip-grid">
       <div class="tip-card">
-        <h4>📜 國文攻略</h4>
+        <h4>國文攻略</h4>
         <ul>
           <li>每天抄寫 5 個易錯國字</li>
           <li>課文至少讀 3 遍，注意段落結構</li>
@@ -1602,7 +1598,7 @@
         </ul>
       </div>
       <div class="tip-card">
-        <h4>🌍 英文攻略</h4>
+        <h4>英文攻略</h4>
         <ul>
           <li>每天固定時間背單字（睡前最佳）</li>
           <li>聽力：用 YouTube / podcast 練習自然語速</li>
@@ -1612,7 +1608,7 @@
         </ul>
       </div>
       <div class="tip-card">
-        <h4>🔢 數學攻略</h4>
+        <h4>數學攻略</h4>
         <ul>
           <li>每題都要動手算，不能只看解答</li>
           <li>錯題記進「錯題本」，每週重做</li>
@@ -1622,7 +1618,7 @@
         </ul>
       </div>
       <div class="tip-card">
-        <h4>🔬 自然攻略</h4>
+        <h4>自然攻略</h4>
         <ul>
           <li>理化：先記概念，再記公式</li>
           <li>生物：用心智圖整理概念關係</li>
@@ -1632,7 +1628,7 @@
         </ul>
       </div>
       <div class="tip-card">
-        <h4>🌏 社會攻略</h4>
+        <h4>社會攻略</h4>
         <ul>
           <li>歷史：畫時間軸，連結事件因果</li>
           <li>地理：配合地圖背，不只背文字</li>
@@ -1642,7 +1638,7 @@
         </ul>
       </div>
       <div class="tip-card">
-        <h4>🧠 通用讀書法</h4>
+        <h4>通用讀書法</h4>
         <ul>
           <li>考古題要模擬真實考試（計時作答）</li>
           <li>錯的題目比答對的更值得研究</li>
@@ -1653,10 +1649,10 @@
       </div>
     </div>
 
-    <h2 class="section-title">📱 推薦工具與 App</h2>
+    <h2 class="section-title">推薦工具</h2>
     <div class="tip-grid">
       <div class="tip-card">
-        <h4>⏱️ 時間管理</h4>
+        <h4>時間管理</h4>
         <ul>
           <li><strong>Forest App</strong> – 番茄鐘，種樹獎勵機制</li>
           <li><strong>Toggl Track</strong> – 記錄每科讀書時間</li>
@@ -1664,7 +1660,7 @@
         </ul>
       </div>
       <div class="tip-card">
-        <h4>📖 學習工具</h4>
+        <h4>學習工具</h4>
         <ul>
           <li><strong>Anki / Quizlet</strong> – 英文單字間隔記憶</li>
           <li><strong>Khan Academy</strong> – 數學免費教學影片</li>
@@ -1672,7 +1668,7 @@
         </ul>
       </div>
       <div class="tip-card">
-        <h4>🎧 輕鬆記憶</h4>
+        <h4>輕鬆記憶</h4>
         <ul>
           <li>自製重點筆記貼在桌邊</li>
           <li>用錄音背誦（對著手機說）</li>
@@ -1684,7 +1680,7 @@
 
   <!-- TAB: PROGRESS -->
   <div id="tab-progress" class="tab-panel">
-    <h2 class="section-title">✅ 備戰進度追蹤</h2>
+    <h2 class="section-title">進度追蹤</h2>
     <div class="card">
       <div class="progress-label">
         <span>整體完成進度</span>
@@ -1695,7 +1691,7 @@
       </div>
     </div>
 
-    <h3 class="section-title">📜 國文</h3>
+    <h3 class="section-title">國文重點</h3>
     <ul class="checklist" id="checklist-chinese">
       <li class="checklist-item" data-id="ch1" onclick="toggleCheck(this)"><input type="checkbox" onclick="event.stopPropagation()"><span>七年級課文全部讀過一遍</span></li>
       <li class="checklist-item" data-id="ch2" onclick="toggleCheck(this)"><input type="checkbox" onclick="event.stopPropagation()"><span>八年級課文全部讀過一遍</span></li>
@@ -1705,7 +1701,7 @@
       <li class="checklist-item" data-id="ch6" onclick="toggleCheck(this)"><input type="checkbox" onclick="event.stopPropagation()"><span>歷屆考古題（國文）3 份完整作答</span></li>
     </ul>
 
-    <h3 class="section-title">🌍 英文</h3>
+    <h3 class="section-title">英文重點</h3>
     <ul class="checklist" id="checklist-english">
       <li class="checklist-item" data-id="en1" onclick="toggleCheck(this)"><input type="checkbox" onclick="event.stopPropagation()"><span>1200 單字第一輪背完</span></li>
       <li class="checklist-item" data-id="en2" onclick="toggleCheck(this)"><input type="checkbox" onclick="event.stopPropagation()"><span>1200 單字第二輪複習</span></li>
@@ -1715,7 +1711,7 @@
       <li class="checklist-item" data-id="en6" onclick="toggleCheck(this)"><input type="checkbox" onclick="event.stopPropagation()"><span>歷屆考古題（英文）3 份完整作答</span></li>
     </ul>
 
-    <h3 class="section-title">🔢 數學</h3>
+    <h3 class="section-title">數學重點</h3>
     <ul class="checklist" id="checklist-math">
       <li class="checklist-item" data-id="ma1" onclick="toggleCheck(this)"><input type="checkbox" onclick="event.stopPropagation()"><span>七年級數學全部重新練習</span></li>
       <li class="checklist-item" data-id="ma2" onclick="toggleCheck(this)"><input type="checkbox" onclick="event.stopPropagation()"><span>八年級數學全部重新練習</span></li>
@@ -1725,7 +1721,7 @@
       <li class="checklist-item" data-id="ma6" onclick="toggleCheck(this)"><input type="checkbox" onclick="event.stopPropagation()"><span>歷屆考古題（數學）3 份完整作答</span></li>
     </ul>
 
-    <h3 class="section-title">🔬 自然科學</h3>
+    <h3 class="section-title">自然重點</h3>
     <ul class="checklist" id="checklist-science">
       <li class="checklist-item" data-id="sc1" onclick="toggleCheck(this)"><input type="checkbox" onclick="event.stopPropagation()"><span>生物：細胞、遺傳、生態 整理完畢</span></li>
       <li class="checklist-item" data-id="sc2" onclick="toggleCheck(this)"><input type="checkbox" onclick="event.stopPropagation()"><span>理化：力學、光學 整理完畢</span></li>
@@ -1735,7 +1731,7 @@
       <li class="checklist-item" data-id="sc6" onclick="toggleCheck(this)"><input type="checkbox" onclick="event.stopPropagation()"><span>歷屆考古題（自然）3 份完整作答</span></li>
     </ul>
 
-    <h3 class="section-title">🌏 社會</h3>
+    <h3 class="section-title">社會重點</h3>
     <ul class="checklist" id="checklist-social">
       <li class="checklist-item" data-id="so1" onclick="toggleCheck(this)"><input type="checkbox" onclick="event.stopPropagation()"><span>台灣史時間軸整理完畢</span></li>
       <li class="checklist-item" data-id="so2" onclick="toggleCheck(this)"><input type="checkbox" onclick="event.stopPropagation()"><span>世界史重要事件整理</span></li>
@@ -1752,12 +1748,12 @@
 
   <!-- TAB: RESOURCES -->
   <div id="tab-resources" class="tab-panel">
-    <h2 class="section-title">🔗 考古題與學習資源</h2>
+    <h2 class="section-title">學習資源</h2>
     <div class="card" style="background:#ecfdf5;border-color:#a7f3d0;">
       <p style="font-size:0.88rem;color:#065f46;">✅ 以下是台灣國中教育會考官方及可信任的備考資源：</p>
     </div>
 
-    <h3 class="section-title">📄 歷屆考古題</h3>
+    <h3 class="section-title">歷屆試題</h3>
     <a class="resource-link" href="https://cap.rcpet.edu.tw/examination.html" target="_blank">
       <div class="r-icon">🏛️</div>
       <div class="r-info">
@@ -1785,7 +1781,7 @@
       <div class="r-arrow">→</div>
     </a>
 
-    <h3 class="section-title">📚 各科線上資源</h3>
+    <h3 class="section-title">線上資源</h3>
     <a class="resource-link" href="https://quizlet.com" target="_blank">
       <div class="r-icon">🃏</div>
       <div class="r-info">
@@ -1813,7 +1809,7 @@
       <div class="r-arrow">→</div>
     </a>
 
-    <h3 class="section-title">📖 出版商學習平台</h3>
+    <h3 class="section-title">出版平台</h3>
     <div class="embed-card">
       <div class="embed-bar">
         <span>🟠 南一教育集團</span>
@@ -1838,7 +1834,7 @@
       <iframe class="embed-frame" src="https://www.knsh.com.tw/" loading="lazy" title="康軒文教集團"></iframe>
     </div>
 
-    <h3 class="section-title">🏫 教育部官方平台</h3>
+    <h3 class="section-title">官方平台</h3>
     <a class="resource-link" href="https://adl.edu.tw/" target="_blank">
       <div class="r-icon">🎯</div>
       <div class="r-info">
@@ -1857,7 +1853,7 @@
       <div class="r-arrow">→</div>
     </a>
 
-    <h3 class="section-title">📅 考試時程提醒</h3>
+    <h3 class="section-title">考試時程</h3>
     <div class="card">
       <div class="score-table-wrap">
       <table class="score-table">
@@ -1875,7 +1871,7 @@
 
   <!-- TAB: 均一平台 -->
   <div id="tab-junyi" class="tab-panel">
-    <h2 class="section-title">📐 均一平台</h2>
+    <h2 class="section-title">均一平台</h2>
     <div class="card" style="padding:0.6rem 0.75rem 0.75rem;">
       <p style="font-size:0.82rem;color:var(--muted);margin-bottom:0.6rem;">⚠️ 部分瀏覽器安全設定可能無法嵌入外部網站，若畫面空白請點下方按鈕開啟</p>
       <iframe src="https://www.junyiacademy.org/" class="junyi-frame" title="均一平台"></iframe>
@@ -1890,13 +1886,13 @@
 
   <!-- TAB: 放鬆一下 -->
   <div id="tab-relax" class="tab-panel">
-    <h2 class="section-title">🍃 放鬆一下</h2>
+    <h2 class="section-title">放鬆一下</h2>
 
     <div class="relax-grid">
 
       <!-- 呼吸放鬆 -->
       <div class="card">
-        <h4 style="margin-bottom:0.3rem;">🫁 方塊呼吸法</h4>
+        <h4 style="margin-bottom:0.3rem;">方塊呼吸法</h4>
         <p style="font-size:0.8rem;color:var(--muted);margin-bottom:0.5rem;">4秒吸氣 → 4秒憋氣 → 4秒吐氣 → 4秒憋氣，重複放鬆。</p>
         <div class="breath-wrap">
           <div class="breath-ring" id="breathRing">
@@ -1911,7 +1907,7 @@
 
       <!-- 休息計時器 -->
       <div class="card">
-        <h4 style="margin-bottom:0.5rem;">⏱ 休息計時器</h4>
+        <h4 style="margin-bottom:0.5rem;">休息計時器</h4>
         <div class="timer-display" id="timerDisplay">05:00</div>
         <div class="timer-btns">
           <button class="q-tab" onclick="timerSet(5)">5 分鐘</button>
@@ -1928,7 +1924,7 @@
     </div>
 
     <!-- 好笑笑話 -->
-    <h2 class="section-title" style="margin-top:0.5rem;">😂 好笑笑話</h2>
+    <h2 class="section-title" style="margin-top:0.5rem;">好笑笑話</h2>
     <div class="card" style="padding:1.2rem;">
       <div class="quiz-subject-tabs" style="margin-bottom:1rem;" id="jokeLangTabs">
         <button class="q-tab active" onclick="jokeSetLang('zh',this)">中文笑話</button>
@@ -1943,7 +1939,7 @@
     </div>
 
     <!-- 短文賞析 -->
-    <h2 class="section-title" style="margin-top:1rem;">📖 短文賞析</h2>
+    <h2 class="section-title" style="margin-top:1rem;">短文賞析</h2>
     <div class="card" style="padding:1.4rem;">
       <div class="quiz-subject-tabs" style="margin-bottom:1rem;" id="proseLangTabs">
         <button class="q-tab active" onclick="proseSetLang('both',this)">中英對照</button>
@@ -1962,7 +1958,7 @@
 
   <!-- TAB: 子瑜聊聊 -->
   <div id="tab-chat" class="tab-panel">
-    <h2 class="section-title">💬 子瑜聊聊</h2>
+    <h2 class="section-title">子瑜聊聊</h2>
     <div class="card" style="padding:0;">
       <div class="chat-wrap">
         <div class="chat-header">
