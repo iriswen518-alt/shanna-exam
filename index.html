@@ -1098,6 +1098,36 @@
     padding: 0 0.2rem; flex-shrink: 0;
   }
   .cal-empty { text-align: center; color: var(--muted); font-size: 0.85rem; padding: 1rem 0; }
+
+  /* ===== 星星闖關 ===== */
+  .star-wallet { background: linear-gradient(135deg, #fffbe8 0%, #fff3f8 100%); border: 1.5px solid #f5e2a8; text-align: center; }
+  .star-big { font-size: 2.6rem; font-weight: 900; color: #c79a00; line-height: 1.15; letter-spacing: 0.02em; }
+  .star-goal-note { font-size: 0.85rem; font-weight: 700; color: #a07a30; margin-top: 0.2rem; }
+  .star-progress-wrap { background: #f3e6c8; border-radius: 50px; height: 14px; margin: 0.9rem 0 0.5rem; overflow: hidden; }
+  .star-progress { height: 100%; width: 0%; background: linear-gradient(90deg, #ffd54f, #ffb300); border-radius: 50px; transition: width 0.5s; }
+  .star-wallet-meta { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.4rem; font-size: 0.8rem; color: #a07a30; margin-bottom: 0.9rem; }
+  .star-wallet-meta b { color: #c79a00; font-weight: 800; }
+  .star-redeem-btn { width: 100%; background: linear-gradient(90deg, #ffb300, #ff8f00); }
+  .star-redeem-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .star-congrats { display: none; background: #fff3cd; border: 1.5px solid #ffc107; border-radius: 14px; padding: 0.8rem 1rem; margin-top: 0.9rem; font-size: 0.92rem; font-weight: 700; color: #856404; line-height: 1.6; }
+  .star-congrats.show { display: block; }
+  .star-map { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.55rem; margin-bottom: 1rem; }
+  @media (max-width: 480px) { .star-map { grid-template-columns: repeat(4, 1fr); } }
+  .star-lv { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; border-radius: 14px; padding: 0.55rem 0.2rem; font-size: 0.7rem; font-weight: 700; border: 1.5px solid var(--border); background: #fdf6f9; color: var(--muted); }
+  .star-lv .lv-num { font-size: 0.95rem; font-weight: 800; }
+  .star-lv.cleared { background: #fff8d6; border-color: #f0d060; color: #8a6d00; }
+  .star-lv.current { background: var(--primary); border-color: var(--primary); color: #fff; animation: stPulse 1.6s infinite; }
+  .star-lv.current .lv-num { color: #fff; }
+  @keyframes stPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(224,111,160,0.45); } 50% { box-shadow: 0 0 0 7px rgba(224,111,160,0); } }
+  .star-hint { font-size: 0.85rem; color: var(--muted); text-align: center; margin-bottom: 0.9rem; line-height: 1.7; }
+  .star-gain { display: inline-block; margin-left: 0.5rem; color: #c79a00; font-weight: 800; animation: stPop 0.5s; }
+  @keyframes stPop { 0% { transform: scale(0.3); opacity: 0; } 60% { transform: scale(1.3); } 100% { transform: scale(1); opacity: 1; } }
+  .star-rules { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+  .star-rules li { display: flex; gap: 0.6rem; font-size: 0.9rem; line-height: 1.7; }
+  .star-rules li::before { content: '⭐'; flex-shrink: 0; }
+  .star-redeem-row { display: flex; align-items: center; gap: 0.7rem; padding: 0.6rem 0.2rem; border-bottom: 1px dashed var(--border); font-size: 0.9rem; }
+  .star-redeem-row:last-child { border-bottom: none; }
+  .star-redeem-row .sr-amt { margin-left: auto; font-weight: 800; color: #c79a00; white-space: nowrap; }
 </style>
 </head>
 <body>
@@ -1148,6 +1178,7 @@
     <option value="review">重點複習</option>
     <option value="junyi">均一平台</option>
     <option value="chat">子瑜聊聊</option>
+    <option value="star">星星闖關</option>
     <option value="relax">放鬆一下</option>
   </select>
 </div>
@@ -1884,6 +1915,61 @@
     </div>
   </div>
 
+  <!-- TAB: 星星闖關 -->
+  <div id="tab-star" class="tab-panel">
+    <h2 class="section-title">星星錢包</h2>
+    <div class="card star-wallet">
+      <div class="star-big">⭐ <span id="st-star-count">0</span></div>
+      <div class="star-goal-note">集滿 100 顆星星＝ 100 元零用錢</div>
+      <div class="star-progress-wrap"><div class="star-progress" id="st-progress"></div></div>
+      <div class="star-wallet-meta">
+        <span>今日獲得 <b id="st-today">0</b> / 30 顆</span>
+        <span>目前第 <b id="st-level-chip">1</b> 關</span>
+        <span>累計獲得 <b id="st-earned">0</b> 顆</span>
+      </div>
+      <button class="btn star-redeem-btn" id="st-redeem-btn" onclick="stRedeem()" disabled>兌換獎勵</button>
+      <div id="st-remain-hint" style="font-size:0.78rem;color:#a07a30;margin-top:0.45rem;"></div>
+      <div class="star-congrats" id="st-congrats"></div>
+    </div>
+
+    <h2 class="section-title">關卡地圖</h2>
+    <div class="card">
+      <div class="star-map" id="st-map"></div>
+
+      <div id="st-home">
+        <p class="star-hint">每一關 10 題，全科混合隨機出題。<br>答對 1 題＝ 1 顆星星，答對 6 題以上就能前進下一關！</p>
+        <button class="btn" id="st-start-btn" onclick="stStart()" style="width:100%;font-size:1rem;padding:0.8rem;">開始闖關</button>
+      </div>
+
+      <div id="st-quiz-area" style="display:none;margin-top:1rem;">
+        <div class="aq-progress-bar"><div class="aq-progress-fill" id="st-prog-fill" style="width:0%"></div></div>
+        <div style="display:flex;justify-content:space-between;font-size:0.82rem;color:var(--muted);margin-bottom:0.8rem;">
+          <span id="st-prog-text">第 1 題 / 共 10 題</span>
+          <span id="st-run-stars">本關獲得 ⭐ 0</span>
+        </div>
+        <div id="st-card-area"></div>
+      </div>
+
+      <div id="st-result-area" style="display:none;"></div>
+    </div>
+
+    <h2 class="section-title">闖關規則</h2>
+    <div class="card">
+      <ul class="star-rules">
+        <li>每一關 10 題，從國英數社自五科題庫隨機出題。</li>
+        <li>答對 1 題就得 1 顆星星，答對 6 題以上過關、前進下一關。</li>
+        <li>沒過關也沒關係，星星照樣留著，再挑戰一次同一關！</li>
+        <li>每天最多收集 30 顆星星，天天來玩最快集滿。</li>
+        <li>集滿 100 顆星星，按「兌換獎勵」找媽媽領 100 元零用錢。</li>
+      </ul>
+    </div>
+
+    <h2 class="section-title">兌換紀錄</h2>
+    <div class="card">
+      <div id="st-redeem-list"></div>
+    </div>
+  </div>
+
   <!-- TAB: 放鬆一下 -->
   <div id="tab-relax" class="tab-panel">
     <h2 class="section-title">放鬆一下</h2>
@@ -2527,6 +2613,234 @@ function esc(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
+// ===== 星星闖關：答對集星星，100 顆星星＝100 元零用錢 =====
+const ST_KEY = 'shanna_star_v1';
+const ST_LEVEL_SIZE = 10;   // 每關題數
+const ST_PASS = 6;          // 過關門檻（答對題數）
+const ST_DAILY_CAP = 30;    // 每日星星上限
+const ST_GOAL = 100;        // 兌換門檻（100 星 = 100 元）
+const ST_LEVEL_NAMES = ['出發之丘','勇氣森林','智慧之泉','閃電山谷','星光沙漠','彩虹大橋','知識城堡','流星高塔','夢想之海','榮耀之巔'];
+
+function stLoad() {
+  try {
+    const d = JSON.parse(localStorage.getItem(ST_KEY) || '{}');
+    return {
+      stars: d.stars || 0,        // 目前可用星星
+      level: d.level || 1,        // 目前關卡
+      earned: d.earned || 0,      // 累計獲得
+      daily: d.daily || {},       // { 'YYYY-MM-DD': 當日獲得數 }
+      redeems: d.redeems || []    // 兌換日期列表
+    };
+  } catch(e) { return { stars:0, level:1, earned:0, daily:{}, redeems:[] }; }
+}
+const stState = stLoad();
+function stSave() { try { localStorage.setItem(ST_KEY, JSON.stringify(stState)); } catch(e) {} }
+function stTodayCount() { return stState.daily[aqToday()] || 0; }
+function stLevelName(n) { return ST_LEVEL_NAMES[(n - 1) % ST_LEVEL_NAMES.length]; }
+
+let stQueue = [], stIdx = 0, stCorrect = 0, stRunStars = 0, stAnswered = false;
+
+function stUpdateUI() {
+  const $ = id => document.getElementById(id);
+  if (!$('st-star-count')) return;
+  $('st-star-count').textContent = stState.stars;
+  $('st-progress').style.width = Math.min(100, Math.round(stState.stars / ST_GOAL * 100)) + '%';
+  $('st-today').textContent = stTodayCount();
+  $('st-earned').textContent = stState.earned;
+  $('st-level-chip').textContent = stState.level;
+  $('st-redeem-btn').disabled = stState.stars < ST_GOAL;
+  $('st-remain-hint').textContent = stState.stars >= ST_GOAL ? '星星夠了！按上面按鈕兌換零用錢' : '還差 ' + (ST_GOAL - stState.stars) + ' 顆星星就能兌換囉';
+
+  // 關卡地圖：顯示 12 格滾動視窗
+  const start = Math.max(1, stState.level - 9);
+  let map = '';
+  for (let n = start; n < start + 12; n++) {
+    const cls = n < stState.level ? 'cleared' : n === stState.level ? 'current' : '';
+    const mark = n < stState.level ? '⭐' : n === stState.level ? '▶' : '·';
+    map += '<div class="star-lv ' + cls + '"><span class="lv-num">' + mark + ' ' + n + '</span><span>' + stLevelName(n) + '</span></div>';
+  }
+  $('st-map').innerHTML = map;
+
+  // 兌換紀錄
+  const list = $('st-redeem-list');
+  if (!stState.redeems.length) {
+    list.innerHTML = '<div style="text-align:center;color:var(--muted);font-size:0.85rem;padding:0.6rem 0;">還沒有兌換紀錄，快去收集星星吧！</div>';
+  } else {
+    list.innerHTML = stState.redeems.slice().reverse().map(function(d, i) {
+      const no = stState.redeems.length - i;
+      return '<div class="star-redeem-row"><span>⭐</span><span>第 ' + no + ' 次兌換　' + esc(d) + '</span><span class="sr-amt">零用錢 100 元</span></div>';
+    }).join('');
+  }
+}
+document.addEventListener('DOMContentLoaded', stUpdateUI);
+
+async function stEnsureData() {
+  if (aqData) return true;
+  try {
+    const r = await fetch('exam_quiz_data.json');
+    aqData = await r.json();
+    mergeAdaptedIntoAq();
+    return true;
+  } catch(e) { return false; }
+}
+
+async function stStart() {
+  const btn = document.getElementById('st-start-btn');
+  btn.textContent = '載入題庫中…';
+  const ok = await stEnsureData();
+  btn.textContent = '開始闖關';
+  if (!ok) { alert('題庫載入失敗，請重新整理頁面。'); return; }
+
+  // 全年份全科混合、排除需要看圖的題目
+  let pool = [];
+  Object.keys(aqData).forEach(y => {
+    Object.keys(aqData[y] || {}).forEach(s => {
+      (aqData[y][s] || []).forEach(q => {
+        if (q.has_figure) return;
+        pool.push({...q, year: y});
+      });
+    });
+  });
+  for (let i = pool.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
+  stQueue = pool.slice(0, ST_LEVEL_SIZE);
+  stIdx = 0; stCorrect = 0; stRunStars = 0;
+
+  document.getElementById('st-home').style.display = 'none';
+  document.getElementById('st-result-area').style.display = 'none';
+  document.getElementById('st-quiz-area').style.display = 'block';
+  stRender();
+}
+
+function stRender() {
+  const q = stQueue[stIdx];
+  const total = stQueue.length;
+  document.getElementById('st-prog-fill').style.width = Math.round(stIdx / total * 100) + '%';
+  document.getElementById('st-prog-text').textContent = '第 ' + (stIdx + 1) + ' 題 / 共 ' + total + ' 題';
+  document.getElementById('st-run-stars').textContent = '本關獲得 ⭐ ' + stRunStars;
+  stAnswered = false;
+
+  const opts = q.options.map((o, i) =>
+    '<button class="aq-opt" onclick="stAnswer(' + i + ',this)">' +
+      '<strong style="margin-right:0.5rem">(' + 'ABCD'[i] + ')</strong>' + esc(o) +
+    '</button>'
+  ).join('');
+
+  document.getElementById('st-card-area').innerHTML =
+    '<div class="aq-card">' +
+      '<div class="aq-meta">' +
+        '<span style="background:#fff3cd;color:#856404;border-radius:50px;padding:0.15rem 0.6rem;font-weight:700;">第 ' + stState.level + ' 關・' + stLevelName(stState.level) + '</span>' +
+        '<span style="background:var(--border);border-radius:50px;padding:0.15rem 0.6rem;">' + (AQ_LABEL[q.subj] || '') + '</span>' +
+      '</div>' +
+      '<div class="aq-q">' + esc(q.q) + '</div>' +
+      '<div class="aq-opts">' + opts + '</div>' +
+    '</div>' +
+    '<div class="aq-nav">' +
+      '<div id="st-next-wrap" style="display:none">' +
+        '<button class="btn" onclick="stNext()" style="padding:0.55rem 1.4rem;">' +
+          (stIdx + 1 < total ? '下一題 →' : '查看結果') +
+        '</button>' +
+      '</div>' +
+      '<div id="st-ans-reveal" style="display:none;font-size:0.88rem;color:var(--muted)"></div>' +
+    '</div>';
+}
+
+function stAnswer(idx, btn) {
+  if (stAnswered) return;
+  stAnswered = true;
+  const q = stQueue[stIdx];
+  const correct = q.ans;
+  document.querySelectorAll('#st-card-area .aq-opt').forEach((b, i) => {
+    b.disabled = true;
+    if (i === correct) b.classList.add(idx === correct ? 'correct' : 'reveal');
+    if (i === idx && idx !== correct) b.classList.add('wrong');
+  });
+
+  let msg;
+  if (idx === correct) {
+    stCorrect++;
+    if (stTodayCount() < ST_DAILY_CAP) {
+      stState.stars++; stState.earned++;
+      stState.daily[aqToday()] = stTodayCount() + 1;
+      stSave(); stRunStars++;
+      msg = '✅ 答對了！<span class="star-gain">+1 ⭐</span>';
+    } else {
+      msg = '✅ 答對了！不過今天的 ' + ST_DAILY_CAP + ' 顆星星已經收集滿了，明天再來收！';
+    }
+    stUpdateUI();
+    document.getElementById('st-run-stars').textContent = '本關獲得 ⭐ ' + stRunStars;
+  } else {
+    msg = '❌ 答錯了，正確答案是 (' + 'ABCD'[correct] + ')';
+  }
+
+  if (q.explain) {
+    msg += '<div style="margin-top:0.5rem;padding:0.6rem 0.8rem;background:#fff8fc;border-left:3px solid var(--primary);border-radius:8px;line-height:1.6;color:var(--text);">💡 ' + esc(q.explain) + '</div>';
+  } else {
+    msg += '<div style="margin-top:0.5rem;"><button class="btn" style="padding:0.4rem 1rem;font-size:0.85rem;" onclick="stExplain(this)">💡 問子瑜為什麼</button></div>' +
+           '<div id="st-ai-explain" style="display:none;margin-top:0.5rem;padding:0.6rem 0.8rem;background:#f4f0fb;border-left:3px solid var(--secondary);border-radius:8px;line-height:1.6;color:var(--text);"></div>';
+  }
+  document.getElementById('st-next-wrap').style.display = 'block';
+  const reveal = document.getElementById('st-ans-reveal');
+  reveal.style.display = 'block';
+  reveal.innerHTML = msg;
+}
+
+async function stExplain(btn) {
+  const q = stQueue[stIdx];
+  const box = document.getElementById('st-ai-explain');
+  if (!q || !box) return;
+  btn.disabled = true; btn.textContent = '子瑜想想…💭';
+  box.style.display = 'block'; box.textContent = '子瑜正在解釋…💭';
+  const opts = q.options.map((o, i) => 'ABCD'[i] + '. ' + o).join('　');
+  const prompt = '請用國中生聽得懂的白話，簡短（約120字內）解釋這題會考題為什麼選這個答案：\n題目：' + q.q + '\n選項：' + opts + '\n正確答案是 (' + 'ABCD'[q.ans] + ')。';
+  try {
+    const r = await fetch(ZIYU_API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ bot: 'ziyu', q: prompt, history: [] }) });
+    const d = await r.json();
+    box.textContent = (d && d.reply) ? '💡 ' + d.reply : '子瑜現在有點忙（或今天額度用完了），等一下再問我一次好嗎？';
+  } catch (e) { box.textContent = '網路好像不太順，等一下再按一次～'; }
+  btn.parentElement.style.display = 'none';
+}
+
+function stNext() {
+  stIdx++;
+  if (stIdx >= stQueue.length) { stFinish(); return; }
+  stRender();
+  document.getElementById('st-card-area').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function stFinish() {
+  document.getElementById('st-quiz-area').style.display = 'none';
+  const total = stQueue.length;
+  const pass = stCorrect >= ST_PASS;
+  const clearedLevel = stState.level;
+  if (pass) { stState.level++; stSave(); }
+  stUpdateUI();
+  document.getElementById('st-result-area').style.display = 'block';
+  document.getElementById('st-result-area').innerHTML =
+    '<div class="aq-finish">' +
+      '<div class="score-big">' + (pass ? '🎉' : '💪') + ' ' + stCorrect + ' / ' + total + '</div>' +
+      '<div style="font-size:1.15rem;font-weight:700;color:' + (pass ? '#c79a00' : 'var(--secondary)') + ';margin:0.4rem 0">' +
+        (pass ? '恭喜過關！第 ' + clearedLevel + ' 關「' + stLevelName(clearedLevel) + '」達成' : '差一點點就過關了，再試一次！') +
+      '</div>' +
+      '<div style="font-size:0.9rem;color:var(--muted);margin-bottom:1.5rem">本關收集 ⭐ ' + stRunStars + ' 顆，目前共有 ⭐ ' + stState.stars + ' 顆</div>' +
+      '<button class="btn" onclick="stStart()">' + (pass ? '前進下關' : '再闖一次') + '</button>' +
+    '</div>';
+}
+
+function stRedeem() {
+  if (stState.stars < ST_GOAL) return;
+  if (!confirm('確定用 ' + ST_GOAL + ' 顆星星兌換 100 元零用錢嗎？\n兌換後拿畫面給媽媽看就能領錢！')) return;
+  stState.stars -= ST_GOAL;
+  stState.redeems.push(aqToday());
+  stSave();
+  stUpdateUI();
+  const box = document.getElementById('st-congrats');
+  box.innerHTML = '🎉 兌換成功！（' + aqToday() + '）<br>拿這個畫面找媽媽領 100 元零用錢！';
+  box.classList.add('show');
+}
+
 // ===== 區塊折疊 =====
 function bindCollapse(headEl, bodyEl) {
   headEl.classList.add('collapsible');
@@ -2605,7 +2919,7 @@ if (document.readyState === 'loading') {
 }
 
 // ===== TABS =====
-const BOTTOM_NAV_TABS = ['subjects','quiz','progress','chat'];
+const BOTTOM_NAV_TABS = ['subjects','quiz','progress','chat','star'];
 
 function switchTab(name) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
@@ -5309,6 +5623,11 @@ document.addEventListener('DOMContentLoaded', function() {
   <button class="bnav-btn" id="bnav-chat" onclick="switchTabNav('chat')">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
     子瑜聊聊
+    <div class="bnav-dot"></div>
+  </button>
+  <button class="bnav-btn" id="bnav-star" onclick="switchTabNav('star')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+    星星闖關
     <div class="bnav-dot"></div>
   </button>
   <button class="bnav-btn" id="bnav-more" onclick="toggleMore()">
