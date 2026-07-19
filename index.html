@@ -2944,11 +2944,25 @@ function switchTab(name) {
   // Hide FAB on chat tab to avoid overlapping the send button
   const fab = document.getElementById('tzuyuFab');
   if (fab) fab.style.display = (name === 'chat') ? 'none' : '';
+  // 聰明預設值：記住上次分頁
+  try { localStorage.setItem('se_lastTab', name); } catch (_) {}
 }
 
 function switchTabNav(name) {
   switchTab(name);
 }
+
+// 聰明預設值：載入時還原上次分頁（無紀錄或分頁已不存在則維持預設）
+(function(){
+  const restoreLastTab = () => {
+    try {
+      const last = localStorage.getItem('se_lastTab');
+      if (last && last !== 'subjects' && document.getElementById('tab-' + last)) switchTab(last);
+    } catch (_) {}
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', restoreLastTab);
+  else restoreLastTab();
+})();
 
 function toggleMore() {
   const sheet = document.getElementById('moreSheet');
