@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>璿璿會考</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#16263f">
+<style>
+:root{
+  --navy:#1f3861; --navy-deep:#16263f; --paper:#f6f6f1; --card:#ffffff;
+  --yellow:#ffd94d; --ink:#22293a; --sub:#78808f; --line:#e4e5e0;
+  --green:#2e9e63; --red:#d9534f;
+  --c-chinese:#c95b5b; --c-english:#4579c9; --c-math:#e3922f; --c-science:#329f7d; --c-social:#8a68c4;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{font-size:16px}
+body{font-family:-apple-system,"PingFang TC","Noto Sans TC",sans-serif;background:var(--paper);color:var(--ink);
+  padding-bottom:calc(76px + env(safe-area-inset-bottom))}
+header{background:var(--navy-deep);color:#fff;padding:calc(14px + env(safe-area-inset-top)) 18px 14px}
+header h1{font-size:1.25rem;letter-spacing:2px}
+header .sub{font-size:.8rem;opacity:.75;margin-top:2px}
+main{padding:16px;max-width:560px;margin:0 auto}
+section.tab{display:none}
+section.tab.on{display:block}
+h2{font-size:1rem;margin:20px 2px 10px;letter-spacing:1px}
+.hero{display:flex;gap:12px;background:var(--card);border-radius:16px;padding:16px}
+.hero div{flex:1}
+.hero .lbl{font-size:.8rem;color:var(--sub)}
+.hero .num{font-size:1.9rem;font-weight:800;font-variant-numeric:tabular-nums}
+.hero .num small{font-size:.85rem;font-weight:600;color:var(--sub);margin-left:2px}
+.bigbtn{display:flex;align-items:center;gap:12px;width:100%;border:0;background:var(--navy);color:#fff;
+  border-radius:16px;padding:16px;margin-top:14px;font-size:1.05rem;font-weight:700;letter-spacing:1px;cursor:pointer;text-align:left}
+.bigbtn small{display:block;font-size:.78rem;font-weight:400;opacity:.8;letter-spacing:0;margin-top:3px}
+.bigbtn svg{flex:none}
+.bigbtn .spacer{flex:1}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.subcard{background:var(--card);border-radius:16px;padding:14px;border:0;text-align:left;cursor:pointer;font:inherit}
+.subcard .t{display:flex;align-items:center;gap:8px;font-weight:700;font-size:1rem}
+.subcard .bar{height:6px;background:var(--line);border-radius:3px;margin:10px 0 6px;overflow:hidden}
+.subcard .bar i{display:block;height:100%;border-radius:3px}
+.subcard .d{font-size:.75rem;color:var(--sub)}
+.yearrow{background:var(--card);border-radius:16px;padding:14px;margin-bottom:10px}
+.yearrow .y{font-size:.85rem;color:var(--sub);margin-bottom:8px}
+.chips{display:flex;gap:6px}
+.chips button{flex:1;border:0;border-radius:10px;padding:9px 0;font-size:.9rem;font-weight:600;cursor:pointer;font-family:inherit}
+.statgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat{background:var(--card);border-radius:16px;padding:14px}
+.stat .lbl{display:flex;align-items:center;gap:6px;font-size:.78rem;font-weight:700}
+.stat .num{font-size:1.7rem;font-weight:800;margin-top:6px;font-variant-numeric:tabular-nums}
+.stat .num small{font-size:.75rem;font-weight:500;color:var(--sub);margin-left:2px}
+.srow{background:var(--card);border-radius:16px;padding:14px;margin-bottom:10px}
+.srow .top{display:flex;align-items:center;gap:8px;font-weight:700}
+.srow .top .acc{margin-left:auto;font-size:.8rem;font-weight:700}
+.srow .bar{height:6px;background:var(--line);border-radius:3px;margin:10px 0 6px;overflow:hidden}
+.srow .bar i{display:block;height:100%;border-radius:3px}
+.srow .d{font-size:.75rem;color:var(--sub)}
+.empty{text-align:center;padding:48px 20px;color:var(--sub)}
+.empty svg{margin-bottom:10px}
+.empty .t{font-weight:700;color:var(--ink);font-size:1.05rem;margin-bottom:6px}
+.wcard{background:var(--card);border-radius:14px;padding:13px 14px;margin-bottom:8px;cursor:pointer}
+.wcard .q{font-size:.92rem;line-height:1.55;display:flex;gap:8px}
+.wcard .q span{flex:1}
+.wcard .arrow{color:var(--sub);flex:none;transition:transform .2s}
+.wcard.open .arrow{transform:rotate(180deg)}
+.wcard .detail{display:none;margin-top:10px;border-top:1px solid var(--line);padding-top:10px}
+.wcard.open .detail{display:block}
+.wcard .opt{font-size:.85rem;color:var(--sub);line-height:1.5;margin-bottom:5px;display:flex;gap:7px}
+.wcard .opt.correct{color:var(--green);font-weight:700}
+.wcard .meta{font-size:.72rem;color:var(--sub);margin-top:6px}
+nav{position:fixed;left:0;right:0;bottom:0;background:var(--navy-deep);display:flex;
+  padding:8px 10px calc(8px + env(safe-area-inset-bottom));gap:8px;z-index:50}
+nav button{flex:1;border:0;background:transparent;color:#cdd6e4;border-radius:12px;padding:9px 0;
+  font-size:.95rem;font-weight:700;letter-spacing:1px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;font-family:inherit}
+nav button.on{background:var(--yellow);color:var(--navy-deep)}
+nav svg{width:20px;height:20px}
+/* quiz overlay */
+#quiz{position:fixed;inset:0;background:var(--paper);z-index:100;display:none;flex-direction:column}
+#quiz.on{display:flex}
+#quiz .bar-top{background:var(--navy-deep);color:#fff;padding:calc(12px + env(safe-area-inset-top)) 16px 12px;
+  display:flex;align-items:center;gap:10px}
+#quiz .bar-top .ttl{font-weight:700;letter-spacing:1px}
+#quiz .bar-top button{margin-left:auto;border:0;background:rgba(255,255,255,.15);color:#fff;border-radius:10px;
+  padding:7px 14px;font-size:.85rem;cursor:pointer;font-family:inherit}
+#quiz .body{flex:1;overflow-y:auto;padding:16px;max-width:560px;margin:0 auto;width:100%}
+.pbar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin-bottom:14px}
+.pbar i{display:block;height:100%;background:var(--navy);border-radius:3px;transition:width .25s}
+.qmeta{display:flex;align-items:center;gap:8px;font-size:.78rem;color:var(--sub);margin-bottom:12px}
+.qmeta .schip{padding:4px 10px;border-radius:99px;font-weight:700}
+.qmeta .cnt{margin-left:auto;font-weight:700}
+.qtext{font-size:1.1rem;line-height:1.7;font-weight:600;margin-bottom:16px;white-space:pre-wrap}
+.opt-btn{display:flex;gap:10px;align-items:flex-start;width:100%;background:var(--card);border:1.5px solid var(--line);
+  border-radius:14px;padding:12px;margin-bottom:10px;font-size:1rem;line-height:1.6;text-align:left;cursor:pointer;font-family:inherit;color:var(--ink)}
+.opt-btn .letter{flex:none;width:28px;height:28px;border-radius:50%;background:#eef0f4;color:var(--navy);
+  font-weight:800;display:flex;align-items:center;justify-content:center;font-size:.9rem}
+.opt-btn .mark{flex:none;margin-left:auto;align-self:center}
+.opt-btn.right{border-color:var(--green);background:#f0faf4}
+.opt-btn.right .letter{background:var(--green);color:#fff}
+.opt-btn.wrongpick{border-color:var(--red);background:#fdf3f2}
+.opt-btn.wrongpick .letter{background:var(--red);color:#fff}
+.opt-btn.dim{opacity:.55}
+.nextbtn{width:100%;border:0;background:var(--navy);color:#fff;border-radius:14px;padding:15px;
+  font-size:1.05rem;font-weight:700;letter-spacing:2px;cursor:pointer;margin-top:6px;font-family:inherit}
+/* result */
+.result{text-align:center;padding-top:24px}
+.result .verdict{font-size:1.3rem;font-weight:800;letter-spacing:2px}
+.result .score{font-size:3.4rem;font-weight:800;margin:12px 0 2px;font-variant-numeric:tabular-nums}
+.result .pct{color:var(--sub);margin-bottom:22px}
+.result .wlist{text-align:left}
+.result .wlist h2{margin-top:8px}
+.result .witem{background:var(--card);border-radius:14px;padding:13px 14px;margin-bottom:8px}
+.result .witem .q{font-size:.9rem;line-height:1.55;margin-bottom:6px}
+.result .witem .a{font-size:.88rem;font-weight:700;color:var(--green);line-height:1.5}
+.result .note{font-size:.78rem;color:var(--sub);margin:4px 0 16px}
+</style>
+</head>
+<body>
+<header>
+  <h1>璿璿會考</h1>
+  <div class="sub">歷屆會考題庫練習</div>
+</header>
+
+<main>
+  <!-- 練習 -->
+  <section class="tab on" id="tab-practice">
+    <div class="hero">
+      <div><div class="lbl">距離會考</div><div class="num" id="days-exam" style="color:var(--navy)">－<small>天</small></div></div>
+      <div><div class="lbl">連續練習</div><div class="num" id="days-streak" style="color:var(--c-math)">－<small>天</small></div></div>
+    </div>
+    <button class="bigbtn" onclick="startQuick()">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      <span>快速練習<small>五科混合 10 題，優先出新題和錯過的題</small></span>
+      <span class="spacer"></span>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+    <h2>科目練習</h2>
+    <div class="grid" id="subject-grid"></div>
+    <h2>歷屆試題</h2>
+    <div id="year-list"></div>
+  </section>
+
+  <!-- 錯題 -->
+  <section class="tab" id="tab-wrong"></section>
+
+  <!-- 統計 -->
+  <section class="tab" id="tab-stats"></section>
+</main>
+
+<nav>
+  <button class="on" data-tab="practice" onclick="switchTab('practice')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+    每日練習
+  </button>
+  <button data-tab="wrong" onclick="switchTab('wrong')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+    錯題複習
+  </button>
+  <button data-tab="stats" onclick="switchTab('stats')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>
+    學習統計
+  </button>
+</nav>
+
+<!-- 測驗畫面 -->
+<div id="quiz">
+  <div class="bar-top">
+    <span class="ttl" id="quiz-title"></span>
+    <button onclick="closeQuiz()">離開</button>
+  </div>
+  <div class="body" id="quiz-body"></div>
+</div>
+
+<script>
+const SUBJECTS = [
+  {key:'chinese', label:'國文', color:'var(--c-chinese)', light:'#f7e7e7'},
+  {key:'english', label:'英文', color:'var(--c-english)', light:'#e5edf8'},
+  {key:'math',    label:'數學', color:'var(--c-math)',    light:'#fbeede'},
+  {key:'science', label:'自然', color:'var(--c-science)', light:'#e3f2ec'},
+  {key:'social',  label:'社會', color:'var(--c-social)',  light:'#efe9f7'},
+];
+const LETTERS = ['A','B','C','D','E','F'];
+const EXAM_DATE = new Date(2027, 4, 15); // 116 會考預估 2027/5/15
+let BANK = [];
+
+/* ---------- 進度存取 ---------- */
+const store = {
+  get records(){ try{ return JSON.parse(localStorage.sq_records || '{}'); }catch(e){ return {}; } },
+  set records(v){ localStorage.sq_records = JSON.stringify(v); },
+  get days(){ try{ return JSON.parse(localStorage.sq_days || '[]'); }catch(e){ return []; } },
+  set days(v){ localStorage.sq_days = JSON.stringify(v); },
+};
+function qid(q){ return q.year + '-' + q.subj + '-' + q.num; }
+function today(){ const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); }
+function recordAnswer(q, correct){
+  const recs = store.records;
+  const r = recs[qid(q)] || {right:0, wrong:0, lastWrong:false};
+  if (correct){ r.right++; r.lastWrong = false; } else { r.wrong++; r.lastWrong = true; }
+  recs[qid(q)] = r;
+  store.records = recs;
+  const days = store.days;
+  if (!days.includes(today())){ days.push(today()); store.days = days; }
+}
+function streak(){
+  const days = new Set(store.days);
+  let d = new Date();
+  const key = (x)=> x.getFullYear() + '-' + String(x.getMonth()+1).padStart(2,'0') + '-' + String(x.getDate()).padStart(2,'0');
+  if (!days.has(key(d))) d.setDate(d.getDate() - 1);
+  let n = 0;
+  while (days.has(key(d))){ n++; d.setDate(d.getDate() - 1); }
+  return n;
+}
+function daysToExam(){
+  const now = new Date(); now.setHours(0,0,0,0);
+  return Math.max(0, Math.round((EXAM_DATE - now) / 86400000));
+}
+function subjProgress(key){
+  const recs = store.records;
+  const qs = BANK.filter(q => q.subj === key);
+  let done = 0, right = 0, att = 0;
+  qs.forEach(q => {
+    const r = recs[qid(q)];
+    if (r){ done++; right += r.right; att += r.right + r.wrong; }
+  });
+  return {done, total: qs.length, acc: att ? right / att : null};
+}
+function shuffle(a){ a = a.slice(); for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+function pickSmart(pool, n){
+  const recs = store.records;
+  const unseen = shuffle(pool.filter(q => !recs[qid(q)]));
+  const lastWrong = shuffle(pool.filter(q => recs[qid(q)] && recs[qid(q)].lastWrong));
+  const rest = shuffle(pool.filter(q => recs[qid(q)] && !recs[qid(q)].lastWrong));
+  return unseen.concat(lastWrong, rest).slice(0, n);
+}
+function wrongQuestions(){
+  const recs = store.records;
+  return BANK.filter(q => recs[qid(q)] && recs[qid(q)].lastWrong);
+}
+
+/* ---------- 分頁 ---------- */
+function switchTab(name){
+  document.querySelectorAll('nav button').forEach(b => b.classList.toggle('on', b.dataset.tab === name));
+  document.querySelectorAll('section.tab').forEach(s => s.classList.toggle('on', s.id === 'tab-' + name));
+  render();
+}
+
+/* ---------- 首頁 ---------- */
+function renderPractice(){
+  document.getElementById('days-exam').innerHTML = daysToExam() + '<small>天</small>';
+  document.getElementById('days-streak').innerHTML = streak() + '<small>天</small>';
+  const grid = document.getElementById('subject-grid');
+  grid.innerHTML = '';
+  SUBJECTS.forEach(s => {
+    const p = subjProgress(s.key);
+    const b = document.createElement('button');
+    b.className = 'subcard';
+    b.onclick = () => startSubject(s.key);
+    b.innerHTML =
+      '<div class="t" style="color:' + s.color + '">' + s.label + '練習</div>' +
+      '<div class="bar"><i style="width:' + (p.total ? Math.round(p.done / p.total * 100) : 0) + '%;background:' + s.color + '"></i></div>' +
+      '<div class="d">已做 ' + p.done + '/' + p.total + ' 題</div>';
+    grid.appendChild(b);
+  });
+  const yl = document.getElementById('year-list');
+  yl.innerHTML = '';
+  const years = [...new Set(BANK.map(q => q.year))].sort().reverse();
+  years.forEach(y => {
+    const row = document.createElement('div');
+    row.className = 'yearrow';
+    let chips = '';
+    SUBJECTS.forEach(s => {
+      const n = BANK.filter(q => q.year === y && q.subj === s.key).length;
+      chips += '<button style="background:' + s.light + ';color:' + s.color + '" onclick="startYear(\'' + y + '\',\'' + s.key + '\')">' + s.label + '</button>';
+    });
+    row.innerHTML = '<div class="y">' + y + ' 年會考</div><div class="chips">' + chips + '</div>';
+    yl.appendChild(row);
+  });
+}
+
+/* ---------- 錯題 ---------- */
+function renderWrong(){
+  const el = document.getElementById('tab-wrong');
+  const wrong = wrongQuestions();
+  if (!wrong.length){
+    el.innerHTML = '<div class="empty">' +
+      '<svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>' +
+      '<div class="t">目前沒有錯題</div>答錯的題目會自動收在這裡<br>答對之後就會移除</div>';
+    return;
+  }
+  let html = '<button class="bigbtn" style="margin-top:2px" onclick="startWrongReview()">' +
+    '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>' +
+    '<span>重練錯題<small>共 ' + wrong.length + ' 題，一次最多 10 題</small></span><span class="spacer"></span>' +
+    '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>';
+  SUBJECTS.forEach(s => {
+    const qs = wrong.filter(q => q.subj === s.key);
+    if (!qs.length) return;
+    html += '<h2 style="color:' + s.color + '">' + s.label + '錯題（' + qs.length + '）</h2>';
+    qs.forEach(q => {
+      let opts = '';
+      q.options.forEach((o, i) => {
+        opts += '<div class="opt' + (i === q.ans ? ' correct' : '') + '"><b>' + LETTERS[i] + '</b><span>' + esc(o) + '</span></div>';
+      });
+      html += '<div class="wcard" onclick="this.classList.toggle(\'open\')">' +
+        '<div class="q"><span>' + esc(q.q) + '</span>' +
+        '<svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>' +
+        '<div class="detail">' + opts + '<div class="meta">' + q.year + ' 年 第 ' + q.num + ' 題</div></div></div>';
+    });
+  });
+  el.innerHTML = html;
+}
+
+/* ---------- 統計 ---------- */
+function renderStats(){
+  const el = document.getElementById('tab-stats');
+  const recs = store.records;
+  const answered = Object.keys(recs).length;
+  let right = 0, att = 0;
+  Object.values(recs).forEach(r => { right += r.right; att += r.right + r.wrong; });
+  const acc = att ? Math.round(right / att * 100) : null;
+  let html = '<div class="statgrid">' +
+    statCard('距離會考', daysToExam(), '天', 'var(--navy)',
+      '<rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>') +
+    statCard('連續練習', streak(), '天', 'var(--c-math)',
+      '<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>') +
+    statCard('累積作答', answered, '題／' + BANK.length + ' 題', 'var(--c-english)',
+      '<path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>') +
+    statCard('整體答對', acc === null ? '－' : acc, '%', 'var(--green)',
+      '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>') +
+    '</div><h2>科目進度</h2>';
+  SUBJECTS.forEach(s => {
+    const p = subjProgress(s.key);
+    const accTxt = p.acc === null
+      ? '<span class="acc" style="color:var(--sub)">尚未練習</span>'
+      : '<span class="acc" style="color:' + (p.acc >= 0.6 ? 'var(--green)' : 'var(--c-math)') + '">答對率 ' + Math.round(p.acc * 100) + '%</span>';
+    html += '<div class="srow"><div class="top" style="color:' + s.color + '">' + s.label + accTxt + '</div>' +
+      '<div class="bar"><i style="width:' + (p.total ? Math.round(p.done / p.total * 100) : 0) + '%;background:' + s.color + '"></i></div>' +
+      '<div class="d">已做 ' + p.done + '/' + p.total + ' 題</div></div>';
+  });
+  el.innerHTML = html;
+}
+function statCard(lbl, num, unit, color, iconPath){
+  return '<div class="stat"><div class="lbl" style="color:' + color + '">' +
+    '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + iconPath + '</svg>' +
+    lbl + '</div><div class="num">' + num + '<small>' + unit + '</small></div></div>';
+}
+
+/* ---------- 測驗 ---------- */
+let session = null;
+function startQuick(){ openQuiz('快速練習', pickSmart(BANK, 10)); }
+function startSubject(key){
+  const s = SUBJECTS.find(x => x.key === key);
+  openQuiz(s.label + '練習', pickSmart(BANK.filter(q => q.subj === key), 10));
+}
+function startYear(year, key){
+  const s = SUBJECTS.find(x => x.key === key);
+  openQuiz(year + ' 年' + s.label, BANK.filter(q => q.year === year && q.subj === key));
+}
+function startWrongReview(){ openQuiz('錯題複習', shuffle(wrongQuestions()).slice(0, 10)); }
+
+function openQuiz(title, questions){
+  if (!questions.length) return;
+  session = {title, questions, i: 0, right: 0, wrongs: [], picked: null};
+  document.getElementById('quiz-title').textContent = title;
+  document.getElementById('quiz').classList.add('on');
+  renderQuestion();
+}
+function closeQuiz(){
+  document.getElementById('quiz').classList.remove('on');
+  session = null;
+  render();
+}
+function renderQuestion(){
+  const q = session.questions[session.i];
+  const s = SUBJECTS.find(x => x.key === q.subj);
+  const total = session.questions.length;
+  let html = '<div class="pbar"><i style="width:' + Math.round(session.i / total * 100) + '%"></i></div>' +
+    '<div class="qmeta"><span class="schip" style="background:' + s.light + ';color:' + s.color + '">' + s.label + '</span>' +
+    '<span>' + q.year + ' 年 第 ' + q.num + ' 題</span><span class="cnt">' + (session.i + 1) + '/' + total + '</span></div>' +
+    '<div class="qtext">' + esc(q.q) + '</div><div id="opts">';
+  q.options.forEach((o, i) => {
+    html += '<button class="opt-btn" onclick="pick(' + i + ')"><span class="letter">' + LETTERS[i] + '</span><span>' + esc(o) + '</span></button>';
+  });
+  html += '</div><div id="next-slot"></div>';
+  const body = document.getElementById('quiz-body');
+  body.innerHTML = html;
+  body.scrollTop = 0;
+}
+function pick(i){
+  if (session.picked !== null) return;
+  session.picked = i;
+  const q = session.questions[session.i];
+  const correct = i === q.ans;
+  if (correct) session.right++; else session.wrongs.push(q);
+  recordAnswer(q, correct);
+  const btns = document.querySelectorAll('#opts .opt-btn');
+  btns.forEach((b, j) => {
+    b.disabled = true;
+    if (j === q.ans){
+      b.classList.add('right');
+      b.insertAdjacentHTML('beforeend', '<span class="mark"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>');
+    } else if (j === i){
+      b.classList.add('wrongpick');
+      b.insertAdjacentHTML('beforeend', '<span class="mark"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>');
+    } else {
+      b.classList.add('dim');
+    }
+  });
+  const last = session.i + 1 === session.questions.length;
+  document.getElementById('next-slot').innerHTML =
+    '<button class="nextbtn" onclick="nextQ()">' + (last ? '看結果' : '下一題') + '</button>';
+}
+function nextQ(){
+  session.picked = null;
+  if (session.i + 1 === session.questions.length){ renderResult(); return; }
+  session.i++;
+  renderQuestion();
+}
+function renderResult(){
+  const total = session.questions.length;
+  const pct = Math.round(session.right / total * 100);
+  const verdict = pct >= 80 ? '太厲害了' : pct >= 60 ? '表現不錯' : '繼續加油';
+  let html = '<div class="result"><div class="verdict" style="color:var(--navy)">' + verdict + '</div>' +
+    '<div class="score" style="color:' + (pct >= 60 ? 'var(--green)' : 'var(--c-math)') + '">' + session.right + '/' + total + '</div>' +
+    '<div class="pct">答對率 ' + pct + '%</div>';
+  if (session.wrongs.length){
+    html += '<div class="wlist"><h2>答錯題目</h2>';
+    session.wrongs.forEach(q => {
+      html += '<div class="witem"><div class="q">' + esc(q.q) + '</div>' +
+        '<div class="a">正解 ' + LETTERS[q.ans] + '　' + esc(q.options[q.ans]) + '</div></div>';
+    });
+    html += '<div class="note">答錯的題目已收進錯題本</div></div>';
+  }
+  html += '<button class="nextbtn" onclick="closeQuiz()">完成</button></div>';
+  const body = document.getElementById('quiz-body');
+  body.innerHTML = html;
+  body.scrollTop = 0;
+}
+
+/* ---------- 工具 ---------- */
+function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function render(){
+  renderPractice();
+  renderWrong();
+  renderStats();
+}
+
+/* ---------- 啟動 ---------- */
+fetch('quiz.json')
+  .then(r => r.json())
+  .then(data => { BANK = data; render(); })
+  .catch(() => {
+    document.querySelector('main').innerHTML = '<div class="empty"><div class="t">題庫載入失敗</div>請確認網路後重新整理</div>';
+  });
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
+</script>
+</body>
+</html>
