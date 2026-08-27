@@ -188,6 +188,10 @@
   .bnav-btn.active svg { color: #c79a00; }
   .bnav-btn.active .bnav-dot { background: #c79a00; }
   .bnav-btn svg { width: 22px; height: 22px; }
+  @media (max-width: 420px) {
+    .bnav-btn { font-size: 0.6rem; letter-spacing: 0; padding: 7px 0 9px; }
+    .bnav-btn svg { width: 20px; height: 20px; }
+  }
   .bnav-btn .bnav-dot {
     width: 4px; height: 4px;
     border-radius: 50%;
@@ -256,6 +260,54 @@
     padding: 1.5rem 1rem 2rem;
   }
 
+  /* ===== 獎勵制度分頁 ===== */
+  .rw-intro { font-size:.86rem; line-height:1.8; color:var(--muted); padding:.9rem 1rem; }
+  .rw-intro b { color:var(--text); }
+  .rw-h3 { font-size:1rem; margin-top:1.6rem; }
+  .rw-tbl-scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; padding:0; }
+  .rw-tbl { width:100%; border-collapse:collapse; font-size:.82rem; min-width:720px; }
+  .rw-tbl-sm { min-width:0; }
+  .rw-tbl th, .rw-tbl td { border-bottom:1px solid var(--border); border-right:1px solid var(--border); vertical-align:top; }
+  .rw-tbl th:last-child, .rw-tbl td:last-child { border-right:none; }
+  .rw-tbl tbody tr:last-child td, .rw-tbl tbody tr:last-child th { border-bottom:none; }
+  .rw-tbl thead th { background:#fbeef5; color:var(--primary); font-weight:600; font-size:.8rem; padding:.55rem .5rem; text-align:center; white-space:nowrap; }
+  .rw-tbl thead th small { display:block; font-weight:400; color:var(--muted); font-size:.68rem; margin-top:.15rem; }
+  .rw-tbl tbody th { background:#fdf6f9; color:var(--muted); font-weight:600; font-size:.78rem; padding:.6rem .4rem; text-align:center; white-space:nowrap; width:56px; }
+  .rw-tbl td { padding:.55rem .55rem; min-width:158px; }
+  .rw-tbl-sm td { min-width:0; text-align:center; }
+  .rw-sc { font-weight:700; color:var(--primary); font-size:.86rem; margin-bottom:.15rem; white-space:nowrap; }
+  .rw-rw { color:var(--text); line-height:1.6; font-size:.8rem; }
+  .rw-tbl tr.r0 td { background:#fafafa; }
+  .rw-tbl tr.r0 .rw-sc, .rw-tbl tr.r0 .rw-rw { color:var(--muted); }
+  .rw-tbl tr.r4 td { background:#fdf3f8; }
+  .rw-tbl tr.r5 td { background:linear-gradient(120deg,#fff8ea,#fdf1f7); }
+  .rw-tbl tr.r5 .rw-sc { color:#c99a3a; }
+  .rw-tbl td.cruise .rw-rw { font-weight:700; color:#c99a3a; }
+  .rw-tbl td.hit { outline:2px solid var(--success); outline-offset:-2px; background:#f2fbf8 !important; position:relative; }
+  .rw-tbl td.hit::after { content:'這次'; position:absolute; top:3px; right:4px; font-size:.6rem; color:#fff; background:var(--success); border-radius:99px; padding:1px 6px; }
+  .rw-calc { display:grid; gap:.5rem; }
+  .rw-row { display:grid; grid-template-columns:64px 1fr 1.6fr; gap:.5rem; align-items:center; background:var(--card); border:1px solid var(--border); border-radius:12px; padding:.55rem .7rem; }
+  .rw-row.rw-head { background:#fbeef5; font-size:.75rem; color:var(--primary); font-weight:600; text-align:center; }
+  .rw-row label { font-size:.84rem; font-weight:600; }
+  .rw-row input[type=number] { width:100%; font-size:16px; padding:.4rem .3rem; text-align:center; border:1px solid var(--border); border-radius:8px; background:#fff; color:var(--text); font-family:inherit; }
+  .rw-row input[type=number]:focus { outline:2px solid var(--primary-light); outline-offset:1px; }
+  .rw-got { font-size:.8rem; color:var(--muted); line-height:1.5; }
+  .rw-got.on { color:var(--text); }
+  .rw-foot { display:flex; justify-content:flex-end; padding:.4rem .2rem; }
+  .rw-btn { border:1px solid var(--border); background:#fff; color:var(--muted); border-radius:99px; padding:.35rem .9rem; font-size:.8rem; font-family:inherit; cursor:pointer; }
+  .rw-acc { background:var(--card); border:1px solid var(--border); border-radius:14px; overflow:hidden; margin-bottom:.5rem; }
+  .rw-acc-h { display:flex; justify-content:space-between; align-items:center; padding:.8rem .9rem; cursor:pointer; font-size:.92rem; font-weight:600; }
+  .rw-chev { width:16px; height:16px; color:var(--muted); transition:transform .2s; }
+  .rw-acc.open .rw-acc-h { background:#fff8d6; }
+  .rw-acc.open .rw-chev { transform:rotate(180deg); }
+  .rw-acc-b { display:none; padding:0 .9rem .9rem; font-size:.85rem; line-height:1.85; }
+  .rw-acc.open .rw-acc-b { display:block; }
+  .rw-acc-b li { margin-left:1.1rem; margin-bottom:.35rem; }
+  @media (max-width:480px) {
+    .rw-row { grid-template-columns:52px 1fr; gap:.4rem; }
+    .rw-row .rw-got { grid-column:1/-1; }
+    .rw-row.rw-head { display:none; }
+  }
   .tab-panel { display: none; }
   .tab-panel.active { display: block; }
 
@@ -1970,6 +2022,64 @@
     </div>
   </div>
 
+  <!-- TAB: 獎勵制度 -->
+  <div id="tab-reward" class="tab-panel">
+    <h2 class="section-title">獎勵制度</h2>
+    <div class="card rw-intro">
+      四次模考各自對照，考完當次就結算，不累積。分數以<b>五科積分</b>為準（國英數社自，A++=7 到 C=1，滿分 35）。
+      每次門檻往上抬一格 — <b>同樣的獎勵，越後面要考越高</b>；迪士尼郵輪押在第四次模考的頂標。
+    </div>
+
+    <h3 class="section-title rw-h3">獎勵矩陣</h3>
+    <div class="card rw-tbl-scroll"><table class="rw-tbl" id="rwMatrix"></table></div>
+
+    <h3 class="section-title rw-h3">作文加碼</h3>
+    <div class="card rw-tbl-scroll">
+      <table class="rw-tbl rw-tbl-sm">
+        <thead><tr><th>作文級分</th><th>加碼</th></tr></thead>
+        <tbody>
+          <tr><td>4 級分</td><td>＋NT$300</td></tr>
+          <tr><td>5 級分</td><td>＋NT$600</td></tr>
+          <tr><td>6 級分</td><td>＋NT$1,000</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="section-title rw-h3">成績對照</h3>
+    <div class="rw-calc" id="rwCalc">
+      <div class="rw-row rw-head"><div>模考</div><div>五科積分</div><div>這次拿到</div></div>
+    </div>
+    <div class="rw-foot"><button class="btn rw-btn" onclick="rwReset()">清空重填</button></div>
+
+    <h3 class="section-title rw-h3">規則說明</h3>
+    <div class="rw-acc" onclick="this.classList.toggle('open')">
+      <div class="rw-acc-h"><span>計分方式</span><svg class="rw-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+      <div class="rw-acc-b"><ul>
+        <li>五科積分＝國英數社自，A++=7、A+=6、A=5、B++=4、B+=3、B=2、C=1，滿分 35。</li>
+        <li>每次模考獨立結算，這次沒拿到不影響下一次，下一次照樣可以拿最高格。</li>
+        <li>作文加碼跟五科獎勵可以同時拿。</li>
+        <li>以學校正式模考成績單為準，成績單出來當天對表，一週內兌現。</li>
+      </ul></div>
+    </div>
+    <div class="rw-acc" onclick="this.classList.toggle('open')">
+      <div class="rw-acc-h"><span>郵輪條件</span><svg class="rw-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+      <div class="rw-acc-b"><ul>
+        <li>第四次模考五科積分 <b>33 分以上</b>，迪士尼郵輪成行。</li>
+        <li>考到 <b>35 滿分</b>，再加船上一項自選付費體驗（SPA、特色餐廳或岸上行程擇一）。</li>
+        <li>第三次模考考到 35 的話，先付郵輪訂金保留席次，第四次照樣要達標才出發。</li>
+        <li>失常保護：第四次模考當天生病或請假，改以第三次成績按第四次的門檻認定。</li>
+      </ul></div>
+    </div>
+    <div class="rw-acc" onclick="this.classList.toggle('open')">
+      <div class="rw-acc-h"><span>公平原則</span><svg class="rw-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+      <div class="rw-acc-b"><ul>
+        <li>標準訂了就不改，不臨時加碼也不事後降低。</li>
+        <li>沒拿到獎的那次，就一起把錯題檢討完，不罵人也不追加處罰。</li>
+        <li>缺考那次以前一次的成績帶入，不吃虧也不多拿。</li>
+      </ul></div>
+    </div>
+  </div>
+
   <!-- TAB: 放鬆一下 -->
   <div id="tab-relax" class="tab-panel">
     <h2 class="section-title">放鬆一下</h2>
@@ -2919,7 +3029,74 @@ if (document.readyState === 'loading') {
 }
 
 // ===== TABS =====
-const BOTTOM_NAV_TABS = ['subjects','quiz','progress','chat','star'];
+const BOTTOM_NAV_TABS = ['subjects','quiz','progress','chat','star','reward'];
+
+// ===== 獎勵制度 =====
+const RW_LEVELS=['加油','起步','穩住','進步','亮眼','頂標'];
+const RW_EXAMS=[
+ {name:'模考一',sub:'基準',cells:[
+  {min:0,max:24,sc:'24 以下',rw:'一起檢討錯題，不給獎'},
+  {min:25,max:26,sc:'25 – 26',rw:'手搖一杯 ＋ 一頓好吃的'},
+  {min:27,max:28,sc:'27 – 28',rw:'NT$500 自由金'},
+  {min:29,max:30,sc:'29 – 30',rw:'NT$1,000 ＋ 一次外食你決定'},
+  {min:31,max:32,sc:'31 – 32',rw:'NT$1,500 ＋ 想要的一件東西'},
+  {min:33,max:35,sc:'33 – 35',rw:'NT$2,000 ＋ 一日遊你主揪'}]},
+ {name:'模考二',sub:'門檻＋1',cells:[
+  {min:0,max:25,sc:'25 以下',rw:'一起檢討錯題，不給獎'},
+  {min:26,max:27,sc:'26 – 27',rw:'手搖一杯 ＋ 一頓好吃的'},
+  {min:28,max:29,sc:'28 – 29',rw:'NT$800 自由金'},
+  {min:30,max:31,sc:'30 – 31',rw:'NT$1,500 ＋ 一次朋友出遊'},
+  {min:32,max:33,sc:'32 – 33',rw:'NT$2,500 ＋ 想要的一件東西'},
+  {min:34,max:35,sc:'34 – 35',rw:'NT$3,000 ＋ 一日遊你主揪'}]},
+ {name:'模考三',sub:'門檻＋2',cells:[
+  {min:0,max:26,sc:'26 以下',rw:'一起檢討錯題，不給獎'},
+  {min:27,max:28,sc:'27 – 28',rw:'手搖一杯 ＋ 一頓好吃的'},
+  {min:29,max:30,sc:'29 – 30',rw:'NT$1,000 自由金'},
+  {min:31,max:32,sc:'31 – 32',rw:'NT$2,000 ＋ 一次朋友出遊'},
+  {min:33,max:34,sc:'33 – 34',rw:'NT$3,000 ＋ 國內兩天一夜你挑'},
+  {min:35,max:35,sc:'35 滿分',rw:'NT$4,000 ＋ 兩天一夜 ＋ 郵輪訂金先付、席次保留'}]},
+ {name:'模考四',sub:'決勝',cells:[
+  {min:0,max:27,sc:'27 以下',rw:'一起檢討錯題，不給獎'},
+  {min:28,max:29,sc:'28 – 29',rw:'NT$1,200 自由金'},
+  {min:30,max:31,sc:'30 – 31',rw:'NT$2,000 ＋ 想要的一件東西'},
+  {min:32,max:32,sc:'32',rw:'NT$3,500 ＋ 國內兩天一夜你挑'},
+  {min:33,max:34,sc:'33 – 34',rw:'迪士尼郵輪成行',cruise:true},
+  {min:35,max:35,sc:'35 滿分',rw:'迪士尼郵輪 ＋ 船上自選付費體驗',cruise:true}]}
+];
+const RW_KEY='shanna_reward_matrix_v1';
+function rwBuild(){
+  let h='<thead><tr><th></th>';
+  RW_EXAMS.forEach(e=>h+='<th>'+e.name+'<small>'+e.sub+'</small></th>');
+  h+='</tr></thead><tbody>';
+  for(let r=0;r<6;r++){
+    h+='<tr class="r'+r+'"><th>'+RW_LEVELS[r]+'</th>';
+    RW_EXAMS.forEach((e,c)=>{const cell=e.cells[r];
+      h+='<td id="rwc'+c+'-'+r+'"'+(cell.cruise?' class="cruise"':'')+'><div class="rw-sc">'+cell.sc+'</div><div class="rw-rw">'+cell.rw+'</div></td>';});
+    h+='</tr>';
+  }
+  document.getElementById('rwMatrix').innerHTML=h+'</tbody>';
+  const box=document.getElementById('rwCalc');
+  RW_EXAMS.forEach((e,i)=>{const d=document.createElement('div');d.className='rw-row';
+    d.innerHTML='<label>'+e.name+'</label><input type="number" id="rws'+i+'" min="0" max="35" inputmode="numeric" placeholder="—"><div class="rw-got" id="rwg'+i+'">還沒填</div>';
+    box.appendChild(d);});
+  document.querySelectorAll('#rwCalc input').forEach(el=>el.addEventListener('input',rwCalc));
+  try{const o=JSON.parse(localStorage.getItem(RW_KEY)||'{}');Object.keys(o).forEach(k=>{const el=document.getElementById(k);if(el)el.value=o[k];});}catch(_){}
+  rwCalc();
+}
+function rwNum(id){const v=document.getElementById(id).value.trim();if(v==='')return null;const n=parseInt(v,10);return isNaN(n)?null:n;}
+function rwCalc(){
+  RW_EXAMS.forEach((e,i)=>{
+    const s=rwNum('rws'+i), g=document.getElementById('rwg'+i);
+    e.cells.forEach((_,r)=>document.getElementById('rwc'+i+'-'+r).classList.remove('hit'));
+    if(s===null){g.textContent='還沒填';g.classList.remove('on');return;}
+    let idx=e.cells.findIndex(c=>s>=c.min&&s<=c.max); if(idx<0) idx=s>35?5:0;
+    document.getElementById('rwc'+i+'-'+idx).classList.add('hit');
+    g.textContent=e.cells[idx].rw; g.classList.add('on');
+  });
+  try{const o={};RW_EXAMS.forEach((e,i)=>o['rws'+i]=document.getElementById('rws'+i).value);localStorage.setItem(RW_KEY,JSON.stringify(o));}catch(_){}
+}
+function rwReset(){RW_EXAMS.forEach((e,i)=>document.getElementById('rws'+i).value='');rwCalc();}
+rwBuild();
 
 function switchTab(name) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
@@ -5654,6 +5831,11 @@ document.addEventListener('DOMContentLoaded', function() {
     星星闖關
     <div class="bnav-dot"></div>
   </button>
+  <button class="bnav-btn" id="bnav-reward" onclick="switchTabNav('reward')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg>
+    獎勵制度
+    <div class="bnav-dot"></div>
+  </button>
   <button class="bnav-btn" id="bnav-more" onclick="toggleMore()">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
     更多功能
@@ -5674,7 +5856,6 @@ document.addEventListener('DOMContentLoaded', function() {
     <button class="more-item" onclick="switchTabNav('resources');closeMore()"><span class="more-icon">🔗</span>考古題庫</button>
     <button class="more-item" onclick="switchTabNav('junyi');closeMore()"><span class="more-icon">📐</span>均一平台</button>
     <button class="more-item" onclick="switchTabNav('relax');closeMore()"><span class="more-icon">🍃</span>放鬆一下</button>
-    <button class="more-item" onclick="location.href='reward.html'"><span class="more-icon">🎁</span>獎勵制度</button>
   </div>
 </div>
 
