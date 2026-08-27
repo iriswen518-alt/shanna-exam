@@ -2984,6 +2984,16 @@ function closeMore() {
 
 // ===== QUIZ DATA =====
 const quizData = [
+  { subject:'math', grade:7, subLabel:'🔢 數學', q:'若一個等比數列的首項是 3，公比是 2，求第 4 項的值。', options:['A. 12','B. 24','C. 48','D. 96'], ans:2, explain:'等比第 n 項公式 a_n=a_1·r^{n-1}，代入 3·2^{3}=3·8=24，答案是第 2 個選項。但題目問第 4 項，所以是 3·2^{3}=24，故正確索引為 1。' },
+  { subject:'science', grade:9, subLabel:'🔬 自然', q:'哪一種光譜線屬於可見光範圍？', options:['A. 紫外線','B. 紅外線','C. X 光','D. 綠光'], ans:3, explain:'可見光波長約 380~750 nm，綠光屬於此範圍，其他皆在可見光之外。' },
+  { subject:'social', grade:8, subLabel:'🌏 社會', q:'台灣的「三民主義」主要由哪位領袖提出？', options:['A. 蔣介石','B. 孫中山','C. 李登輝','D. 陳水扁'], ans:1, explain:'三民主義是孫中山在 20 世紀初提出的國家建設理念。' },
+  { subject:'math', grade:9, subLabel:'🔢 數學', q:'解不等式 2x‑5 > 3x＋4，求 x 的範圍。', options:['A. x < -9','B. x > -9','C. x < 9','D. x > 9'], ans:0, explain:'將 2x‑5 > 3x＋4 移項得 -5‑4 > x，亦即 -9 > x，故 x < -9。' },
+  { subject:'english', grade:7, subLabel:'🌍 英文', q:'Select the sentence that uses the present perfect tense correctly.', options:['A. She has ate breakfast this morning.','B. She have finished her homework.','C. She has finished her homework.','D. She finished her homework yesterday.'], ans:2, explain:'Present perfect 需要 have/has + past participle，has finished 為正確用法。' },
+  { subject:'math', grade:7, subLabel:'🔢 數學', q:'一輛自行車原價 8000 元，現在打八折出售，折扣價是多少？', options:['A. 6400','B. 7200','C. 8000','D. 8800'], ans:0, explain:'首先計算折扣，原價 8000 元打八折就是 8000 * 0.8 = 6400，折扣價是 6400。' },
+  { subject:'chinese', grade:8, subLabel:'📜 國文', q:'「情不自禁」這個成語的意思是什麼？', options:['A. 不能控制自己的情緒','B. 不能控制自己的想法','C. 不能控制自己的行為','D. 不能控制自己的言語'], ans:0, explain:'這個成語描述的是人在情感上無法控制自己，常用於描述情緒激動或情感強烈的狀態。' },
+  { subject:'english', grade:9, subLabel:'🌍 英文', q:'If I won the lottery, I _______ a house on the beach.', options:['A. will buy','B. would buy','C. can buy','D. could buy'], ans:1, explain:'這是第二類條件句，描述一個假設情況下的結果，因此使用 would + 動詞原形。' },
+  { subject:'science', grade:7, subLabel:'🔬 自然', q:'植物進行光合作用時，需要什麼？', options:['A. 二氧化碳和水','B. 氧氣和水','C. 二氧化碳和氧氣','D. 水和陽光'], ans:0, explain:'光合作用是植物將二氧化碳和水，在陽光的能量下，轉化為葡萄糖和氧氣的過程。' },
+  { subject:'social', grade:8, subLabel:'🌏 社會', q:'三民主義的核心思想是什麼？', options:['A. 民族、民權、民生','B. 民族、民生、民主','C. 民權、民生、民族','D. 民主、民生、民族'], ans:0, explain:'三民主義是孫中山提出的中國革命的基本理念，包括民族、民權和民生三大原則。' },
   // ── 數學 7年級 ──
   { subject:'math', grade:7, subLabel:'🔢 數學', q:'(-3) × (-4) = ?', options:['A. -12','B. 12','C. -7','D. 7'], ans:1, explain:'負數 × 負數 = 正數！兩個「負」相乘就變「正」，就像雙重否定一樣。(-3)×(-4) = +12。記口訣：同號得正、異號得負。' },
   { subject:'math', grade:7, subLabel:'🔢 數學', q:'解方程式：2x + 5 = 13，x = ?', options:['A. 4','B. 9','C. 3','D. 6'], ans:0, explain:'兩邊同減 5：2x = 8，再兩邊除以 2：x = 4。解方程就像「反著做」：原本加 5 就減 5，原本乘 2 就除以 2。' },
@@ -5664,6 +5674,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <button class="more-item" onclick="switchTabNav('resources');closeMore()"><span class="more-icon">🔗</span>考古題庫</button>
     <button class="more-item" onclick="switchTabNav('junyi');closeMore()"><span class="more-icon">📐</span>均一平台</button>
     <button class="more-item" onclick="switchTabNav('relax');closeMore()"><span class="more-icon">🍃</span>放鬆一下</button>
+    <button class="more-item" onclick="location.href='reward.html'"><span class="more-icon">🎁</span>獎勵制度</button>
   </div>
 </div>
 
