@@ -285,6 +285,7 @@
   .rw-tbl td.cruise .rw-rw { font-weight:700; color:#c99a3a; }
   .rw-tbl td.hit { outline:2px solid var(--success); outline-offset:-2px; background:#f2fbf8 !important; position:relative; }
   .rw-tbl td.hit::after { content:'這次'; position:absolute; top:3px; right:4px; font-size:.6rem; color:#fff; background:var(--success); border-radius:99px; padding:1px 6px; }
+  .rw-sel { width:100%; margin-bottom:.6rem; }
   .rw-tiers { display:grid; gap:.55rem; }
   .rw-tier { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:.75rem .85rem; display:grid; gap:.5rem; }
   .rw-tier-h { display:flex; align-items:center; gap:.6rem; }
@@ -2049,11 +2050,12 @@
   <div id="tab-reward" class="tab-panel">
     <h2 class="section-title">獎勵制度</h2>
     <div class="card rw-intro">
-      分數以<b>五科積分</b>為準（國英數社自，A++=7 到 C=1，滿分 35），分成 <b>25、28、30、33、35</b> 五個階梯。
+      分數以<b>五科積分</b>為準（國英數社自，A++=7 到 C=1，滿分 35），分成 <b>25、28、30、33、35</b> 五個階梯；模考一到四與會考各有一套。
       每一階的獎勵內容由<b>璿璿自己填</b>，送出後要<b>媽媽核可</b>才算數；考到哪一階，就拿那一階已核可的獎勵。
     </div>
 
     <h3 class="section-title rw-h3">獎勵階梯</h3>
+    <select class="tab-select rw-sel" id="rwExamSel" onchange="rwSetExam(this.value)"></select>
     <div class="rw-tiers" id="rwTiers"></div>
     <div class="rw-foot">
       <button class="btn rw-btn" id="rwMomBtn" onclick="rwMomToggle()">媽媽模式</button>
@@ -3065,15 +3067,23 @@ const RW_TIERS=[
  {min:33,max:34,name:'亮眼',sc:'33 分'},
  {min:35,max:35,name:'頂標',sc:'35 分'}
 ];
-const RW_EXAMS=['模考一','模考二','模考三','模考四'];
-const RW_KEY='shanna_reward_matrix_v1', RW_TKEY='shanna_reward_tiers_v2', RW_PIN='shanna_reward_pin';
+const RW_EXAMS=['模考一','模考二','模考三','模考四','會考'];
+const RW_KEY='shanna_reward_matrix_v1', RW_TKEY='shanna_reward_tiers_v3', RW_EKEY='shanna_reward_exam', RW_PIN='shanna_reward_pin';
 const RW_ST={empty:'未填寫',draft:'草稿',pending:'待核可',approved:'已核可',rejected:'退回修改'};
 let rwMom=false;
-function rwLoadT(){try{const o=JSON.parse(localStorage.getItem(RW_TKEY)||'[]');return RW_TIERS.map((_,i)=>Object.assign({wish:'',status:'empty',note:''},o[i]||{}));}catch(_){return RW_TIERS.map(()=>({wish:'',status:'empty',note:''}));}}
-let rwT=rwLoadT();
-function rwSaveT(){try{localStorage.setItem(RW_TKEY,JSON.stringify(rwT));}catch(_){}}
+function rwBlank(){return RW_TIERS.map(()=>({wish:'',status:'empty',note:''}));}
+function rwLoadAll(){let o={};try{o=JSON.parse(localStorage.getItem(RW_TKEY)||'{}')||{};}catch(_){}
+  return RW_EXAMS.map((_,e)=>{const arr=Array.isArray(o[e])?o[e]:[];return RW_TIERS.map((_,i)=>Object.assign({wish:'',status:'empty',note:''},arr[i]||{}));});}
+let rwAll=rwLoadAll();
+let rwExam=(()=>{const v=parseInt(localStorage.getItem(RW_EKEY),10);return v>=0&&v<RW_EXAMS.length?v:0;})();
+let rwT=rwAll[rwExam];
+function rwSaveT(){rwAll[rwExam]=rwT;try{localStorage.setItem(RW_TKEY,JSON.stringify(rwAll));}catch(_){}}
+function rwSetExam(v){rwExam=parseInt(v,10)||0;rwT=rwAll[rwExam];try{localStorage.setItem(RW_EKEY,rwExam);}catch(_){}rwBuild();}
 function rwEsc(t){return String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
 function rwBuild(){
+  const sel=document.getElementById('rwExamSel');
+  if(!sel.options.length)RW_EXAMS.forEach((n,i)=>sel.add(new Option(n,i)));
+  sel.value=rwExam;
   const box=document.getElementById('rwTiers'); let h='';
   RW_TIERS.forEach((t,i)=>{const d=rwT[i]; const locked=d.status==='approved'||d.status==='pending';
     h+='<div class="rw-tier r'+i+(d.status==='approved'?' ok':'')+'" id="rwt'+i+'">'
@@ -3118,8 +3128,8 @@ function rwCalc(){
     if(s===null){g.textContent='還沒填';g.classList.remove('on');return;}
     const idx=RW_TIERS.map((t,k)=>s>=t.min?k:-1).filter(k=>k>=0).pop();
     if(idx===undefined){g.textContent='一起檢討錯題，不給獎';g.classList.remove('on');return;}
-    document.getElementById('rwt'+idx).classList.add('hit');
-    const d=rwT[idx]; g.textContent=RW_TIERS[idx].sc+'階：'+(d.status==='approved'?d.wish:(d.wish?'（'+RW_ST[d.status]+'）'+d.wish:'還沒填獎勵'));
+    if(i===rwExam)document.getElementById('rwt'+idx).classList.add('hit');
+    const d=rwAll[i][idx]; g.textContent=RW_TIERS[idx].sc+'階：'+(d.status==='approved'?d.wish:(d.wish?'（'+RW_ST[d.status]+'）'+d.wish:'還沒填獎勵'));
     g.classList.add('on');
   });
   try{const o={};RW_EXAMS.forEach((n,i)=>o['rws'+i]=document.getElementById('rws'+i).value);localStorage.setItem(RW_KEY,JSON.stringify(o));}catch(_){}
