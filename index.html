@@ -285,6 +285,29 @@
   .rw-tbl td.cruise .rw-rw { font-weight:700; color:#c99a3a; }
   .rw-tbl td.hit { outline:2px solid var(--success); outline-offset:-2px; background:#f2fbf8 !important; position:relative; }
   .rw-tbl td.hit::after { content:'這次'; position:absolute; top:3px; right:4px; font-size:.6rem; color:#fff; background:var(--success); border-radius:99px; padding:1px 6px; }
+  .rw-tiers { display:grid; gap:.55rem; }
+  .rw-tier { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:.75rem .85rem; display:grid; gap:.5rem; }
+  .rw-tier-h { display:flex; align-items:center; gap:.6rem; }
+  .rw-tier .rw-sc { font-size:1rem; margin:0; }
+  .rw-tier .rw-sc small { font-size:.7rem; font-weight:400; color:var(--muted); margin-left:.15rem; }
+  .rw-tier-name { flex:1; font-size:.85rem; color:var(--muted); font-weight:600; }
+  .rw-chip { font-size:.7rem; border-radius:99px; padding:.15rem .6rem; background:#f1f1f1; color:var(--muted); white-space:nowrap; }
+  .rw-chip.st-draft { background:#eef3fb; color:#1c6fa8; }
+  .rw-chip.st-pending { background:#fff4d6; color:#b07a12; }
+  .rw-chip.st-approved { background:#e6f7ef; color:var(--success); }
+  .rw-chip.st-rejected { background:#fde8e8; color:#c0392b; }
+  .rw-wish { width:100%; font-size:16px; line-height:1.6; padding:.5rem .6rem; border:1px solid var(--border); border-radius:10px; background:#fff; color:var(--text); font-family:inherit; resize:vertical; }
+  .rw-wish[readonly] { background:#fafafa; color:var(--muted); }
+  .rw-wish:focus { outline:2px solid var(--primary-light); outline-offset:1px; }
+  .rw-note { font-size:.78rem; color:#c0392b; line-height:1.5; }
+  .rw-acts { display:grid; grid-auto-flow:column; grid-auto-columns:1fr; gap:.4rem; }
+  .rw-acts:empty { display:none; }
+  .rw-act { border:1px solid var(--border); background:#fff; color:var(--text); border-radius:99px; padding:.4rem 0; font-size:.8rem; font-family:inherit; cursor:pointer; white-space:nowrap; }
+  .rw-tier.ok { border-color:var(--success); }
+  .rw-tier.r4 { background:linear-gradient(120deg,#fff8ea,#fdf1f7); }
+  .rw-tier.r4 .rw-sc { color:#c99a3a; }
+  .rw-tier.hit { outline:2px solid var(--success); outline-offset:-2px; background:#f2fbf8; position:relative; }
+  .rw-tier.hit::after { content:'這次'; position:absolute; top:6px; right:8px; font-size:.6rem; color:#fff; background:var(--success); border-radius:99px; padding:1px 6px; }
   .rw-calc { display:grid; gap:.5rem; }
   .rw-row { display:grid; grid-template-columns:64px 1fr 1.6fr; gap:.5rem; align-items:center; background:var(--card); border:1px solid var(--border); border-radius:12px; padding:.55rem .7rem; }
   .rw-row.rw-head { background:#fbeef5; font-size:.75rem; color:var(--primary); font-weight:600; text-align:center; }
@@ -2026,12 +2049,21 @@
   <div id="tab-reward" class="tab-panel">
     <h2 class="section-title">獎勵制度</h2>
     <div class="card rw-intro">
-      四次模考各自對照，考完當次就結算，不累積。分數以<b>五科積分</b>為準（國英數社自，A++=7 到 C=1，滿分 35）。
-      每次門檻往上抬一格 — <b>同樣的獎勵，越後面要考越高</b>；迪士尼郵輪押在第四次模考的頂標。
+      分數以<b>五科積分</b>為準（國英數社自，A++=7 到 C=1，滿分 35），分成 <b>25、28、30、33、35</b> 五個階梯。
+      每一階的獎勵內容由<b>璿璿自己填</b>，送出後要<b>媽媽核可</b>才算數；考到哪一階，就拿那一階已核可的獎勵。
     </div>
 
-    <h3 class="section-title rw-h3">獎勵矩陣</h3>
-    <div class="card rw-tbl-scroll"><table class="rw-tbl" id="rwMatrix"></table></div>
+    <h3 class="section-title rw-h3">獎勵階梯</h3>
+    <div class="rw-tiers" id="rwTiers"></div>
+    <div class="rw-foot">
+      <button class="btn rw-btn" id="rwMomBtn" onclick="rwMomToggle()">媽媽模式</button>
+    </div>
+
+    <h3 class="section-title rw-h3">成績對照</h3>
+    <div class="rw-calc" id="rwCalc">
+      <div class="rw-row rw-head"><div>模考</div><div>五科積分</div><div>這次拿到</div></div>
+    </div>
+    <div class="rw-foot"><button class="btn rw-btn" onclick="rwReset()">清空重填</button></div>
 
     <h3 class="section-title rw-h3">作文加碼</h3>
     <div class="card rw-tbl-scroll">
@@ -2045,35 +2077,29 @@
       </table>
     </div>
 
-    <h3 class="section-title rw-h3">成績對照</h3>
-    <div class="rw-calc" id="rwCalc">
-      <div class="rw-row rw-head"><div>模考</div><div>五科積分</div><div>這次拿到</div></div>
-    </div>
-    <div class="rw-foot"><button class="btn rw-btn" onclick="rwReset()">清空重填</button></div>
-
     <h3 class="section-title rw-h3">規則說明</h3>
+    <div class="rw-acc" onclick="this.classList.toggle('open')">
+      <div class="rw-acc-h"><span>填寫流程</span><svg class="rw-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+      <div class="rw-acc-b"><ul>
+        <li>璿璿在每一階寫下想要的獎勵，按「送出核可」。</li>
+        <li>媽媽按「媽媽模式」輸入密碼，逐階「核可」或「退回」；退回可以寫原因，璿璿改完再送一次。</li>
+        <li>核可後內容鎖住，不能再改；要改得請媽媽先「解除鎖定」。</li>
+        <li>越高的階梯可以許越大的願望，但要合理；媽媽核可前先一起討論。</li>
+      </ul></div>
+    </div>
     <div class="rw-acc" onclick="this.classList.toggle('open')">
       <div class="rw-acc-h"><span>計分方式</span><svg class="rw-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
       <div class="rw-acc-b"><ul>
         <li>五科積分＝國英數社自，A++=7、A+=6、A=5、B++=4、B+=3、B=2、C=1，滿分 35。</li>
-        <li>每次模考獨立結算，這次沒拿到不影響下一次，下一次照樣可以拿最高格。</li>
+        <li>每次模考獨立結算，考到哪一階就拿哪一階，只拿最高那一階，不往下累加。</li>
         <li>作文加碼跟五科獎勵可以同時拿。</li>
         <li>以學校正式模考成績單為準，成績單出來當天對表，一週內兌現。</li>
       </ul></div>
     </div>
     <div class="rw-acc" onclick="this.classList.toggle('open')">
-      <div class="rw-acc-h"><span>郵輪條件</span><svg class="rw-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
-      <div class="rw-acc-b"><ul>
-        <li>第四次模考五科積分 <b>33 分以上</b>，迪士尼郵輪成行。</li>
-        <li>考到 <b>35 滿分</b>，再加船上一項自選付費體驗（SPA、特色餐廳或岸上行程擇一）。</li>
-        <li>第三次模考考到 35 的話，先付郵輪訂金保留席次，第四次照樣要達標才出發。</li>
-        <li>失常保護：第四次模考當天生病或請假，改以第三次成績按第四次的門檻認定。</li>
-      </ul></div>
-    </div>
-    <div class="rw-acc" onclick="this.classList.toggle('open')">
       <div class="rw-acc-h"><span>公平原則</span><svg class="rw-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
       <div class="rw-acc-b"><ul>
-        <li>標準訂了就不改，不臨時加碼也不事後降低。</li>
+        <li>核可過的獎勵就算數，不臨時加碼也不事後降低。</li>
         <li>沒拿到獎的那次，就一起把錯題檢討完，不罵人也不追加處罰。</li>
         <li>缺考那次以前一次的成績帶入，不吃虧也不多拿。</li>
       </ul></div>
@@ -3032,70 +3058,73 @@ if (document.readyState === 'loading') {
 const BOTTOM_NAV_TABS = ['subjects','quiz','progress','chat','star','reward'];
 
 // ===== 獎勵制度 =====
-const RW_LEVELS=['加油','起步','穩住','進步','亮眼','頂標'];
-const RW_EXAMS=[
- {name:'模考一',sub:'基準',cells:[
-  {min:0,max:24,sc:'24 以下',rw:'一起檢討錯題，不給獎'},
-  {min:25,max:26,sc:'25 – 26',rw:'手搖一杯 ＋ 一頓好吃的'},
-  {min:27,max:28,sc:'27 – 28',rw:'NT$500 自由金'},
-  {min:29,max:30,sc:'29 – 30',rw:'NT$1,000 ＋ 一次外食你決定'},
-  {min:31,max:32,sc:'31 – 32',rw:'NT$1,500 ＋ 想要的一件東西'},
-  {min:33,max:35,sc:'33 – 35',rw:'NT$2,000 ＋ 一日遊你主揪'}]},
- {name:'模考二',sub:'門檻＋1',cells:[
-  {min:0,max:25,sc:'25 以下',rw:'一起檢討錯題，不給獎'},
-  {min:26,max:27,sc:'26 – 27',rw:'手搖一杯 ＋ 一頓好吃的'},
-  {min:28,max:29,sc:'28 – 29',rw:'NT$800 自由金'},
-  {min:30,max:31,sc:'30 – 31',rw:'NT$1,500 ＋ 一次朋友出遊'},
-  {min:32,max:33,sc:'32 – 33',rw:'NT$2,500 ＋ 想要的一件東西'},
-  {min:34,max:35,sc:'34 – 35',rw:'NT$3,000 ＋ 一日遊你主揪'}]},
- {name:'模考三',sub:'門檻＋2',cells:[
-  {min:0,max:26,sc:'26 以下',rw:'一起檢討錯題，不給獎'},
-  {min:27,max:28,sc:'27 – 28',rw:'手搖一杯 ＋ 一頓好吃的'},
-  {min:29,max:30,sc:'29 – 30',rw:'NT$1,000 自由金'},
-  {min:31,max:32,sc:'31 – 32',rw:'NT$2,000 ＋ 一次朋友出遊'},
-  {min:33,max:34,sc:'33 – 34',rw:'NT$3,000 ＋ 國內兩天一夜你挑'},
-  {min:35,max:35,sc:'35 滿分',rw:'NT$4,000 ＋ 兩天一夜 ＋ 郵輪訂金先付、席次保留'}]},
- {name:'模考四',sub:'決勝',cells:[
-  {min:0,max:27,sc:'27 以下',rw:'一起檢討錯題，不給獎'},
-  {min:28,max:29,sc:'28 – 29',rw:'NT$1,200 自由金'},
-  {min:30,max:31,sc:'30 – 31',rw:'NT$2,000 ＋ 想要的一件東西'},
-  {min:32,max:32,sc:'32',rw:'NT$3,500 ＋ 國內兩天一夜你挑'},
-  {min:33,max:34,sc:'33 – 34',rw:'迪士尼郵輪成行',cruise:true},
-  {min:35,max:35,sc:'35 滿分',rw:'迪士尼郵輪 ＋ 船上自選付費體驗',cruise:true}]}
+const RW_TIERS=[
+ {min:25,max:27,name:'起步',sc:'25 分'},
+ {min:28,max:29,name:'穩住',sc:'28 分'},
+ {min:30,max:32,name:'進步',sc:'30 分'},
+ {min:33,max:34,name:'亮眼',sc:'33 分'},
+ {min:35,max:35,name:'頂標',sc:'35 分'}
 ];
-const RW_KEY='shanna_reward_matrix_v1';
+const RW_EXAMS=['模考一','模考二','模考三','模考四'];
+const RW_KEY='shanna_reward_matrix_v1', RW_TKEY='shanna_reward_tiers_v2', RW_PIN='shanna_reward_pin';
+const RW_ST={empty:'未填寫',draft:'草稿',pending:'待核可',approved:'已核可',rejected:'退回修改'};
+let rwMom=false;
+function rwLoadT(){try{const o=JSON.parse(localStorage.getItem(RW_TKEY)||'[]');return RW_TIERS.map((_,i)=>Object.assign({wish:'',status:'empty',note:''},o[i]||{}));}catch(_){return RW_TIERS.map(()=>({wish:'',status:'empty',note:''}));}}
+let rwT=rwLoadT();
+function rwSaveT(){try{localStorage.setItem(RW_TKEY,JSON.stringify(rwT));}catch(_){}}
+function rwEsc(t){return String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
 function rwBuild(){
-  let h='<thead><tr><th></th>';
-  RW_EXAMS.forEach(e=>h+='<th>'+e.name+'<small>'+e.sub+'</small></th>');
-  h+='</tr></thead><tbody>';
-  for(let r=0;r<6;r++){
-    h+='<tr class="r'+r+'"><th>'+RW_LEVELS[r]+'</th>';
-    RW_EXAMS.forEach((e,c)=>{const cell=e.cells[r];
-      h+='<td id="rwc'+c+'-'+r+'"'+(cell.cruise?' class="cruise"':'')+'><div class="rw-sc">'+cell.sc+'</div><div class="rw-rw">'+cell.rw+'</div></td>';});
-    h+='</tr>';
+  const box=document.getElementById('rwTiers'); let h='';
+  RW_TIERS.forEach((t,i)=>{const d=rwT[i]; const locked=d.status==='approved'||d.status==='pending';
+    h+='<div class="rw-tier r'+i+(d.status==='approved'?' ok':'')+'" id="rwt'+i+'">'
+      +'<div class="rw-tier-h"><div class="rw-sc">'+t.sc+'<small>以上</small></div><div class="rw-tier-name">'+t.name+'</div><span class="rw-chip st-'+d.status+'">'+RW_ST[d.status]+'</span></div>'
+      +'<textarea class="rw-wish" id="rww'+i+'" rows="2" placeholder="璿璿想要的獎勵…"'+(locked&&!rwMom?' readonly':'')+'>'+rwEsc(d.wish)+'</textarea>'
+      +(d.note?'<div class="rw-note">媽媽：'+rwEsc(d.note)+'</div>':'')
+      +'<div class="rw-acts">'
+      +(rwMom
+        ?'<button class="rw-act" onclick="rwApprove('+i+')">核可通過</button><button class="rw-act" onclick="rwReject('+i+')">退回修改</button><button class="rw-act" onclick="rwUnlock('+i+')">解除鎖定</button>'
+        :(locked?'':'<button class="rw-act" onclick="rwSaveDraft('+i+')">儲存草稿</button><button class="rw-act" onclick="rwSubmit('+i+')">送出核可</button>'))
+      +'</div></div>';});
+  box.innerHTML=h;
+  document.getElementById('rwMomBtn').textContent=rwMom?'離開媽媽':'媽媽模式';
+  const calc=document.getElementById('rwCalc');
+  if(!calc.querySelector('input')){
+    RW_EXAMS.forEach((n,i)=>{const d=document.createElement('div');d.className='rw-row';
+      d.innerHTML='<label>'+n+'</label><input type="number" id="rws'+i+'" min="0" max="35" inputmode="numeric" placeholder="—"><div class="rw-got" id="rwg'+i+'">還沒填</div>';
+      calc.appendChild(d);});
+    document.querySelectorAll('#rwCalc input').forEach(el=>el.addEventListener('input',rwCalc));
+    try{const o=JSON.parse(localStorage.getItem(RW_KEY)||'{}');Object.keys(o).forEach(k=>{const el=document.getElementById(k);if(el)el.value=o[k];});}catch(_){}
   }
-  document.getElementById('rwMatrix').innerHTML=h+'</tbody>';
-  const box=document.getElementById('rwCalc');
-  RW_EXAMS.forEach((e,i)=>{const d=document.createElement('div');d.className='rw-row';
-    d.innerHTML='<label>'+e.name+'</label><input type="number" id="rws'+i+'" min="0" max="35" inputmode="numeric" placeholder="—"><div class="rw-got" id="rwg'+i+'">還沒填</div>';
-    box.appendChild(d);});
-  document.querySelectorAll('#rwCalc input').forEach(el=>el.addEventListener('input',rwCalc));
-  try{const o=JSON.parse(localStorage.getItem(RW_KEY)||'{}');Object.keys(o).forEach(k=>{const el=document.getElementById(k);if(el)el.value=o[k];});}catch(_){}
   rwCalc();
 }
+function rwWish(i){return document.getElementById('rww'+i).value.trim();}
+function rwSaveDraft(i){rwT[i].wish=rwWish(i);rwT[i].status=rwT[i].wish?'draft':'empty';rwSaveT();rwBuild();}
+function rwSubmit(i){const w=rwWish(i);if(!w){alert('先寫下想要的獎勵');return;}rwT[i]={wish:w,status:'pending',note:''};rwSaveT();rwBuild();}
+function rwMomToggle(){
+  if(rwMom){rwMom=false;rwBuild();return;}
+  let pin=localStorage.getItem(RW_PIN);
+  if(!pin){const p=prompt('第一次使用，請設定媽媽密碼（4 位數字）');if(!p||!/^\d{4}$/.test(p))return;localStorage.setItem(RW_PIN,p);pin=p;}
+  const x=prompt('請輸入媽媽密碼');if(x!==pin){if(x!==null)alert('密碼不對');return;}
+  rwMom=true;rwBuild();
+}
+function rwApprove(i){const w=rwWish(i);if(!w){alert('這一階還沒有內容');return;}rwT[i]={wish:w,status:'approved',note:''};rwSaveT();rwBuild();}
+function rwReject(i){const n=prompt('退回原因（可留空）')||'';rwT[i].wish=rwWish(i);rwT[i].status='rejected';rwT[i].note=n;rwSaveT();rwBuild();}
+function rwUnlock(i){rwT[i].wish=rwWish(i);rwT[i].status=rwT[i].wish?'draft':'empty';rwT[i].note='';rwSaveT();rwBuild();}
 function rwNum(id){const v=document.getElementById(id).value.trim();if(v==='')return null;const n=parseInt(v,10);return isNaN(n)?null:n;}
 function rwCalc(){
-  RW_EXAMS.forEach((e,i)=>{
-    const s=rwNum('rws'+i), g=document.getElementById('rwg'+i);
-    e.cells.forEach((_,r)=>document.getElementById('rwc'+i+'-'+r).classList.remove('hit'));
+  RW_TIERS.forEach((_,r)=>{const el=document.getElementById('rwt'+r);if(el)el.classList.remove('hit');});
+  RW_EXAMS.forEach((n,i)=>{
+    const s=rwNum('rws'+i), g=document.getElementById('rwg'+i); if(!g)return;
     if(s===null){g.textContent='還沒填';g.classList.remove('on');return;}
-    let idx=e.cells.findIndex(c=>s>=c.min&&s<=c.max); if(idx<0) idx=s>35?5:0;
-    document.getElementById('rwc'+i+'-'+idx).classList.add('hit');
-    g.textContent=e.cells[idx].rw; g.classList.add('on');
+    const idx=RW_TIERS.map((t,k)=>s>=t.min?k:-1).filter(k=>k>=0).pop();
+    if(idx===undefined){g.textContent='一起檢討錯題，不給獎';g.classList.remove('on');return;}
+    document.getElementById('rwt'+idx).classList.add('hit');
+    const d=rwT[idx]; g.textContent=RW_TIERS[idx].sc+'階：'+(d.status==='approved'?d.wish:(d.wish?'（'+RW_ST[d.status]+'）'+d.wish:'還沒填獎勵'));
+    g.classList.add('on');
   });
-  try{const o={};RW_EXAMS.forEach((e,i)=>o['rws'+i]=document.getElementById('rws'+i).value);localStorage.setItem(RW_KEY,JSON.stringify(o));}catch(_){}
+  try{const o={};RW_EXAMS.forEach((n,i)=>o['rws'+i]=document.getElementById('rws'+i).value);localStorage.setItem(RW_KEY,JSON.stringify(o));}catch(_){}
 }
-function rwReset(){RW_EXAMS.forEach((e,i)=>document.getElementById('rws'+i).value='');rwCalc();}
+function rwReset(){RW_EXAMS.forEach((n,i)=>document.getElementById('rws'+i).value='');rwCalc();}
 rwBuild();
 
 function switchTab(name) {
